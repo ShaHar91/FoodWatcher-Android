@@ -21,10 +21,12 @@ class MainActivity : BaseActivity() {
         val host = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         val navController = host.navController
 
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.foodItemListFragment))
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.my_nav_host_fragment).navigateUp()
+        return findNavController(R.id.my_nav_host_fragment).navigateUp(appBarConfiguration)
     }
 }
