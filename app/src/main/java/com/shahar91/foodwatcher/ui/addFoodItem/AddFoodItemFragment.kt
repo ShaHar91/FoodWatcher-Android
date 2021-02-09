@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.ui.NavigationUI
 import be.appwise.core.ui.base.BaseBindingVMFragment
 import be.appwise.core.ui.base.BaseVMFragment
 import com.shahar91.foodwatcher.R
@@ -30,11 +31,33 @@ class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, AddFoodI
     private fun initViews() {
         mBinding.apply {
             btnSaveFoodItem.setOnClickListener {
-                Log.d("AddFoodItem", "name: ${mViewModel.name.value}")
-                Log.d("AddFoodItem", "description: ${mViewModel.description.value}")
-                Log.d("AddFoodItem", "points: ${mViewModel.points.value}")
+                var isSomethingEmpty = false
 
+                val name= mViewModel.name.value
+                if (name.isNullOrBlank()) {
+                    mViewModel.name.value = ""
+                    isSomethingEmpty = true
+                }
 
+                val description = mViewModel.description.value
+                if (description.isNullOrBlank()) {
+                    mViewModel.description.value = ""
+                    isSomethingEmpty = true
+                }
+
+                val points = mViewModel.points.value
+                if (points.isNullOrBlank()) {
+                    mViewModel.points.value = ""
+                    isSomethingEmpty = true
+                }
+
+                if (isSomethingEmpty) {
+                    return@setOnClickListener
+                }
+
+                mViewModel.saveFoodItem(name!!, description!!, points?.toFloat()!!) {
+                    requireActivity().onBackPressed()
+                }
             }
         }
     }

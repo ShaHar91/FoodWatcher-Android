@@ -7,7 +7,7 @@ import com.shahar91.foodwatcher.data.DBConstants
 
 @Entity(tableName = DBConstants.FOOD_ITEM_TABLE_NAME)
 data class FoodItem(
-    @PrimaryKey override val id: Int,
+    @PrimaryKey(autoGenerate = true) override val id: Int = 0,
     var name: String,
     var description: String,
     var points: Float
