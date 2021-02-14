@@ -15,11 +15,27 @@
         android:layout_height="match_parent"
         tools:context=".ui.foodItemList.FoodItemListFragment">
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/svFoodItems"
+            android:theme="@style/customSearchViewTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            android:background="@drawable/search_background"
+            app:iconifiedByDefault="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryBackground="@android:color/transparent"
+            app:queryHint="Search Food Items"
+            app:searchIcon="@drawable/ic_search" />
+
         <be.appwise.core.ui.custom.RecyclerViewEmptyLoadingSupport
             android:id="@+id/rvFoodItems"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/svFoodItems" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

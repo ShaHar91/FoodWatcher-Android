@@ -6,6 +6,7 @@ import android.view.*
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import be.appwise.core.extensions.view.onQueryChange
 import be.appwise.core.extensions.view.setupRecyclerView
 import be.appwise.core.ui.base.BaseBindingVMFragment
 import be.appwise.core.ui.custom.RecyclerViewEnum
@@ -43,8 +44,11 @@ class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, FoodIt
         }
 
         initViews()
+        initListeners()
+    }
 
-        mViewModel.items.observe(viewLifecycleOwner, Observer {
+    private fun initListeners() {
+        mViewModel.foodItems.observe(viewLifecycleOwner, Observer {
             Log.d("FoodItemListFragment", "new foodItems?: ${it.size}")
             foodItemAdapter.setItems(it)
         })
@@ -58,6 +62,11 @@ class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, FoodIt
                 setupRecyclerView()
                 adapter = foodItemAdapter
                 stateView = RecyclerViewEnum.NORMAL
+            }
+
+            svFoodItems.onQueryChange {
+                mBinding.viewModel?.setQuery(it)
+                true
             }
         }
     }

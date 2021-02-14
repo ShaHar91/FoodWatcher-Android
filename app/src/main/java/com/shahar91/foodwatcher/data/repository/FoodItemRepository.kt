@@ -10,4 +10,6 @@ object FoodItemRepository: BaseRepository() {
     fun getFoodItems() = foodItemDao.findAllLive()
 
     suspend fun createFoodItem(foodItem: FoodItem) = foodItemDao.insert(foodItem)
+
+    fun getFoodItemsByQuery(query: String) = foodItemDao.findItemsByQueryLive(query)
 }
