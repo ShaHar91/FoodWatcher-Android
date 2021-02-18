@@ -1,16 +1,13 @@
 package com.shahar91.foodwatcher.ui
 
 import android.os.Bundle
-import androidx.navigation.NavHost
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import be.appwise.core.ui.base.BaseActivity
 import com.shahar91.foodwatcher.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -19,12 +16,12 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(mtbMain)
+        setSupportActionBar(findViewById(R.id.mtbMain))
 
         val host = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
         val navController = host.navController
 
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.foodItemListFragment))
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.myDayFragment))
 
         setupActionBarWithNavController(navController, appBarConfiguration)
     }

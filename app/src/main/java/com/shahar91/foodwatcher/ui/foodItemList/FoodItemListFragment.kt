@@ -12,12 +12,12 @@ import be.appwise.core.ui.base.BaseBindingVMFragment
 import be.appwise.core.ui.custom.RecyclerViewEnum
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.FoodItem
-import com.shahar91.foodwatcher.databinding.FoodItemListFragmentBinding
+import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
 
-class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, FoodItemListFragmentBinding>() {
+class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
     override fun getViewModel() = FoodItemListViewModel::class.java
-    override fun getLayout() = R.layout.food_item_list_fragment
+    override fun getLayout() = R.layout.fragment_food_item_list
 
     private lateinit var foodItemAdapter: FoodItemAdapter
     private val foodItemAdapterListener = object : FoodItemAdapter.FoodItemInteractionListener {
@@ -26,10 +26,7 @@ class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, FoodIt
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
 
         return super.onCreateView(inflater, container, savedInstanceState)

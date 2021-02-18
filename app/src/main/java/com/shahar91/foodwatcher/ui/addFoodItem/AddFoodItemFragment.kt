@@ -1,21 +1,15 @@
 package com.shahar91.foodwatcher.ui.addFoodItem
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.ui.NavigationUI
 import be.appwise.core.ui.base.BaseBindingVMFragment
-import be.appwise.core.ui.base.BaseVMFragment
 import com.shahar91.foodwatcher.R
-import com.shahar91.foodwatcher.databinding.AddFoodItemFragmentBinding
+import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 
-class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, AddFoodItemFragmentBinding>() {
+class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
 
     override fun getViewModel() = AddFoodItemViewModel::class.java
-    override fun getLayout() = R.layout.add_food_item_fragment
+    override fun getLayout() = R.layout.fragment_add_food_item
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +27,7 @@ class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, AddFoodI
             btnSaveFoodItem.setOnClickListener {
                 var isSomethingEmpty = false
 
-                val name= mViewModel.name.value
+                val name = mViewModel.name.value
                 if (name.isNullOrBlank()) {
                     mViewModel.name.value = ""
                     isSomethingEmpty = true

@@ -3,18 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/foodItemListFragment">
+    app:startDestination="@id/myDayFragment">
+
+    <fragment
+        android:id="@+id/myDayFragment"
+        android:name="com.shahar91.foodwatcher.ui.myDay.MyDayFragment"
+        android:label="MyDayFragment"
+        tools:layout="@layout/fragment_my_day" />
 
     <fragment
         android:id="@+id/foodItemListFragment"
         android:name="com.shahar91.foodwatcher.ui.foodItemList.FoodItemListFragment"
         android:label="Food Items"
-        tools:layout="@layout/food_item_list_fragment" />
+        tools:layout="@layout/fragment_food_item_list" />
 
     <fragment
         android:id="@+id/addFoodItemFragment"
         android:name="com.shahar91.foodwatcher.ui.addFoodItem.AddFoodItemFragment"
         android:label="Add food item"
-        tools:layout="@layout/add_food_item_fragment" />
+        tools:layout="@layout/fragment_add_food_item" />
 
 </navigation>

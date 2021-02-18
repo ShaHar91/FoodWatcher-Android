@@ -17,11 +17,11 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svFoodItems"
-            android:theme="@style/customSearchViewTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_small"
             android:background="@drawable/search_background"
+            android:theme="@style/customSearchViewTheme"
             app:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/spacing_small"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/svFoodItems" />
+            app:layout_constraintTop_toBottomOf="@id/svFoodItems"
+            tools:itemCount="15"
+            tools:listitem="@layout/list_item_food_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

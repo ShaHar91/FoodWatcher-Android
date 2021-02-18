@@ -7,7 +7,8 @@ import be.appwise.core.ui.base.list.BaseViewHolder
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.ListItemFoodItemBinding
 
-class FoodItemAdapter(private val listener: FoodItemInteractionListener) : BaseAdapter<FoodItem,FoodItemAdapter.FoodItemInteractionListener, BaseViewHolder<FoodItem>>() {
+class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
+    BaseAdapter<FoodItem, FoodItemAdapter.FoodItemInteractionListener, BaseViewHolder<FoodItem>>() {
     interface FoodItemInteractionListener {
         fun onFoodItemClicked(foodItem: FoodItem)
     }

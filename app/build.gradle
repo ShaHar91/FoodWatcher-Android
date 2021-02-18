@@ -1,17 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.shahar91.foodwatcher"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -37,6 +36,23 @@ android {
     dataBinding {
         enabled = true
     }
+
+    flavorDimensions 'env'
+    productFlavors {
+        dev {
+            dimension 'env'
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+        }
+        stag {
+            dimension 'env'
+            applicationIdSuffix '.stag'
+            versionNameSuffix '-stag'
+        }
+        prod {
+            dimension 'env'
+        }
+    }
 }
 
 dependencies {
@@ -45,7 +61,8 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
     kapt "androidx.room:room-compiler:2.2.6"
+
+    implementation 'com.github.kizitonwose:CalendarView:1.0.2'
 }

@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import be.appwise.core.core.CoreApp
 
-class MyApp: Application() {
+class MyApp : Application() {
     companion object {
         lateinit var mContext: Context
 
