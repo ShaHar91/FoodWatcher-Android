@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import be.appwise.core.extensions.view.onQueryChange
 import be.appwise.core.extensions.view.setupRecyclerView
@@ -74,10 +75,12 @@ class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, Fragme
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // If the ID of the menuItem is the same as the ID of the Fragment in the NavController, it will navigate automatically to the correct fragment
-        return NavigationUI.onNavDestinationSelected(
-            item,
-            requireView().findNavController()
-        ) || super.onOptionsItemSelected(item)
+        if (item.itemId == R.id.action_foodItemListFragment_to_addFoodItemFragment) {
+            // Navigating manually as the Transition Animation weren't working
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddFoodItemFragment().run(findNavController()::navigate)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

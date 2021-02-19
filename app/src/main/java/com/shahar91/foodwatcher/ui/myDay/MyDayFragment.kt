@@ -2,6 +2,7 @@ package com.shahar91.foodwatcher.ui.myDay
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import be.appwise.core.ui.base.BaseBindingVMFragment
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
@@ -25,6 +26,13 @@ class MyDayFragment : BaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding
         }
 
         initCalendar()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        mBinding.fabAddFoodItemToDay.setOnClickListener {
+            MyDayFragmentDirections.actionMyDayFragmentToFoodItemListFragment().run(findNavController()::navigate)
+        }
     }
 
     private fun initCalendar() {

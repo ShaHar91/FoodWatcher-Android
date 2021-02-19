@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/addFoodItemFragment"
+        android:id="@+id/action_foodItemListFragment_to_addFoodItemFragment"
         app:showAsAction="always"
+        android:menuCategory="secondary"
         android:icon="@drawable/ic_add"
         android:title="Add Food Item"/>
 </menu>

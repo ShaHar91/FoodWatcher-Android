@@ -2,6 +2,7 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 
 import android.os.Bundle
 import android.view.View
+import be.appwise.core.extensions.fragment.hideKeyboard
 import be.appwise.core.ui.base.BaseBindingVMFragment
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
@@ -34,10 +35,6 @@ class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, Fragment
                 }
 
                 val description = mViewModel.description.value
-                if (description.isNullOrBlank()) {
-                    mViewModel.description.value = ""
-                    isSomethingEmpty = true
-                }
 
                 val points = mViewModel.points.value
                 if (points.isNullOrBlank()) {
@@ -49,7 +46,8 @@ class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, Fragment
                     return@setOnClickListener
                 }
 
-                mViewModel.saveFoodItem(name!!, description!!, points?.toFloat()!!) {
+                mViewModel.saveFoodItem(name!!, description ?: "", points?.toFloat()!!) {
+                    hideKeyboard()
                     requireActivity().onBackPressed()
                 }
             }

@@ -9,13 +9,30 @@
         android:id="@+id/myDayFragment"
         android:name="com.shahar91.foodwatcher.ui.myDay.MyDayFragment"
         android:label="MyDayFragment"
-        tools:layout="@layout/fragment_my_day" />
+        tools:layout="@layout/fragment_my_day">
+
+        <action
+            android:id="@+id/action_myDayFragment_to_foodItemListFragment"
+            app:destination="@id/foodItemListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/foodItemListFragment"
         android:name="com.shahar91.foodwatcher.ui.foodItemList.FoodItemListFragment"
         android:label="Food Items"
-        tools:layout="@layout/fragment_food_item_list" />
+        tools:layout="@layout/fragment_food_item_list">
+        <action
+            android:id="@+id/action_foodItemListFragment_to_addFoodItemFragment"
+            app:destination="@id/addFoodItemFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/addFoodItemFragment"
