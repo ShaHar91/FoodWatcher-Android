@@ -15,10 +15,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.addFoodItem.AddFoodItemFragment">
 
+        <include
+            android:id="@+id/mergeToolbar"
+            layout="@layout/component_toolbar" />
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mtbMain"
+            tools:ignore="UnknownIdInLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

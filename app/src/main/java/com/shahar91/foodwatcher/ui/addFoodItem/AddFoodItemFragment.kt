@@ -3,14 +3,15 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 import android.os.Bundle
 import android.view.View
 import be.appwise.core.extensions.fragment.hideKeyboard
-import be.appwise.core.ui.base.BaseBindingVMFragment
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
+import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 
-class AddFoodItemFragment : BaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
+class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
 
     override fun getViewModel() = AddFoodItemViewModel::class.java
     override fun getLayout() = R.layout.fragment_add_food_item
+    override fun getToolbar() = mBinding.mergeToolbar.mtbMain
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

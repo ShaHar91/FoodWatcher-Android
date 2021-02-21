@@ -2,35 +2,30 @@ package com.shahar91.foodwatcher.ui.foodItemList
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import be.appwise.core.extensions.view.onQueryChange
 import be.appwise.core.extensions.view.setupRecyclerView
-import be.appwise.core.ui.base.BaseBindingVMFragment
 import be.appwise.core.ui.custom.RecyclerViewEnum
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
+import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
 
-class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
+class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
     override fun getViewModel() = FoodItemListViewModel::class.java
     override fun getLayout() = R.layout.fragment_food_item_list
+    override fun getToolbar() = mBinding.mergeToolbar.mtbMain
 
     private lateinit var foodItemAdapter: FoodItemAdapter
     private val foodItemAdapterListener = object : FoodItemAdapter.FoodItemInteractionListener {
         override fun onFoodItemClicked(foodItem: FoodItem) {
             Log.d("something", "onFoodItemClicked: ")
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +41,7 @@ class FoodItemListFragment : BaseBindingVMFragment<FoodItemListViewModel, Fragme
     }
 
     private fun initListeners() {
-        mViewModel.foodItems.observe(viewLifecycleOwner, Observer {
+        mViewModel.foodItems.observe(viewLifecycleOwner, {
             Log.d("FoodItemListFragment", "new foodItems?: ${it.size}")
             foodItemAdapter.setItems(it)
         })

@@ -3,19 +3,20 @@ package com.shahar91.foodwatcher.ui.myDay
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import be.appwise.core.ui.base.BaseBindingVMFragment
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
+import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.DayViewBinder
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.MonthViewHeaderBinder
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 
-class MyDayFragment : BaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding>() {
+class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding>() {
 
     override fun getViewModel() = MyDayViewModel::class.java
     override fun getLayout() = R.layout.fragment_my_day
+    override fun getToolbar() = mBinding.mtbMain
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

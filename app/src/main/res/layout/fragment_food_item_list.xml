@@ -15,6 +15,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.foodItemList.FoodItemListFragment">
 
+        <include
+            android:id="@+id/mergeToolbar"
+            layout="@layout/component_toolbar" />
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svFoodItems"
             android:layout_width="match_parent"
@@ -25,17 +29,18 @@
             app:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mtbMain"
             app:queryBackground="@android:color/transparent"
             app:queryHint="Search Food Items"
-            app:searchIcon="@drawable/ic_search" />
+            app:searchIcon="@drawable/ic_search"
+            tools:ignore="UnknownIdInLayout" />
 
         <be.appwise.core.ui.custom.RecyclerViewEmptyLoadingSupport
             android:id="@+id/rvFoodItems"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:splitMotionEvents="false"
             android:layout_marginTop="@dimen/spacing_small"
+            android:splitMotionEvents="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/svFoodItems"

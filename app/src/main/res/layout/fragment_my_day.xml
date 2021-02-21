@@ -10,47 +10,105 @@
             type="com.shahar91.foodwatcher.ui.myDay.MyDayViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.myDay.MyDayFragment">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="March" />
-
-        <com.kizitonwose.calendarview.CalendarView
-            android:id="@+id/cvCalendar"
+        <com.google.android.material.appbar.AppBarLayout
+            style="?attr/appBarLayoutStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            app:cv_dayViewResource="@layout/cv_day_view"
-            app:cv_hasBoundaries="false"
-            app:cv_inDateStyle="allMonths"
-            app:cv_maxRowCount="1"
-            app:cv_monthHeaderResource="@layout/cv_month_view"
-            app:cv_orientation="horizontal"
-            app:cv_scrollMode="paged"
-            app:layout_constraintTop_toBottomOf="@id/tvMonth" />
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/mtbMain"
+                style="?attr/toolbarStyle"
+                android:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:title="FoodWatcher" />
+
+            <LinearLayout
+                android:id="@+id/llDayRemaining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimarySurface"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tvDayRemainingNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="23"
+                    android:textAppearance="?attr/textAppearanceHeadline3"
+                    android:textColor="?attr/colorOnPrimarySurface"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="Daily\nRemaining"
+                    android:textColor="?attr/colorOnPrimarySurface" />
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TextView
+                android:id="@+id/tvMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="March" />
+
+            <com.kizitonwose.calendarview.CalendarView
+                android:id="@+id/cvCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                app:cv_dayViewResource="@layout/cv_day_view"
+                app:cv_hasBoundaries="false"
+                app:cv_inDateStyle="allMonths"
+                app:cv_maxRowCount="1"
+                app:cv_monthHeaderResource="@layout/cv_month_view"
+                app:cv_orientation="horizontal"
+                app:cv_scrollMode="paged"
+                app:layout_constraintTop_toBottomOf="@id/tvMonth" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:gravity="center_horizontal"
+                android:text="This feature is not yet available, please have a bit more patience. Your developer is working tirelessly to implement it all."
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddFoodItemToDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="@dimen/spacing_normal_16dp"
             android:src="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:tint="?attr/colorOnPrimarySurface" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
