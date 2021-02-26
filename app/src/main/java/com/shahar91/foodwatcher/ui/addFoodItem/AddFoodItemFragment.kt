@@ -2,6 +2,7 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.fragment.hideKeyboard
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
@@ -47,9 +48,9 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
                     return@setOnClickListener
                 }
 
-                mViewModel.saveFoodItem(name!!, description ?: "", points?.toFloat()!!) {
+                mViewModel.saveFoodItem(name!!, description ?: "", points?.toInt() ?: 0) {
                     hideKeyboard()
-                    requireActivity().onBackPressed()
+                    findNavController().popBackStack()
                 }
             }
         }

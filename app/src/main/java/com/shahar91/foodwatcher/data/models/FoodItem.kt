@@ -10,5 +10,13 @@ data class FoodItem(
     @PrimaryKey(autoGenerate = true) override val id: Int = 0,
     var name: String,
     var description: String,
-    var points: Float
-) : BaseEntity()
+    var points: Int
+) : BaseEntity() {
+    fun getMaxPoints(): String {
+        return if (points > 99) {
+            "99+"
+        } else {
+            "$points"
+        }
+    }
+}

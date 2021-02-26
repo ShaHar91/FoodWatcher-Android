@@ -66,7 +66,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapSentences|textMultiLine"
+                        android:inputType="textCapSentences"
                         android:text="@={viewModel.description}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,7 +86,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number|numberDecimal"
+                        android:inputType="number"
                         android:text="@={viewModel.points}" />
                 </com.google.android.material.textfield.TextInputLayout>
 

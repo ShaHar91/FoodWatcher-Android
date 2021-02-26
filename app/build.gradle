@@ -24,6 +24,10 @@ android {
         }
     }
 
+    buildFeatures {
+        dataBinding = true
+    }
+
     compileOptions {
         coreLibraryDesugaringEnabled true
 
@@ -33,10 +37,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-
-    dataBinding {
-        enabled = true
     }
 
     flavorDimensions 'env'
@@ -55,11 +55,23 @@ android {
             dimension 'env'
         }
     }
+
+    //groovy
+    configurations.all {
+        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(path: ':core')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    kapt "com.android.databinding:compiler:4.0.0"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

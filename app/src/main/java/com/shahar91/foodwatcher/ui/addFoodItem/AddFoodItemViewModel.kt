@@ -13,7 +13,7 @@ class AddFoodItemViewModel : BaseViewModel() {
     var description = MutableLiveData<String>()
     var points = MutableLiveData<String>()
 
-    fun saveFoodItem(name: String, description: String, points: Float, onSuccess: () -> Unit) = vmScope.launch {
+    fun saveFoodItem(name: String, description: String, points: Int, onSuccess: () -> Unit) = vmScope.launch {
         FoodItemRepository.createFoodItem(FoodItem(name = name, description = description, points = points))
         onSuccess()
     }
