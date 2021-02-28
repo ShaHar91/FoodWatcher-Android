@@ -25,6 +25,8 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
     private val foodItemAdapterListener = object : FoodItemAdapter.FoodItemInteractionListener {
         override fun onFoodItemClicked(foodItem: FoodItem) {
             Log.d("something", "onFoodItemClicked: ")
+
+            mBinding.viewModel?.saveFoodEntry(foodItem)
         }
     }
 

@@ -53,6 +53,7 @@
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
 
         <item name="searchViewBackground">@android:color/transparent</item>
+        <item name="mealHeaderBackground">@color/colorGrey_100</item>
     </style>
     <style name="Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>

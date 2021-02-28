@@ -5,6 +5,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="foodItem"
             type="com.shahar91.foodwatcher.data.models.FoodItem" />
@@ -16,8 +17,8 @@
         android:background="?selectableItemBackground"
         android:orientation="horizontal"
         android:padding="2dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
         <TextView
             android:id="@+id/tvFoodItemName"
@@ -42,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:ellipsize="end"
+            android:visibility="@{foodItem.description.empty ? View.GONE : View.VISIBLE}"
             android:maxLines="1"
             android:text="@{foodItem.description}"
             android:textAppearance="?attr/textAppearanceCaption"
@@ -51,7 +53,6 @@
             app:layout_constraintTop_toBottomOf="@id/tvFoodItemName"
             tools:text="1 slice" />
 
-        <!-- TODO: fix the 'fixed color' to be something of the '?attr/' colors-->
         <TextView
             android:id="@+id/tvFoodItemPoints"
             android:layout_width="0dp"
@@ -62,7 +63,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@{foodItem.getMaxPoints()}"
-            android:textColor="#fff"
+            android:textColor="?attr/colorOnPrimarySurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toEndOf="parent"

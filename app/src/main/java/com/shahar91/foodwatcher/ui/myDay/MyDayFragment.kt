@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.shahar91.foodwatcher.R
+import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.DayViewBinder
@@ -36,8 +37,8 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     }
 
     private fun initListeners() {
-        mBinding.fabAddFoodItemToDay.setOnClickListener {
-            MyDayFragmentDirections.actionMyDayFragmentToFoodItemListFragment().run(findNavController()::navigate)
+        mBinding.ivBreakfastAddIcon.setOnClickListener {
+            MyDayFragmentDirections.actionMyDayFragmentToFoodItemListFragment(Meal.BREAKFAST.id).run(findNavController()::navigate)
         }
     }
 
