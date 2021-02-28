@@ -1,13 +1,18 @@
 package com.shahar91.foodwatcher.ui.myDay
 
+import androidx.lifecycle.LiveData
 import be.appwise.core.ui.base.BaseViewModel
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
+import com.shahar91.foodwatcher.data.relations.FoodEntryAndFoodItem
+import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import java.time.LocalDate
 import java.time.Month
 import java.time.format.DateTimeFormatter
 
 class MyDayViewModel : BaseViewModel() {
+    val items: LiveData<List<FoodEntryAndFoodItem>> = FoodEntryRepository.getFoodEntries()
+
     fun getCorrectMonthAsString(calendarMonth: CalendarMonth): String {
         val weekDays = calendarMonth.weekDays[0]
         val firstDay = weekDays.first()

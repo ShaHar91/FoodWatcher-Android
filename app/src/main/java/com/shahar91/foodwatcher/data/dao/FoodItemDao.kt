@@ -8,11 +8,11 @@ import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodItem
 
 @Dao
-abstract class FoodItemDao: BaseRoomDao<FoodItem>(DBConstants.FOOD_ITEM_TABLE_NAME) {
-    @Query("SELECT * FROM foodItem ORDER BY name")
+abstract class FoodItemDao : BaseRoomDao<FoodItem>(DBConstants.FOOD_ITEM_TABLE_NAME) {
+    @Query("SELECT * FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} ORDER BY name")
     abstract fun findAllLive(): LiveData<List<FoodItem>>
 
     // '||' is string concatenation for SQL queries, think of '+' as in Java
-    @Query("SELECT * FROM foodItem WHERE name LIKE '%'|| :query || '%' ORDER BY name")
+    @Query("SELECT * FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} WHERE name LIKE '%'|| :query || '%' ORDER BY name")
     abstract fun findItemsByQueryLive(query: String): LiveData<List<FoodItem>>
 }

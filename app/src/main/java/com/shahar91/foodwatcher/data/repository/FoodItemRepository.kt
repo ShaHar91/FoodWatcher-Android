@@ -4,7 +4,7 @@ import be.appwise.core.data.base.BaseRepository
 import com.shahar91.foodwatcher.data.database.FoodWatcherDatabase
 import com.shahar91.foodwatcher.data.models.FoodItem
 
-object FoodItemRepository: BaseRepository() {
+object FoodItemRepository : BaseRepository() {
     private val foodItemDao = FoodWatcherDatabase.getDatabase().foodItemDao()
 
     fun getFoodItems() = foodItemDao.findAllLive()
@@ -12,4 +12,5 @@ object FoodItemRepository: BaseRepository() {
     suspend fun createFoodItem(foodItem: FoodItem) = foodItemDao.insert(foodItem)
 
     fun getFoodItemsByQuery(query: String) = foodItemDao.findItemsByQueryLive(query)
+
 }

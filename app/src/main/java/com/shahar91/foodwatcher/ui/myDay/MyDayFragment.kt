@@ -1,6 +1,7 @@
 package com.shahar91.foodwatcher.ui.myDay
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.shahar91.foodwatcher.R
@@ -28,6 +29,10 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
 
         initCalendar()
         initListeners()
+
+        mBinding.viewModel?.items?.observe(viewLifecycleOwner, {
+            Log.d("MyDayFragment", "onViewCreated: $it")
+        })
     }
 
     private fun initListeners() {
