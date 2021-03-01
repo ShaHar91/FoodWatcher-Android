@@ -1,17 +1,29 @@
 package com.shahar91.foodwatcher.ui.myDay
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import be.appwise.core.ui.base.BaseViewModel
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
-import com.shahar91.foodwatcher.data.relations.FoodEntryAndFoodItem
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.Month
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 class MyDayViewModel : BaseViewModel() {
-    val items: LiveData<List<FoodEntryAndFoodItem>> = FoodEntryRepository.getFoodEntries()
+    private val _calendarDay = MutableLiveData<LocalDate>().apply { value = LocalDate.now() }
+    fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
+    val items = Transformations.switchMap(_calendarDay) { FoodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
+
+    private fun LocalDate.atStartOfDayMillis(): Long {
+        return this.atTime(LocalTime.MIN).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    }
+
+    private fun LocalDate.atEndOfDayMillis(): Long {
+        return this.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    }
 
     fun getCorrectMonthAsString(calendarMonth: CalendarMonth): String {
         val weekDays = calendarMonth.weekDays[0]

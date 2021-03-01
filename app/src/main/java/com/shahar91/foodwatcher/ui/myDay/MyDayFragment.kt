@@ -95,6 +95,7 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
             dayBinder.selectedDate = localDate
             oldDate?.let { mBinding.cvCalendar.notifyDateChanged(it) }
             mBinding.cvCalendar.notifyDateChanged(localDate)
+            mBinding.viewModel?.setSelectedDate(localDate)
         }
     }
 }

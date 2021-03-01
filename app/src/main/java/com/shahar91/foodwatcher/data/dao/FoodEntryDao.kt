@@ -15,6 +15,6 @@ abstract class FoodEntryDao : BaseRoomDao<FoodEntry>(DBConstants.FOOD_ENTRY_TABL
     abstract fun findAllLive(): LiveData<List<FoodEntry>>
 
     @Transaction
-    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} ORDER BY meal")
-    abstract fun getFoodEntries(): LiveData<List<FoodEntryAndFoodItem>>
+    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate ORDER BY meal")
+    abstract fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntryAndFoodItem>>
 }

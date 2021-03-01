@@ -7,7 +7,7 @@ import com.shahar91.foodwatcher.data.models.FoodEntry
 object FoodEntryRepository : BaseRepository() {
     private val foodEntryDao = FoodWatcherDatabase.getDatabase().foodEntryDao()
 
-    fun getFoodEntries() = foodEntryDao.getFoodEntries()
+    fun getFoodEntries(fromDate: Long, toDate: Long) = foodEntryDao.getFoodEntries(fromDate, toDate)
 
     suspend fun createFoodEntry(foodEntry: FoodEntry) = foodEntryDao.insert(foodEntry)
 }
