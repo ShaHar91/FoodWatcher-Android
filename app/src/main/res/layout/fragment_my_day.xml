@@ -90,51 +90,15 @@
                 app:cv_scrollMode="paged"
                 app:layout_constraintTop_toBottomOf="@id/tvMonth" />
 
-            <ScrollView
+            <be.appwise.core.ui.custom.RecyclerViewEmptyLoadingSupport
+                android:id="@+id/rvFoodEntries"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:fillViewport="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cvCalendar">
+                app:layout_constraintTop_toBottomOf="@id/cvCalendar"
+                tools:listitem="@layout/list_item_entry" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/llBreakfast"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/mealHeaderBackground"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/tvBreakfastTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="12dp"
-                            android:paddingTop="6dp"
-                            android:paddingEnd="12dp"
-                            android:paddingBottom="6dp"
-                            android:text="Breakfast"
-                            android:textAppearance="?attr/textAppearanceBody1" />
-
-                        <ImageView
-                            android:id="@+id/ivBreakfastAddIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="12dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_add" />
-                    </LinearLayout>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

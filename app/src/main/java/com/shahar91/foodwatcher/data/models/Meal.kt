@@ -6,7 +6,9 @@ enum class Meal(val id: Int) {
     DINNER(2),
     SNACK(3);
 
-    fun getMeal(id: Int): Meal? {
-        return values().find { it.id == id }
+    companion object {
+        fun getMeal(id: Int): Meal {
+            return values().find { it.id == id } ?: throw ClassCastException("Could not cast to correct Meal")
+        }
     }
 }

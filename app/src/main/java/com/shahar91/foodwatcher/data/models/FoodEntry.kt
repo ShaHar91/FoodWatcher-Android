@@ -11,5 +11,5 @@ data class FoodEntry(
     var foodItemId: Int,
     var amount: Int,
     var date: Long,
-    var meal: String
+    var meal: Meal
 ) : BaseEntity()

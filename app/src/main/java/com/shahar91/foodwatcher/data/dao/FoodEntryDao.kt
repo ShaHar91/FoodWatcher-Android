@@ -15,6 +15,6 @@ abstract class FoodEntryDao : BaseRoomDao<FoodEntry>(DBConstants.FOOD_ENTRY_TABL
     abstract fun findAllLive(): LiveData<List<FoodEntry>>
 
     @Transaction
-    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME}")
+    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} ORDER BY meal")
     abstract fun getFoodEntries(): LiveData<List<FoodEntryAndFoodItem>>
 }

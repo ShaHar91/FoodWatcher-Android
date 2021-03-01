@@ -5,6 +5,7 @@ import androidx.lifecycle.Transformations
 import be.appwise.core.ui.base.BaseViewModel
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.FoodItem
+import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.data.repository.FoodItemRepository
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ class FoodItemListViewModel : BaseViewModel() {
         // See https://www.concretepage.com/java/java-8/convert-between-java-localdate-epoch for more information
         val date = LocalDate.now().atTime(LocalTime.NOON).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-        FoodEntryRepository.createFoodEntry(FoodEntry(foodItemId = foodItem.id, amount = 1, date = date, meal = "Breakfast"))
+        // TODO: don't save the items here, show a new Fragment to select the "meal", "amount" and "date"
+        FoodEntryRepository.createFoodEntry(FoodEntry(foodItemId = foodItem.id, amount = 1, date = date, meal = Meal.BREAKFAST))
     }
 }

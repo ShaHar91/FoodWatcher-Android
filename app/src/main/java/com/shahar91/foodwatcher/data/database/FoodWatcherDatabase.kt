@@ -3,6 +3,7 @@ package com.shahar91.foodwatcher.data.database
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.shahar91.foodwatcher.MyApp
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.dao.FoodEntryDao
@@ -11,6 +12,7 @@ import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.FoodItem
 
 @Database(entities = [FoodItem::class, FoodEntry::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
     abstract fun foodEntryDao(): FoodEntryDao
