@@ -11,12 +11,4 @@ data class FoodItem(
     var name: String,
     var description: String,
     var points: Int
-) : BaseEntity() {
-    fun getMaxPoints(): String {
-        return if (points > 99) {
-            "99+"
-        } else {
-            "$points"
-        }
-    }
-}
+) : BaseEntity()

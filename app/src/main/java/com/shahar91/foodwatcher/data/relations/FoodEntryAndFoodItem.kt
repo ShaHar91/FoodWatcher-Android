@@ -12,4 +12,6 @@ data class FoodEntryAndFoodItem(
         entityColumn = "id"
     )
     val foodItem: FoodItem
-)
+) {
+    fun getTotalPointValue() = (foodEntry.amount * foodItem.points).toString()
+}

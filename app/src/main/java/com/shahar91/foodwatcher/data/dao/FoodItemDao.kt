@@ -15,4 +15,7 @@ abstract class FoodItemDao : BaseRoomDao<FoodItem>(DBConstants.FOOD_ITEM_TABLE_N
     // '||' is string concatenation for SQL queries, think of '+' as in Java
     @Query("SELECT * FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} WHERE name LIKE '%'|| :query || '%' ORDER BY name")
     abstract fun findItemsByQueryLive(query: String): LiveData<List<FoodItem>>
+
+    @Query("SELECT * FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} WHERE id == :foodItemId")
+    abstract fun findItemById(foodItemId: Int) : LiveData<FoodItem>
 }

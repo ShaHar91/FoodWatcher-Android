@@ -26,7 +26,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
         override fun onFoodItemClicked(foodItem: FoodItem) {
             Log.d("something", "onFoodItemClicked: ")
 
-            mBinding.viewModel?.saveFoodEntry(foodItem)
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id).run(findNavController()::navigate)
         }
     }
 

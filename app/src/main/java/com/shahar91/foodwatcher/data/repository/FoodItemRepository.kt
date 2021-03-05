@@ -9,8 +9,9 @@ object FoodItemRepository : BaseRepository() {
 
     fun getFoodItems() = foodItemDao.findAllLive()
 
+    fun getFoodItemById(foodItemId: Int) = foodItemDao.findItemById(foodItemId)
+
     suspend fun createFoodItem(foodItem: FoodItem) = foodItemDao.insert(foodItem)
 
     fun getFoodItemsByQuery(query: String) = foodItemDao.findItemsByQueryLive(query)
-
 }

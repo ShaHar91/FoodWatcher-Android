@@ -30,7 +30,7 @@
             android:maxLines="1"
             android:text="@{item.foodItem.name}"
             android:textAppearance="?attr/textAppearanceBody1"
-            app:layout_constraintBottom_toTopOf="@+id/tvFoodItemDescription"
+            app:layout_constraintBottom_toTopOf="@+id/tvFoodItemAmount"
             app:layout_constraintEnd_toStartOf="@id/tvFoodItemPoints"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,46 +38,47 @@
             tools:text="Bread" />
 
         <TextView
+            android:id="@+id/tvFoodItemAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.foodEntry.amount + `x`}"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFoodItemName"
+            tools:text="2x" />
+
+        <TextView
             android:id="@+id/tvFoodItemDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
             android:layout_marginEnd="12dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{item.foodItem.description}"
             android:textAppearance="?attr/textAppearanceCaption"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tvFoodItemAmount"
             app:layout_constraintEnd_toStartOf="@id/tvFoodItemPoints"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFoodItemName"
+            app:layout_constraintStart_toEndOf="@id/tvFoodItemAmount"
+            app:layout_constraintTop_toTopOf="@id/tvFoodItemAmount"
             tools:text="1 slice" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{item.foodEntry.amount + `x`}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvFoodItemPoints"
-            tools:text="2x"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/tvFoodItemPoints"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
             android:layout_margin="8dp"
             android:background="@drawable/bg_points"
-            android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@{item.foodItem.maxPoints}"
+            android:minWidth="32dp"
+            android:paddingHorizontal="8dp"
+            android:text="@{item.getTotalPointValue}"
             android:textColor="?attr/colorOnPrimarySurface"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1" />
+            tools:text="100" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -55,17 +55,18 @@
 
         <TextView
             android:id="@+id/tvFoodItemPoints"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="32dp"
             android:layout_margin="8dp"
             android:background="@drawable/bg_points"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@{foodItem.maxPoints}"
+            android:paddingHorizontal="8dp"
+            android:text="@{``+ foodItem.points}"
             android:textColor="?attr/colorOnPrimarySurface"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1" />

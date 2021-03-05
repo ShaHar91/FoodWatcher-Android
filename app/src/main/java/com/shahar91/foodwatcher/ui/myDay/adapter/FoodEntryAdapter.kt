@@ -19,34 +19,29 @@ import kotlinx.coroutines.withContext
 private const val ITEM_VIEW_TYPE_HEADER = 0
 private const val ITEM_VIEW_TYPE_ITEM = 1
 
+//TODO: add swipeToDelete
 class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(FoodEntryDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     fun addHeaderAndSubmitList(list: List<FoodEntryAndFoodItem>?) {
         adapterScope.launch {
             list?.let {
-                val eventualList: ArrayList<DataItem> = arrayListOf()
+                val dataItemList: MutableList<DataItem> = mutableListOf()
 
                 val groupedList = list.groupBy { it.foodEntry.meal }
 
                 //TODO: extract String values!!
-                addHeaderAndItemToList(groupedList[Meal.BREAKFAST], DataItem.Header(Long.MIN_VALUE, "Breakfast"), eventualList)
-                addHeaderAndItemToList(groupedList[Meal.LUNCH], DataItem.Header(Long.MIN_VALUE + 1, "Lunch"), eventualList)
-                addHeaderAndItemToList(groupedList[Meal.DINNER], DataItem.Header(Long.MIN_VALUE + 2, "Dinner"), eventualList)
-                addHeaderAndItemToList(groupedList[Meal.SNACK], DataItem.Header(Long.MIN_VALUE + 3, "Snack"), eventualList)
+                Meal.values().forEach {
+                    dataItemList.add(DataItem.Header(it.listId, it.content))
+                    dataItemList.addAll(groupedList[it]?.map { item -> DataItem.FoodEntryItem(item) } ?: emptyList())
+                }
 
                 withContext(Dispatchers.Main) {
-                    submitList(eventualList)
+                    submitList(dataItemList)
                 }
             }
             Log.d("SomeTag", "addHeaderAndSubmitList: ")
         }
-    }
-
-    private fun addHeaderAndItemToList(list: List<FoodEntryAndFoodItem>?, header: DataItem.Header, eventualList: ArrayList<DataItem>) {
-        val breakfastList = list?.map { DataItem.FoodEntryItem(it) }
-        eventualList.add(header)
-        eventualList.addAll(breakfastList ?: emptyList<DataItem.FoodEntryItem>())
     }
 
     interface FoodEntryInteractionListener {

@@ -32,6 +32,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_foodItemListFragment_to_addMealEntryFragment"
+            app:destination="@id/addMealEntryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -39,5 +47,15 @@
         android:name="com.shahar91.foodwatcher.ui.addFoodItem.AddFoodItemFragment"
         android:label="Add food item"
         tools:layout="@layout/fragment_add_food_item" />
+
+    <fragment
+        android:id="@+id/addMealEntryFragment"
+        android:name="com.shahar91.foodwatcher.ui.addMealEntry.AddMealEntryFragment"
+        tools:layout="@layout/fragment_add_meal_entry"
+        android:label="Add meal" >
+        <argument
+            android:name="foodItemId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
