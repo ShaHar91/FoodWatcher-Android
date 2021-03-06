@@ -2,4 +2,5 @@
 <resources>
     <attr name="searchViewBackground" format="color" />
     <attr name="mealHeaderBackground" format="color" />
+    <attr name="addMealBannerForeground" format="color" />
 </resources>

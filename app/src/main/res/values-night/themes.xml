@@ -21,5 +21,6 @@
 
         <item name="searchViewBackground">?attr/colorSurface</item>
         <item name="mealHeaderBackground">?attr/colorSurface</item>
+        <item name="addMealBannerForeground">@color/black_alpha_60</item>
     </style>
 </resources>
