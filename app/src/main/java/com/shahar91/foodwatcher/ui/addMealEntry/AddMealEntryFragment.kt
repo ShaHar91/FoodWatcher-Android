@@ -1,7 +1,11 @@
 package com.shahar91.foodwatcher.ui.addMealEntry
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
@@ -22,10 +26,16 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         mBinding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
+
+        mViewModel.foodItem.observe(viewLifecycleOwner, Observer {
+            requireActivity().invalidateOptionsMenu()
+        })
 
         initViews()
     }
@@ -72,5 +82,34 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.add_food_entry_menu, menu)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        // For more info about changing menu items at runtime see
+        // https://developer.android.com/guide/topics/ui/menus#ChangingTheMenu
+        menu.findItem(R.id.action_favoriteFoodItem).let {
+            if (mViewModel.foodItem.value?.isFavorite == true) {
+                it.setIcon(R.drawable.ic_favorite_filled)
+            } else {
+                it.setIcon(R.drawable.ic_favorite_outline)
+            }
+        }
+
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_favoriteFoodItem) {
+            mViewModel.toggleFavoriteFoodItem()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

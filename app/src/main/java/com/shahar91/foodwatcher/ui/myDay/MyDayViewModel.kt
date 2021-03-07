@@ -6,6 +6,7 @@ import be.appwise.core.ui.base.BaseViewModel
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.Month

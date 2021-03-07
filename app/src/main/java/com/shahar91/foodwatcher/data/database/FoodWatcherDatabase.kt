@@ -7,6 +7,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.shahar91.foodwatcher.MyApp
 import com.shahar91.foodwatcher.data.DBConstants
+import com.shahar91.foodwatcher.data.dao.FavoriteFoodItemDao
 import com.shahar91.foodwatcher.data.dao.FoodEntryDao
 import com.shahar91.foodwatcher.data.dao.FoodItemDao
 import com.shahar91.foodwatcher.data.models.FavoriteFoodItem
@@ -23,9 +24,10 @@ import java.time.*
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
     abstract fun foodEntryDao(): FoodEntryDao
+    abstract fun favoriteFoodItemDao(): FavoriteFoodItemDao
 
     companion object {
-        private val scope = CoroutineScope(SupervisorJob())
+        private val mScope = CoroutineScope(SupervisorJob())
 
         // Singleton prevents multiple instances of database opening at the same time
         @Volatile
@@ -38,7 +40,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                 val instance =
                     Room.databaseBuilder(MyApp.getContext(), FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
                         .fallbackToDestructiveMigration()
-                        .addCallback(FoodWatcherDatabaseCallback(scope))
+                        .addCallback(FoodWatcherDatabaseCallback(mScope))
                         .build()
                 INSTANCE = instance
                 instance
@@ -46,12 +48,14 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
         }
     }
 
-    private class FoodWatcherDatabaseCallback(scope: CoroutineScope) : RoomDatabase.Callback() {
+    private class FoodWatcherDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
             INSTANCE?.let { database ->
                 scope.launch {
+                    // To see an example of this to prepopulate a database, take a look at
+                    // https://developer.android.com/codelabs/android-room-with-a-view-kotlin#13
                     val foodItemDao = database.foodItemDao().also { it.deleteAll() }
                     val foodEntryDao = database.foodEntryDao().also { it.deleteAll() }
 

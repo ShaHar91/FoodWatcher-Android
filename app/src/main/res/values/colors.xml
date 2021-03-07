@@ -46,7 +46,7 @@
     <!--color on surface (light)-->
     <color name="black_900">#000000</color>
 
-    <color name="black_alpha_10">#1A000000</color>
+    <color name="black_alpha_10">#05000000</color>
     <color name="black_alpha_60">#99000000</color>
 
     <color name="colorAmber_100">#FFECB3</color>

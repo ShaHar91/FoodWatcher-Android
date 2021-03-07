@@ -1,13 +1,12 @@
 package com.shahar91.foodwatcher.ui.addMealEntry
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import be.appwise.core.extensions.viewmodel.singleArgViewModelFactory
 import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.shahar91.foodwatcher.data.models.FoodEntry
-import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.data.models.Meal
+import com.shahar91.foodwatcher.data.repository.FavoriteFoodItemRepository
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.data.repository.FoodItemRepository
 import kotlinx.coroutines.launch
@@ -41,5 +40,15 @@ class AddMealEntryViewModel(private val foodItemId: Int) : BaseViewModel() {
     fun saveMealEntry(servingSize: Int, date: Long, meal: Meal, onSuccess: () -> Unit) = vmScope.launch {
         FoodEntryRepository.createFoodEntry(FoodEntry(foodItemId = foodItemId, amount = servingSize, date = date, meal = meal))
         onSuccess()
+    }
+
+    fun toggleFavoriteFoodItem() = vmScope.launch {
+        foodItem.value?.let {
+            if (it.isFavorite) {
+                FavoriteFoodItemRepository.unFavoriteFoodItem(it.id)
+            } else {
+                FavoriteFoodItemRepository.favoriteFoodItem(it.id)
+            }
+        }
     }
 }
