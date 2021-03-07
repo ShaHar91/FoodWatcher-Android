@@ -55,6 +55,7 @@
         <item name="searchViewBackground">@android:color/transparent</item>
         <item name="mealHeaderBackground">@color/colorGrey_100</item>
         <item name="addMealBannerForeground">@color/black_alpha_10</item>
+        <item name="fastScrollerBackground">@color/colorGrey_200_alpha_80</item>
     </style>
     <style name="Base.Theme.MaterialThemeBuilder" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>

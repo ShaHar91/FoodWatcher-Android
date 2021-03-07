@@ -65,8 +65,32 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                     val foodItemList = listOf(
                         FoodItem(id = 1, name = "Bread (white, unsalted)", description = "1 slice", points = 0.5F),
                         FoodItem(id = 2, name = "Rice", description = "100 grams", points = 3F),
-                        FoodItem(id = 3, name = "Pasta", description = "100 grams", points = 2F),
-                        FoodItem(id = 4, name = "Bread (brown, salted)", description = "1 slice", points = 3F)
+                        FoodItem(id = 3, name = "Pasta", description = "", points = 2F),
+                        FoodItem(id = 4, name = "Banana", description = "", points = 2F),
+                        FoodItem(id = 5, name = "Apple", description = "", points = 2F),
+                        FoodItem(id = 6, name = "Coffee", description = "", points = 2F),
+                        FoodItem(id = 7, name = "Zebra", description = "", points = 2F),
+                        FoodItem(id = 8, name = "Lamp", description = "", points = 2F),
+                        FoodItem(id = 9, name = "Home", description = "", points = 2F),
+                        FoodItem(id = 10, name = "Google", description = "", points = 2F),
+                        FoodItem(id = 11, name = "Ice Cream", description = "", points = 2F),
+                        FoodItem(id = 12, name = "Clock", description = "", points = 2F),
+                        FoodItem(id = 13, name = "Cheese", description = "", points = 2F),
+                        FoodItem(id = 14, name = "Dough", description = "", points = 2F),
+                        FoodItem(id = 15, name = "Nutella", description = "", points = 2F),
+                        FoodItem(id = 16, name = "Chocolate", description = "", points = 2F),
+                        FoodItem(id = 17, name = "Orange", description = "", points = 2F),
+                        FoodItem(id = 18, name = "Pineapple", description = "", points = 2F),
+                        FoodItem(id = 19, name = "Melon", description = "", points = 2F),
+                        FoodItem(id = 20, name = "Kiwi", description = "", points = 2F),
+                        FoodItem(id = 21, name = "Pumpkin", description = "", points = 2F),
+                        FoodItem(id = 22, name = "Parmigiano", description = "", points = 2F),
+                        FoodItem(id = 23, name = "Lasagna", description = "", points = 2F),
+                        FoodItem(id = 24, name = "Soup", description = "", points = 2F),
+                        FoodItem(id = 25, name = "Chicken", description = "", points = 2F),
+                        FoodItem(id = 26, name = "Veal", description = "", points = 2F),
+                        FoodItem(id = 27, name = "Pepper", description = "", points = 2F),
+                        FoodItem(id = 28, name = "Bread (brown, salted)", description = "1 slice", points = 3F)
                     ).also { foodItemDao.insertMany(it) }
 
                     val todayAtNoon = LocalDate.now().atTime(LocalTime.NOON)

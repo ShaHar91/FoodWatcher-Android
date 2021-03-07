@@ -7,14 +7,18 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearSmoothScroller
 import be.appwise.core.extensions.view.onQueryChange
 import be.appwise.core.extensions.view.setupRecyclerView
 import be.appwise.core.ui.custom.RecyclerViewEnum
+import com.reddit.indicatorfastscroll.FastScrollItemIndicator
+import com.reddit.indicatorfastscroll.FastScrollerView
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
+import java.util.*
 
 class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
     override fun getViewModel() = FoodItemListViewModel::class.java
@@ -62,6 +66,36 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
             svFoodItems.onQueryChange {
                 mBinding.viewModel?.setQuery(it)
                 true
+            }
+
+            //TODO: when keyboard is open, hide the fastScroller!!!
+            fastscroller.apply {
+                setupWithRecyclerView(
+                    rvFoodItems, { position ->
+                        foodItemAdapter.getFoodItems()[position].let {
+                            if (it.isFavorite) {
+                                FastScrollItemIndicator.Icon(R.drawable.ic_favorite_filled)
+                            } else {
+                                FastScrollItemIndicator.Text(it.name.substring(0, 1).toUpperCase(Locale.getDefault()))
+                            }
+                        }
+                    },
+                    useDefaultScroller = false
+                )
+                val smoothScroller: LinearSmoothScroller = object : LinearSmoothScroller(context) {
+                    override fun getVerticalSnapPreference(): Int = SNAP_TO_START
+                }
+                itemIndicatorSelectedCallbacks += object : FastScrollerView.ItemIndicatorSelectedCallback {
+                    override fun onItemIndicatorSelected(
+                        indicator: FastScrollItemIndicator,
+                        indicatorCenterY: Int,
+                        itemPosition: Int
+                    ) {
+                        rvFoodItems.stopScroll()
+                        smoothScroller.targetPosition = itemPosition
+                        rvFoodItems.layoutManager?.startSmoothScroll(smoothScroller)
+                    }
+                }
             }
         }
     }

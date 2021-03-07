@@ -49,6 +49,9 @@
     <color name="black_alpha_10">#05000000</color>
     <color name="black_alpha_60">#99000000</color>
 
+    <color name="colorGrey_200_alpha_80">#CCEEEEEE</color>
+    <color name="colorGrey_800_alpha_80">#CC424242</color>
+
     <color name="colorAmber_100">#FFECB3</color>
     <color name="colorAmber_200">#FFE082</color>
     <color name="colorAmber_300">#FFD54F</color>

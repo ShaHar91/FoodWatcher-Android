@@ -13,6 +13,8 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
         fun onFoodItemClicked(foodItem: FoodItem)
     }
 
+    fun getFoodItems() = getItems()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<FoodItem> {
         return FoodItemViewHolder(ListItemFoodItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
