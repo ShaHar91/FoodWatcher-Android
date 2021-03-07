@@ -7,6 +7,7 @@ import be.appwise.core.extensions.fragment.hideKeyboard
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import java.math.BigDecimal
 
 class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
 
@@ -48,11 +49,13 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
                     return@setOnClickListener
                 }
 
-                mViewModel.saveFoodItem(name!!, description ?: "", points?.toInt() ?: 0) {
+                mViewModel.saveFoodItem(name!!, description ?: "", points?.toFloat()?.round(1) ?: 0F) {
                     hideKeyboard()
                     findNavController().popBackStack()
                 }
             }
         }
     }
+
+    private fun Float.round(decimals: Int = 2): Float = "%.${decimals}f".format(this).toFloat()
 }

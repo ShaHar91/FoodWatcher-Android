@@ -17,4 +17,7 @@ abstract class FoodEntryDao : BaseRoomDao<FoodEntry>(DBConstants.FOOD_ENTRY_TABL
     @Transaction
     @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate ORDER BY meal")
     abstract fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntryAndFoodItem>>
+
+    @Query("DELETE FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME}")
+    abstract fun deleteAll()
 }

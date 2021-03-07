@@ -74,7 +74,7 @@
             android:maxLines="1"
             android:minWidth="32dp"
             android:paddingHorizontal="8dp"
-            android:text="@{item.getTotalPointValue}"
+            android:text="@{item.getTotalPointValueWithoutTrailingZero()}"
             android:textColor="?attr/colorOnPrimarySurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.FoodItem
+import java.text.DecimalFormat
 
 data class FoodEntryAndFoodItem(
     @Embedded val foodEntry: FoodEntry,
@@ -13,5 +14,7 @@ data class FoodEntryAndFoodItem(
     )
     val foodItem: FoodItem
 ) {
-    fun getTotalPointValue() = (foodEntry.amount * foodItem.points).toString()
+    fun getTotalPointValueWithoutTrailingZero(): String {
+        return DecimalFormat("#####.#").format(foodEntry.amount * foodItem.points)
+    }
 }

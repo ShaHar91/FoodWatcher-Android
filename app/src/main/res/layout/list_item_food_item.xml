@@ -64,7 +64,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:paddingHorizontal="8dp"
-            android:text="@{``+ foodItem.points}"
+            android:text="@{foodItem.showPointsWithoutTrailingZero()}"
             android:textColor="?attr/colorOnPrimarySurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

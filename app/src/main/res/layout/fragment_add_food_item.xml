@@ -86,7 +86,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:text="@={viewModel.points}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
