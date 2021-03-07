@@ -17,7 +17,10 @@ import com.shahar91.foodwatcher.data.models.Meal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.time.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 
 @Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
@@ -70,8 +73,22 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
 
                     foodEntryDao.insertMany(
                         listOf(
-                            FoodEntry(foodItemId = foodItemList[0].id, amount = 3, date = todayAtNoon.toEpochMilliTest(), meal = Meal.LUNCH),
-                            FoodEntry(foodItemId = foodItemList[2].id, amount = 2, date = todayAtNoon.plusDays(1).toEpochMilliTest(), meal = Meal.DINNER)
+                            FoodEntry(
+                                amount = 3,
+                                date = todayAtNoon.toEpochMilliTest(),
+                                meal = Meal.LUNCH,
+                                foodItemName = foodItemList[1].name,
+                                foodItemDescription = foodItemList[1].description,
+                                foodItemPoints = foodItemList[1].points
+                            ),
+                            FoodEntry(
+                                amount = 2,
+                                date = todayAtNoon.plusDays(1).toEpochMilliTest(),
+                                meal = Meal.DINNER,
+                                foodItemName = foodItemList[2].name,
+                                foodItemDescription = foodItemList[2].description,
+                                foodItemPoints = foodItemList[2].points
+                            )
                         )
                     )
                 }

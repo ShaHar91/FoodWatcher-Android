@@ -38,7 +38,16 @@ class AddMealEntryViewModel(private val foodItemId: Int) : BaseViewModel() {
     }
 
     fun saveMealEntry(servingSize: Int, date: Long, meal: Meal, onSuccess: () -> Unit) = vmScope.launch {
-        FoodEntryRepository.createFoodEntry(FoodEntry(foodItemId = foodItemId, amount = servingSize, date = date, meal = meal))
+        FoodEntryRepository.createFoodEntry(
+            FoodEntry(
+                amount = servingSize,
+                date = date,
+                meal = meal,
+                foodItemName = foodItem.value?.name ?: "",
+                foodItemDescription = foodItem.value?.description ?: "",
+                foodItemPoints = foodItem.value?.points ?: 0F
+            )
+        )
         onSuccess()
     }
 

@@ -7,13 +7,12 @@ import androidx.room.Transaction
 import be.appwise.core.data.base.BaseRoomDao
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodEntry
-import com.shahar91.foodwatcher.data.relations.FoodEntryAndFoodItem
 
 @Dao
 abstract class FoodEntryDao : BaseRoomDao<FoodEntry>(DBConstants.FOOD_ENTRY_TABLE_NAME) {
     @Transaction
     @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate ORDER BY meal")
-    abstract fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntryAndFoodItem>>
+    abstract fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntry>>
 
     @Query("DELETE FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME}")
     abstract suspend fun deleteAll()

@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import be.appwise.core.ui.base.list.BaseViewHolder
+import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.Meal
-import com.shahar91.foodwatcher.data.relations.FoodEntryAndFoodItem
 import com.shahar91.foodwatcher.databinding.ListItemEntryBinding
 import com.shahar91.foodwatcher.databinding.ListItemEntryHeaderBinding
 import kotlinx.coroutines.CoroutineScope
@@ -23,12 +23,12 @@ private const val ITEM_VIEW_TYPE_ITEM = 1
 class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(FoodEntryDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
-    fun addHeaderAndSubmitList(list: List<FoodEntryAndFoodItem>?) {
+    fun addHeaderAndSubmitList(list: List<FoodEntry>?) {
         adapterScope.launch {
             list?.let {
                 val dataItemList: MutableList<DataItem> = mutableListOf()
 
-                val groupedList = list.groupBy { it.foodEntry.meal }
+                val groupedList = list.groupBy { it.meal }
 
                 //TODO: extract String values!!
                 Meal.values().forEach {
@@ -45,7 +45,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : Lis
     }
 
     interface FoodEntryInteractionListener {
-        fun onFoodEntryClicked(foodEntryAndFoodItem: FoodEntryAndFoodItem)
+        fun onFoodEntryClicked(foodEntry: FoodEntry)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -64,7 +64,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : Lis
             }
             is FoodEntryViewHolder -> {
                 val item = getItem(position) as DataItem.FoodEntryItem
-                holder.bind(item.foodEntryAndFoodItem)
+                holder.bind(item.foodEntry)
             }
         }
     }
@@ -82,8 +82,8 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : Lis
         }
     }
 
-    inner class FoodEntryViewHolder(private val binding: ListItemEntryBinding) : BaseViewHolder<FoodEntryAndFoodItem>(binding.root) {
-        override fun bind(item: FoodEntryAndFoodItem) {
+    inner class FoodEntryViewHolder(private val binding: ListItemEntryBinding) : BaseViewHolder<FoodEntry>(binding.root) {
+        override fun bind(item: FoodEntry) {
             binding.item = item
             binding.root.setOnClickListener { listener.onFoodEntryClicked(item) }
         }
@@ -101,8 +101,8 @@ class FoodEntryDiffCallback : DiffUtil.ItemCallback<DataItem>() {
 }
 
 sealed class DataItem {
-    data class FoodEntryItem(val foodEntryAndFoodItem: FoodEntryAndFoodItem) : DataItem() {
-        override val id = foodEntryAndFoodItem.foodEntry.id.toLong()
+    data class FoodEntryItem(val foodEntry: FoodEntry) : DataItem() {
+        override val id = foodEntry.id.toLong()
     }
 
     data class Header(override val id: Long, val content: String) : DataItem()

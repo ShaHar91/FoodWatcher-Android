@@ -8,8 +8,6 @@ import be.appwise.core.extensions.view.setupRecyclerView
 import be.appwise.core.ui.custom.RecyclerViewEnum
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.FoodEntry
-import com.shahar91.foodwatcher.data.models.Meal
-import com.shahar91.foodwatcher.data.relations.FoodEntryAndFoodItem
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.adapter.FoodEntryAdapter
@@ -26,7 +24,7 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     override fun getToolbar() = mBinding.mtbMain
 
     private val foodEntryAdapterListener = object : FoodEntryAdapter.FoodEntryInteractionListener {
-        override fun onFoodEntryClicked(foodEntryAndFoodItem: FoodEntryAndFoodItem) {
+        override fun onFoodEntryClicked(foodEntry: FoodEntry) {
 
         }
     }
