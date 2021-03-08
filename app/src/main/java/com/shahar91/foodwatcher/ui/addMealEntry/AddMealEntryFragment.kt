@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
+import be.appwise.core.extensions.fragment.snackBar
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.databinding.FragmentAddMealEntryBinding
@@ -79,6 +81,8 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 mViewModel.saveMealEntry(servingSize?.toInt() ?: 0, selectedDateMillis, meal) {
                     hideKeyboard()
                     findNavController().popBackStack()
+
+                    Snackbar.make(btnSaveMealEntry, "Item was added successfully!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

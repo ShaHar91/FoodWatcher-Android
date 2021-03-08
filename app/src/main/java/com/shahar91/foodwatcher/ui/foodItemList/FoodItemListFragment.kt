@@ -17,8 +17,8 @@ import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import com.shahar91.foodwatcher.ui.foodItemList.adapter.DataItem
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
-import java.util.*
 
 class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
     override fun getViewModel() = FoodItemListViewModel::class.java
@@ -49,7 +49,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
     private fun initListeners() {
         mViewModel.foodItems.observe(viewLifecycleOwner, {
             Log.d("FoodItemListFragment", "new foodItems?: ${it.size}")
-            foodItemAdapter.setItems(it)
+            foodItemAdapter.addHeaderAndSubmitList(it)
         })
     }
 
@@ -72,11 +72,23 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
             fastscroller.apply {
                 setupWithRecyclerView(
                     rvFoodItems, { position ->
-                        foodItemAdapter.getFoodItems()[position].let {
-                            if (it.isFavorite) {
-                                FastScrollItemIndicator.Icon(R.drawable.ic_favorite_filled)
-                            } else {
-                                FastScrollItemIndicator.Text(it.name.substring(0, 1).toUpperCase(Locale.getDefault()))
+                        foodItemAdapter.currentList[position].let {
+                            when (it) {
+                                //TODO: this can be refined and refactored!! Maybe place it in the viewModel?
+                                is DataItem.Header -> {
+                                    if (it.isFavorite) {
+                                        FastScrollItemIndicator.Icon(R.drawable.ic_favorite_filled)
+                                    } else {
+                                        FastScrollItemIndicator.Text(it.content ?: "")
+                                    }
+                                }
+                                is DataItem.FoodItemContent -> {
+                                    if (it.foodItem.isFavorite) {
+                                        FastScrollItemIndicator.Icon(R.drawable.ic_favorite_filled)
+                                    } else {
+                                        FastScrollItemIndicator.Text(it.foodItem.name.first().toUpperCase().toString())
+                                    }
+                                }
                             }
                         }
                     },

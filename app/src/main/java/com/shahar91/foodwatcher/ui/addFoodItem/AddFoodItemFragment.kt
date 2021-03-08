@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.fragment.hideKeyboard
+import be.appwise.core.extensions.fragment.snackBar
+import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
@@ -52,6 +54,8 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
                 mViewModel.saveFoodItem(name!!, description ?: "", points?.toFloat()?.round(1) ?: 0F) {
                     hideKeyboard()
                     findNavController().popBackStack()
+
+                    Snackbar.make(btnSaveFoodItem, "Item was added successfully!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

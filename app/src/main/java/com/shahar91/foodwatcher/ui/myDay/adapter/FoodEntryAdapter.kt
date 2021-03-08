@@ -23,25 +23,22 @@ private const val ITEM_VIEW_TYPE_ITEM = 1
 class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(FoodEntryDiffCallback()) {
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
-    fun addHeaderAndSubmitList(list: List<FoodEntry>?) {
+    fun addHeaderAndSubmitList(list: List<FoodEntry>) {
         adapterScope.launch {
-            list?.let {
-                val dataItemList: MutableList<DataItem> = mutableListOf()
+            val dataItemList: MutableList<DataItem> = mutableListOf()
 
-                val groupedList = list.groupBy { it.meal }
+            val groupedList = list.groupBy { it.meal }
 
-                //TODO: extract String values!!
-                Meal.values().forEach {
-                    dataItemList.add(DataItem.Header(it.listId, it.content))
-                    dataItemList.addAll(groupedList[it]?.map { item -> DataItem.FoodEntryItem(item) } ?: emptyList())
-                }
-
-                withContext(Dispatchers.Main) {
-                    submitList(dataItemList)
-                }
+            Meal.values().forEach {
+                dataItemList.add(DataItem.Header(it.listId, it.content))
+                dataItemList.addAll(groupedList[it]?.map { item -> DataItem.FoodEntryItem(item) } ?: emptyList())
             }
-            Log.d("SomeTag", "addHeaderAndSubmitList: ")
+
+            withContext(Dispatchers.Main) {
+                submitList(dataItemList)
+            }
         }
+        Log.d("SomeTag", "addHeaderAndSubmitList: ")
     }
 
     interface FoodEntryInteractionListener {
