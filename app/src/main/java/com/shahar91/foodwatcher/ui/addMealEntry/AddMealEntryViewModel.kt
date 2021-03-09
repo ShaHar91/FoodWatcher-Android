@@ -10,6 +10,8 @@ import com.shahar91.foodwatcher.data.repository.FavoriteFoodItemRepository
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.data.repository.FoodItemRepository
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,7 +39,7 @@ class AddMealEntryViewModel(private val foodItemId: Int) : BaseViewModel() {
         selectionAsString.postValue(formattedDate)
     }
 
-    fun saveMealEntry(servingSize: Int, date: Long, meal: Meal, onSuccess: () -> Unit) = vmScope.launch {
+    fun saveMealEntry(servingSize: Float, date: Long, meal: Meal, onSuccess: () -> Unit) = vmScope.launch {
         FoodEntryRepository.createFoodEntry(
             FoodEntry(
                 amount = servingSize,

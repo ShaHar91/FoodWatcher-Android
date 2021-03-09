@@ -98,7 +98,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                     foodEntryDao.insertMany(
                         listOf(
                             FoodEntry(
-                                amount = 3,
+                                amount = 3F,
                                 date = todayAtNoon.toEpochMilliTest(),
                                 meal = Meal.LUNCH,
                                 foodItemName = foodItemList[1].name,
@@ -106,7 +106,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                                 foodItemPoints = foodItemList[1].points
                             ),
                             FoodEntry(
-                                amount = 2,
+                                amount = 2F,
                                 date = todayAtNoon.plusDays(1).toEpochMilliTest(),
                                 meal = Meal.DINNER,
                                 foodItemName = foodItemList[2].name,

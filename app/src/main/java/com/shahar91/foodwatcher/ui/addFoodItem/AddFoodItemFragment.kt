@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import com.shahar91.foodwatcher.utils.CommonUtils
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -55,7 +56,7 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
                 mViewModel.saveFoodItem(
                     name!!,
                     description ?: "",
-                    mViewModel.getNumberAsFloat(points ?: "0")
+                    CommonUtils.getNumberAsFloat(points ?: "0")
                 ) {
                     hideKeyboard()
                     findNavController().popBackStack()

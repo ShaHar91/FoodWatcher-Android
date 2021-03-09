@@ -16,6 +16,7 @@ import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.databinding.FragmentAddMealEntryBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import com.shahar91.foodwatcher.utils.CommonUtils
 
 class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, FragmentAddMealEntryBinding>() {
     private val safeArgs: AddMealEntryFragmentArgs by navArgs()
@@ -73,12 +74,11 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                     else -> Meal.SNACK
                 }
 
-
                 if (isSomethingEmpty) {
                     return@setOnClickListener
                 }
 
-                mViewModel.saveMealEntry(servingSize?.toInt() ?: 0, selectedDateMillis, meal) {
+                mViewModel.saveMealEntry(CommonUtils.getNumberAsFloat(servingSize ?: "0"), selectedDateMillis, meal) {
                     hideKeyboard()
                     findNavController().popBackStack()
 

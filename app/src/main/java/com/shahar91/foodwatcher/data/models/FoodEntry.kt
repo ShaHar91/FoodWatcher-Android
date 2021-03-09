@@ -9,7 +9,7 @@ import java.text.DecimalFormat
 @Entity(tableName = DBConstants.FOOD_ENTRY_TABLE_NAME)
 data class FoodEntry(
     @PrimaryKey(autoGenerate = true) override val id: Int = 0,
-    var amount: Int,
+    var amount: Float,
     var date: Long,
     var meal: Meal,
     var foodItemName: String,
