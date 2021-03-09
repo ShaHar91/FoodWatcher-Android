@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.fragment.hideKeyboard
-import be.appwise.core.extensions.fragment.snackBar
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
-import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
 
@@ -51,7 +52,11 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
                     return@setOnClickListener
                 }
 
-                mViewModel.saveFoodItem(name!!, description ?: "", points?.toFloat()?.round(1) ?: 0F) {
+                mViewModel.saveFoodItem(
+                    name!!,
+                    description ?: "",
+                    mViewModel.getNumberAsFloat(points ?: "0")
+                ) {
                     hideKeyboard()
                     findNavController().popBackStack()
 
@@ -60,6 +65,4 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
             }
         }
     }
-
-    private fun Float.round(decimals: Int = 2): Float = "%.${decimals}f".format(this).toFloat()
 }
