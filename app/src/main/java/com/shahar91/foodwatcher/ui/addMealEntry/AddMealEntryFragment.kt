@@ -109,11 +109,16 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_favoriteFoodItem) {
-            mViewModel.toggleFavoriteFoodItem()
-            return true
+        return when (item.itemId) {
+            R.id.action_favoriteFoodItem -> {
+                mViewModel.toggleFavoriteFoodItem()
+                true
+            }
+            R.id.action_editFoodItem -> {
+                AddMealEntryFragmentDirections.actionAddMealEntryFragmentToAddFoodItemFragment(safeArgs.foodItemId).run(findNavController()::navigate)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-
-        return super.onOptionsItemSelected(item)
     }
 }

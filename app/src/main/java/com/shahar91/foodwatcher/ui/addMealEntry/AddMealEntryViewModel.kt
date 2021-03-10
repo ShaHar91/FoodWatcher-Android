@@ -10,17 +10,15 @@ import com.shahar91.foodwatcher.data.repository.FavoriteFoodItemRepository
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.data.repository.FoodItemRepository
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddMealEntryViewModel(private val foodItemId: Int) : BaseViewModel() {
+class AddMealEntryViewModel(foodItemId: Int) : BaseViewModel() {
     companion object {
         val FACTORY = singleArgViewModelFactory(::AddMealEntryViewModel)
     }
 
-    var foodItem = FoodItemRepository.getFoodItemById(foodItemId)
+    var foodItem = FoodItemRepository.findItemByIdWithFavoriteLive(foodItemId)
     var servingSize = MutableLiveData<String>()
     var selectionAsString = MutableLiveData("")
 

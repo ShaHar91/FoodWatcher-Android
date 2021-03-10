@@ -2,22 +2,25 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
+import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.util.*
 
 class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
+    private val safeArgs: AddFoodItemFragmentArgs by navArgs()
 
     override fun getViewModel() = AddFoodItemViewModel::class.java
     override fun getLayout() = R.layout.fragment_add_food_item
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
+    override fun getViewModelFactory() = AddFoodItemViewModel.FACTORY(safeArgs.foodItemId)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,6 +29,14 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
+
+        val toolbarTitle = if (mViewModel.isAddingNew()) {
+            "Add item"
+        } else {
+            "Edit item"
+        }
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = toolbarTitle
 
         initViews()
     }

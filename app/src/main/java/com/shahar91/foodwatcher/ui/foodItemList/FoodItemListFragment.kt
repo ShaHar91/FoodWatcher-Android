@@ -14,6 +14,7 @@ import be.appwise.core.ui.custom.RecyclerViewEnum
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.reddit.indicatorfastscroll.FastScrollerView
 import com.shahar91.foodwatcher.R
+import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
@@ -120,7 +121,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_foodItemListFragment_to_addFoodItemFragment) {
             // Navigating manually as the Transition Animation weren't working
-            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddFoodItemFragment().run(findNavController()::navigate)
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddFoodItemFragment(DBConstants.INVALID_ID).run(findNavController()::navigate)
             return true
         }
 

@@ -7,9 +7,13 @@ import com.shahar91.foodwatcher.data.models.FoodItem
 object FoodItemRepository : BaseRepository() {
     private val foodItemDao = FoodWatcherDatabase.getDatabase().foodItemDao()
 
-    fun getFoodItemById(foodItemId: Int) = foodItemDao.findItemById(foodItemId)
+    fun findItemByIdWithFavoriteLive(foodItemId: Int) = foodItemDao.findItemByIdWithFavoriteLive(foodItemId)
+
+    suspend fun findFoodItemById(foodItemId: Int) = foodItemDao.findItemById(foodItemId)
 
     suspend fun createFoodItem(foodItem: FoodItem) = foodItemDao.insert(foodItem)
+
+    suspend fun updateFoodItem(foodItem: FoodItem) = foodItemDao.update(foodItem)
 
     fun getFoodItemsByQuery(query: String) = foodItemDao.findItemsByQueryLive(query)
 }
