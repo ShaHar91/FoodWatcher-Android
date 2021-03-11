@@ -13,4 +13,10 @@
         android:menuCategory="secondary"
         android:title="Edit"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_deleteFoodItem"
+        android:menuCategory="secondary"
+        android:title="Delete"
+        app:showAsAction="never" />
 </menu>

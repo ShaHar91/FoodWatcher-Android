@@ -118,6 +118,10 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 AddMealEntryFragmentDirections.actionAddMealEntryFragmentToAddFoodItemFragment(safeArgs.foodItemId).run(findNavController()::navigate)
                 true
             }
+            R.id.action_deleteFoodItem -> {
+
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

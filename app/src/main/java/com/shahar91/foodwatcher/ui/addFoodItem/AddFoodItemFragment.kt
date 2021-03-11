@@ -8,7 +8,6 @@ import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
-import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
@@ -72,9 +71,19 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
                     hideKeyboard()
                     findNavController().popBackStack()
 
-                    Snackbar.make(btnSaveFoodItem, "Item was added successfully!", Snackbar.LENGTH_SHORT).show()
+                    showFeedbackToUser()
                 }
             }
         }
+    }
+
+    private fun showFeedbackToUser() {
+        val feedback = if (mViewModel.isAddingNew()) {
+            "Item was added successfully!"
+        } else {
+            "Changes have been successfully saved!"
+        }
+
+        Snackbar.make(mBinding.btnSaveFoodItem, feedback, Snackbar.LENGTH_SHORT).show()
     }
 }

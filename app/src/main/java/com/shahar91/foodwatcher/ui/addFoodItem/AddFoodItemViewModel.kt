@@ -26,7 +26,7 @@ class AddFoodItemViewModel(private val foodItemId: Int) : BaseViewModel() {
             FoodItemRepository.findFoodItemById(foodItemId)?.let {
                 this@AddFoodItemViewModel.name.postValue(it.name)
                 this@AddFoodItemViewModel.description.postValue(it.description)
-                this@AddFoodItemViewModel.points.postValue(it.showPointsWithoutTrailingZero())
+                this@AddFoodItemViewModel.points.postValue(it.points.toString())
             }
         }
     }
@@ -43,11 +43,11 @@ class AddFoodItemViewModel(private val foodItemId: Int) : BaseViewModel() {
     fun isAddingNew() = state == State.ADD
 
     fun saveFoodItem(name: String, description: String, points: Float, onSuccess: () -> Unit) = vmScope.launch {
-        if (state == State.ADD) {
-            FoodItemRepository.createFoodItem(FoodItem(name = name, description = description, points = points))
-        } else {
-            FoodItemRepository.updateFoodItem(FoodItem(foodItemId, name, description, points))
+        when (state) {
+            State.ADD -> FoodItemRepository.createFoodItem(FoodItem(name = name, description = description, points = points))
+            State.EDIT -> FoodItemRepository.updateFoodItem(FoodItem(foodItemId, name, description, points))
         }
+
         onSuccess()
     }
 }
