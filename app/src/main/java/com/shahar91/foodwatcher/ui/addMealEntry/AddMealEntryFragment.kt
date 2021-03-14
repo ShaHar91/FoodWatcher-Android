@@ -82,9 +82,17 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                     hideKeyboard()
                     findNavController().popBackStack()
 
-                    Snackbar.make(btnSaveMealEntry, "Item was added successfully!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(mBinding.root, "Item was added successfully!", Snackbar.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun deleteFoodItem() {
+        mViewModel.deleteFoodItem() {
+            findNavController().popBackStack()
+
+            Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -119,7 +127,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 true
             }
             R.id.action_deleteFoodItem -> {
-
+                deleteFoodItem()
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -60,4 +60,11 @@ class AddMealEntryViewModel(foodItemId: Int) : BaseViewModel() {
             }
         }
     }
+
+    fun deleteFoodItem(onSuccess: () -> Unit) = vmScope.launch {
+        foodItem.value?.let {
+            FoodItemRepository.deleteFoodItem(it)
+            onSuccess()
+        }
+    }
 }
