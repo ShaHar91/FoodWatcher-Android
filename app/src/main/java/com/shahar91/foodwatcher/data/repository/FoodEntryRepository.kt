@@ -10,4 +10,6 @@ object FoodEntryRepository : BaseRepository() {
     fun getFoodEntries(fromDate: Long, toDate: Long) = foodEntryDao.getFoodEntries(fromDate, toDate)
 
     suspend fun createFoodEntry(foodEntry: FoodEntry) = foodEntryDao.insert(foodEntry)
+
+    suspend fun deleteFoodEntry(foodEntry: FoodEntry) = foodEntryDao.delete(foodEntry)
 }

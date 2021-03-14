@@ -5,6 +5,7 @@ import androidx.lifecycle.Transformations
 import be.appwise.core.ui.base.BaseViewModel
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
+import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -42,5 +43,10 @@ class MyDayViewModel : BaseViewModel() {
 
     private fun getCalendarMonthHeaderFormatter(date: LocalDate): String {
         return DateTimeFormatter.ofPattern("MMMM yyyy").format(date)
+    }
+
+    fun deleteFoodEntry(foodEntry: FoodEntry, onSuccess: () -> Unit) = vmScope.launch {
+        FoodEntryRepository.deleteFoodEntry(foodEntry)
+        onSuccess()
     }
 }

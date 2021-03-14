@@ -43,6 +43,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : Lis
 
     interface FoodEntryInteractionListener {
         fun onFoodEntryClicked(foodEntry: FoodEntry)
+        fun onFoodEntryLongClicked(foodEntry: FoodEntry)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -83,6 +84,10 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : Lis
         override fun bind(item: FoodEntry) {
             binding.item = item
             binding.root.setOnClickListener { listener.onFoodEntryClicked(item) }
+            binding.root.setOnLongClickListener {
+                listener.onFoodEntryLongClicked(item)
+                true
+            }
         }
     }
 }

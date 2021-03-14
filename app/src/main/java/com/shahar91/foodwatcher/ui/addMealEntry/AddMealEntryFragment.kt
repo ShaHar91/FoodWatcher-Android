@@ -89,7 +89,11 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
     }
 
     private fun deleteFoodItem() {
-        DialogFactory.showDeleteConfirmationDialog(requireContext(), mViewModel.foodItem.value?.name ?: "") {
+        val itemName = mViewModel.foodItem.value?.name ?: ""
+
+        DialogFactory.showConfirmationDialog(
+            requireContext(), "Delete $itemName", "This will delete '$itemName' for eternity, are you sure you want to delete it?"
+        ) {
             mViewModel.deleteFoodItem {
                 findNavController().popBackStack()
 

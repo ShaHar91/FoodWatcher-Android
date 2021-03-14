@@ -6,6 +6,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.view.setupRecyclerView
 import be.appwise.core.ui.custom.RecyclerViewEnum
+import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
@@ -13,6 +14,7 @@ import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.adapter.FoodEntryAdapter
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.DayViewBinder
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.MonthViewHeaderBinder
+import com.shahar91.foodwatcher.utils.DialogFactory
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -26,6 +28,10 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     private val foodEntryAdapterListener = object : FoodEntryAdapter.FoodEntryInteractionListener {
         override fun onFoodEntryClicked(foodEntry: FoodEntry) {
 
+        }
+
+        override fun onFoodEntryLongClicked(foodEntry: FoodEntry) {
+            deleteFoodEntry(foodEntry)
         }
     }
     private val foodEntryAdapter: FoodEntryAdapter = FoodEntryAdapter(foodEntryAdapterListener)
@@ -94,6 +100,16 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
             oldDate?.let { mBinding.cvCalendar.notifyDateChanged(it) }
             mBinding.cvCalendar.notifyDateChanged(localDate)
             mBinding.viewModel?.setSelectedDate(localDate)
+        }
+    }
+
+    private fun deleteFoodEntry(foodEntry: FoodEntry) {
+        DialogFactory.showConfirmationDialog(
+            requireContext(), "Delete ${foodEntry.foodItemName}", "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
+        ) {
+            mViewModel.deleteFoodEntry(foodEntry) {
+                Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 }
