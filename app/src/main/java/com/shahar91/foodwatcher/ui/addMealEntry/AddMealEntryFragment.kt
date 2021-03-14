@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
-import be.appwise.core.extensions.fragment.snackBar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
@@ -17,6 +16,7 @@ import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.databinding.FragmentAddMealEntryBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
+import com.shahar91.foodwatcher.utils.DialogFactory
 
 class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, FragmentAddMealEntryBinding>() {
     private val safeArgs: AddMealEntryFragmentArgs by navArgs()
@@ -89,10 +89,12 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
     }
 
     private fun deleteFoodItem() {
-        mViewModel.deleteFoodItem() {
-            findNavController().popBackStack()
+        DialogFactory.showDeleteConfirmationDialog(requireContext(), mViewModel.foodItem.value?.name ?: "") {
+            mViewModel.deleteFoodItem {
+                findNavController().popBackStack()
 
-            Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
