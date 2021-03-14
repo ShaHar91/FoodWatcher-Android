@@ -16,6 +16,10 @@ data class FoodEntry(
     var foodItemDescription: String,
     var foodItemPoints: Float
 ) : BaseEntity() {
+    /**
+     * In order to show the "points" in different Locale's without trailing 0's the DecimalFormat class is used.
+     * This will enforce the correct pattern for that Locale
+     */
     fun getTotalPointValueWithoutTrailingZero(): String {
         return DecimalFormat("#####.#").format(amount * foodItemPoints)
     }

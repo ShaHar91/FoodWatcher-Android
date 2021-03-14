@@ -26,7 +26,7 @@ class AddFoodItemViewModel(private val foodItemId: Int) : BaseViewModel() {
             FoodItemRepository.findFoodItemById(foodItemId)?.let {
                 this@AddFoodItemViewModel.name.postValue(it.name)
                 this@AddFoodItemViewModel.description.postValue(it.description)
-                this@AddFoodItemViewModel.points.postValue(it.points.toString())
+                this@AddFoodItemViewModel.points.postValue(it.showPointsToEdit())
             }
         }
     }
