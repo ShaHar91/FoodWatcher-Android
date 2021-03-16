@@ -16,7 +16,7 @@
         android:id="@+id/llAlphabetical"
         android:layout_width="match_parent"
         android:layout_height="28dp"
-        android:background="?attr/mealHeaderBackground"
+        android:background="?attr/listItemHeaderBackground"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView

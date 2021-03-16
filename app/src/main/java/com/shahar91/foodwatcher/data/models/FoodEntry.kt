@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import be.appwise.core.data.base.BaseEntity
 import com.shahar91.foodwatcher.data.DBConstants
-import java.text.DecimalFormat
+import com.shahar91.foodwatcher.utils.CommonUtils
 
 @Entity(tableName = DBConstants.FOOD_ENTRY_TABLE_NAME)
 data class FoodEntry(
@@ -21,6 +21,6 @@ data class FoodEntry(
      * This will enforce the correct pattern for that Locale
      */
     fun getTotalPointValueWithoutTrailingZero(): String {
-        return DecimalFormat("#####.#").format(amount * foodItemPoints)
+        return CommonUtils.showValueWithoutTrailingZero(amount * foodItemPoints)
     }
 }

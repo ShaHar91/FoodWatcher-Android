@@ -45,6 +45,7 @@
     <!--Color on secondary (light), color on background (light),-->
     <!--color on surface (light)-->
     <color name="black_900">#000000</color>
+    <color name="black_but_not_quite">#1B1B1B</color>
 
     <color name="black_alpha_10">#05000000</color>
     <color name="black_alpha_60">#99000000</color>

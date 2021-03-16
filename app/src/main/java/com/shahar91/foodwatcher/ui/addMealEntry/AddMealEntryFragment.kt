@@ -95,6 +95,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
             requireContext(), "Delete $itemName", "This will delete '$itemName' for eternity, are you sure you want to delete it?"
         ) {
             mViewModel.deleteFoodItem {
+                hideKeyboard()
                 findNavController().popBackStack()
 
                 Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()

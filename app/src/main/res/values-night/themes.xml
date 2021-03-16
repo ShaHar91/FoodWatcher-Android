@@ -20,7 +20,7 @@
         <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorSurface</item>
 
         <item name="searchViewBackground">?attr/colorSurface</item>
-        <item name="mealHeaderBackground">?attr/colorSurface</item>
+        <item name="listItemHeaderBackground">@color/black_but_not_quite</item>
         <item name="addMealBannerForeground">@color/black_alpha_60</item>
         <item name="fastScrollerBackground">@color/colorGrey_800_alpha_80</item>
     </style>

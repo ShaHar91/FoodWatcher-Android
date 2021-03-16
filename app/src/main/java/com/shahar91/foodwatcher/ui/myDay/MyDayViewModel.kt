@@ -1,5 +1,6 @@
 package com.shahar91.foodwatcher.ui.myDay
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import be.appwise.core.ui.base.BaseViewModel
@@ -7,6 +8,8 @@ import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
+import com.shahar91.foodwatcher.utils.CommonUtils
+import com.shahar91.foodwatcher.utils.HawkManager
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -18,6 +21,9 @@ class MyDayViewModel : BaseViewModel() {
     private val _calendarDay = MutableLiveData<LocalDate>().apply { value = LocalDate.now() }
     fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
     val items = Transformations.switchMap(_calendarDay) { FoodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
+
+    private val _totalPoints = MutableLiveData(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal.toFloat()))
+    val totalPoints: LiveData<String> get() = _totalPoints
 
     private fun LocalDate.atStartOfDayMillis(): Long {
         return this.atTime(LocalTime.MIN).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
@@ -48,5 +54,11 @@ class MyDayViewModel : BaseViewModel() {
     fun deleteFoodEntry(foodEntry: FoodEntry, onSuccess: () -> Unit) = vmScope.launch {
         FoodEntryRepository.deleteFoodEntry(foodEntry)
         onSuccess()
+    }
+
+    fun updateTotalPoints(foodEntries: List<FoodEntry>) = vmScope.launch {
+        val totalPointsAsDouble = foodEntries.sumOf { it.amount.toDouble() * it.foodItemPoints.toDouble() }
+
+        _totalPoints.postValue(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal - totalPointsAsDouble.toFloat()))
     }
 }

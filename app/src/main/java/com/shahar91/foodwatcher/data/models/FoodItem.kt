@@ -4,8 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import be.appwise.core.data.base.BaseEntity
 import com.shahar91.foodwatcher.data.DBConstants
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
+import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
 
 @Entity(tableName = DBConstants.FOOD_ITEM_TABLE_NAME)
@@ -22,7 +21,7 @@ data class FoodItem(
      * This will enforce the correct pattern for that Locale
      */
     fun showPointsWithoutTrailingZero(): String {
-        return DecimalFormat("#####.#").format(points)
+        return CommonUtils.showValueWithoutTrailingZero(points)
     }
 
     /**
@@ -30,6 +29,6 @@ data class FoodItem(
      * This will make sure that the English Locale will be used and as such a "." will be enforced
      */
     fun showPointsToEdit(): String {
-        return DecimalFormat("###.#", DecimalFormatSymbols(Locale.ENGLISH)).format(points)
+        return CommonUtils.showValueWithoutTrailingZero(points, Locale.ENGLISH)
     }
 }

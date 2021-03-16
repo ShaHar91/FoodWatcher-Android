@@ -18,4 +18,12 @@ object CommonUtils {
     fun getNumberAsFloat(numberAsString: String): Float {
         return DecimalFormat("####.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH)).parse(numberAsString)?.toFloat() ?: 0F
     }
+
+    /**
+     * In order to show the "points" in different Locale's without trailing 0's the DecimalFormat class is used.
+     * This will enforce the correct pattern for that Locale
+     */
+    fun showValueWithoutTrailingZero(value: Float, locale: Locale = Locale.getDefault()): String {
+        return DecimalFormat("####.#", DecimalFormatSymbols.getInstance(locale)).format(value)
+    }
 }

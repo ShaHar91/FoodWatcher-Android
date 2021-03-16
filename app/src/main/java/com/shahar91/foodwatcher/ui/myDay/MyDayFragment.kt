@@ -48,9 +48,10 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
         initListeners()
         initViews()
 
-        mBinding.viewModel?.items?.observe(viewLifecycleOwner, {
+        mViewModel.items.observe(viewLifecycleOwner, {
             Log.d("MyDayFragment", "onViewCreated: $it")
             foodEntryAdapter.addHeaderAndSubmitList(it)
+            mViewModel.updateTotalPoints(it)
         })
     }
 
