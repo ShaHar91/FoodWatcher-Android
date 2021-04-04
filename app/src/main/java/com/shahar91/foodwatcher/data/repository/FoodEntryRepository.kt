@@ -12,4 +12,6 @@ object FoodEntryRepository : BaseRepository() {
     suspend fun createFoodEntry(foodEntry: FoodEntry) = foodEntryDao.insert(foodEntry)
 
     suspend fun deleteFoodEntry(foodEntry: FoodEntry) = foodEntryDao.delete(foodEntry)
+
+    suspend fun getWeekTotal(startWeek: Long) = foodEntryDao.getWeekTotal(startWeek)
 }

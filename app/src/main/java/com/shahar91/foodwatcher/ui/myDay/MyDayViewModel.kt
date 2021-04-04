@@ -22,16 +22,11 @@ class MyDayViewModel : BaseViewModel() {
     fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
     val items = Transformations.switchMap(_calendarDay) { FoodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
 
+    private val _weekTotal = MutableLiveData(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxWeekTotal.toFloat()))
+    val weekTotal : LiveData<String> get() = _weekTotal
+
     private val _totalPoints = MutableLiveData(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal.toFloat()))
     val totalPoints: LiveData<String> get() = _totalPoints
-
-    private fun LocalDate.atStartOfDayMillis(): Long {
-        return this.atTime(LocalTime.MIN).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-    }
-
-    private fun LocalDate.atEndOfDayMillis(): Long {
-        return this.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-    }
 
     fun getCorrectMonthAsString(calendarMonth: CalendarMonth): String {
         val weekDays = calendarMonth.weekDays[0]
@@ -58,7 +53,26 @@ class MyDayViewModel : BaseViewModel() {
 
     fun updateTotalPoints(foodEntries: List<FoodEntry>) = vmScope.launch {
         val totalPointsAsDouble = foodEntries.sumOf { it.amount.toDouble() * it.foodItemPoints.toDouble() }
-
         _totalPoints.postValue(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal - totalPointsAsDouble.toFloat()))
     }
+
+    fun updateWeekTotalPoints() = vmScope.launch {
+        val weekTotal = FoodEntryRepository.getWeekTotal(_calendarDay.value?.atStartOfWeekMillis() ?: 0L)
+        _weekTotal.postValue(CommonUtils.showValueWithoutTrailingZero(weekTotal))
+    }
+
+    //<editor-fold desc="LocalDate extensions">
+    private fun LocalDate.atStartOfWeekMillis(): Long {
+        val dayOfWeek = this.dayOfWeek
+        return this.minusDays(dayOfWeek.value.toLong() - 1).atStartOfDayMillis()
+    }
+
+    private fun LocalDate.atStartOfDayMillis(): Long {
+        return this.atTime(LocalTime.MIN).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    }
+
+    private fun LocalDate.atEndOfDayMillis(): Long {
+        return this.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+    }
+    //</editor-fold>
 }

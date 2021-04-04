@@ -28,33 +28,68 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:title="FoodWatcher" />
 
-            <LinearLayout
-                android:id="@+id/llDayRemaining"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimarySurface"
-                android:orientation="vertical"
                 android:padding="12dp">
 
                 <TextView
                     android:id="@+id/tvDayRemainingNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="14dp"
                     android:text="@{viewModel.totalPoints != null ? ``+ viewModel.totalPoints : `0`}"
-                    android:textAppearance="?attr/textAppearanceHeadline3"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/tvWeekRemainingNumber"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="32" />
 
                 <TextView
+                    android:id="@+id/tvDayRemainingTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:text="Daily\nRemaining"
-                    android:textColor="?attr/colorOnPrimarySurface" />
-            </LinearLayout>
+                    android:text="Daily Remaining"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?attr/colorOnPrimarySurface"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvWeekRemainingNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@{viewModel.weekTotal != null ? ``+ viewModel.weekTotal : `0`}"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
+                    android:textColor="?attr/colorOnPrimarySurface"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tvWeekRemainingTitle"
+                    app:layout_constraintEnd_toEndOf="@id/tvWeekRemainingTitle"
+                    app:layout_constraintStart_toStartOf="@id/tvWeekRemainingTitle"
+                    tools:text="42" />
+
+                <TextView
+                    android:id="@+id/tvWeekRemainingTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center"
+                    android:text="Weekly\nRemaining"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:textColor="?attr/colorOnPrimarySurface"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,10 +130,10 @@
                 android:id="@+id/rvFoodEntries"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:requiresFadingEdge="vertical"
-                android:fadingEdgeLength="32dp"
                 android:clipToPadding="false"
+                android:fadingEdgeLength="32dp"
                 android:paddingBottom="84dp"
+                android:requiresFadingEdge="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvCalendar"

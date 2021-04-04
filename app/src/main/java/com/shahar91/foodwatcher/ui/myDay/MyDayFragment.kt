@@ -52,6 +52,7 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
             Log.d("MyDayFragment", "onViewCreated: $it")
             foodEntryAdapter.addHeaderAndSubmitList(it)
             mViewModel.updateTotalPoints(it)
+            mViewModel.updateWeekTotalPoints()
         })
     }
 
