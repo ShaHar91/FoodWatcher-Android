@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
@@ -36,7 +35,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
             viewModel = mViewModel
         }
 
-        mViewModel.foodItem.observe(viewLifecycleOwner, Observer {
+        mViewModel.foodItem.observe(viewLifecycleOwner, {
             requireActivity().invalidateOptionsMenu()
         })
 

@@ -1,7 +1,6 @@
 package com.shahar91.foodwatcher.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import be.appwise.core.data.base.BaseRoomDao
 import com.shahar91.foodwatcher.data.DBConstants

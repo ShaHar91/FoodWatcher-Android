@@ -24,7 +24,9 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding>() {
-    private val TAG = MyDayFragment::class.java.simpleName
+    companion object {
+        private val TAG = MyDayFragment::class.java.simpleName
+    }
 
     override fun getViewModel() = MyDayViewModel::class.java
     override fun getLayout() = R.layout.fragment_my_day
