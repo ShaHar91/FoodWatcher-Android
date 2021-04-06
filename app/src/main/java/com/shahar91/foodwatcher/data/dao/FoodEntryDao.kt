@@ -57,7 +57,7 @@ interface FoodEntryDao {
         var weekTotal: Float = HawkManager.hawkMaxWeekTotal.toFloat()
         listOf(monday, tuesday, wednesday, thursday, friday, saturday, sunday).forEach {
             if (it > dayTotal) {
-                weekTotal -= it
+                weekTotal -= (it - dayTotal)
             }
         }
 

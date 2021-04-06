@@ -2,12 +2,16 @@ package com.shahar91.foodwatcher.ui.myDay
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.view.setupRecyclerView
 import be.appwise.core.ui.custom.RecyclerViewEnum
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
+import com.shahar91.foodwatcher.data.models.DayDescription
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
@@ -20,6 +24,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding>() {
+    private val TAG = MyDayFragment::class.java.simpleName
 
     override fun getViewModel() = MyDayViewModel::class.java
     override fun getLayout() = R.layout.fragment_my_day
@@ -49,17 +54,20 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
         initViews()
 
         mViewModel.items.observe(viewLifecycleOwner, {
-            Log.d("MyDayFragment", "onViewCreated: $it")
             foodEntryAdapter.addHeaderAndSubmitList(it)
             mViewModel.updateTotalPoints(it)
+            Log.d(TAG, "onViewCreated: $it")
             mViewModel.updateWeekTotalPoints()
+        })
+
+        mViewModel.myDayDescription.observe(viewLifecycleOwner, {
+            requireActivity().invalidateOptionsMenu()
         })
     }
 
     private fun initViews() {
         mBinding.apply {
             rvFoodEntries.apply {
-                //TODO: don't show the divider for a certain viewType: https://stackoverflow.com/a/46216274/2263408
                 setupRecyclerView()
                 adapter = foodEntryAdapter
                 stateView = RecyclerViewEnum.NORMAL
@@ -107,11 +115,47 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
 
     private fun deleteFoodEntry(foodEntry: FoodEntry) {
         DialogFactory.showConfirmationDialog(
-            requireContext(), "Delete ${foodEntry.foodItemName}", "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
+            requireContext(),
+            "Delete ${foodEntry.foodItemName}",
+            "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
         ) {
             mViewModel.deleteFoodEntry(foodEntry) {
                 Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showInformationDialog(dayDescription: DayDescription?) {
+        DialogFactory.showInputInformationDialog(requireContext(), dayDescription?.description ?: "") { updatedDescription ->
+            mViewModel.updateDayDescription(updatedDescription)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.my_day_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.action_information).let {
+            if (mViewModel.myDayDescription.value != null) {
+                it.setIcon(R.drawable.ic_info_available)
+            } else {
+                it.setIcon(R.drawable.ic_info_unavailable)
+            }
+        }
+
+        super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_information) {
+            Log.d(TAG, "onOptionsItemSelected")
+
+            showInformationDialog(mViewModel.myDayDescription.value)
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

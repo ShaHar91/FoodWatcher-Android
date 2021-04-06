@@ -7,13 +7,11 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.shahar91.foodwatcher.MyApp
 import com.shahar91.foodwatcher.data.DBConstants
+import com.shahar91.foodwatcher.data.dao.DayDescriptionDao
 import com.shahar91.foodwatcher.data.dao.FavoriteFoodItemDao
 import com.shahar91.foodwatcher.data.dao.FoodEntryDao
 import com.shahar91.foodwatcher.data.dao.FoodItemDao
-import com.shahar91.foodwatcher.data.models.FavoriteFoodItem
-import com.shahar91.foodwatcher.data.models.FoodEntry
-import com.shahar91.foodwatcher.data.models.FoodItem
-import com.shahar91.foodwatcher.data.models.Meal
+import com.shahar91.foodwatcher.data.models.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -22,12 +20,13 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class], version = 1, exportSchema = false)
+@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class, DayDescription::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
     abstract fun foodEntryDao(): FoodEntryDao
     abstract fun favoriteFoodItemDao(): FavoriteFoodItemDao
+    abstract fun dayDescriptionDao(): DayDescriptionDao
 
     companion object {
         private val mScope = CoroutineScope(SupervisorJob())
@@ -44,6 +43,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                     Room.databaseBuilder(MyApp.getContext(), FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
                         .fallbackToDestructiveMigration()
                         .addCallback(FoodWatcherDatabaseCallback(mScope))
+                        .addMigrations(MIGRATION_1_2)
                         .build()
                 INSTANCE = instance
                 instance
