@@ -16,11 +16,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val ITEM_VIEW_TYPE_HEADER = 0
-private const val ITEM_VIEW_TYPE_ITEM = 1
-
 //TODO: add swipeToDelete
 class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) : ListAdapter<DataItem, RecyclerView.ViewHolder>(FoodEntryDiffCallback()) {
+    companion object {
+        const val ITEM_VIEW_TYPE_HEADER = 0
+        const val ITEM_VIEW_TYPE_ITEM = 1
+    }
+
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     fun addHeaderAndSubmitList(list: List<FoodEntry>) {
