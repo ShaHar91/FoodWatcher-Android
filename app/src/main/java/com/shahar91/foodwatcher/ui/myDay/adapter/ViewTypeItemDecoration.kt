@@ -11,7 +11,7 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.roundToInt
 
-class MyDayItemDecoration(context: Context, orientation: Int) : RecyclerView.ItemDecoration() {
+class ViewTypeItemDecoration(context: Context, orientation: Int) : RecyclerView.ItemDecoration() {
     companion object {
         const val HORIZONTAL = LinearLayout.HORIZONTAL
         const val VERTICAL = LinearLayout.VERTICAL
@@ -21,6 +21,8 @@ class MyDayItemDecoration(context: Context, orientation: Int) : RecyclerView.Ite
     }
 
     private var mDivider: Drawable? = null
+    var dividerForItemTypes: List<Int>? = null
+    var showDividerLastItem = true
 
     /**
      * Current orientation. Either [.HORIZONTAL] or [.VERTICAL].
@@ -80,7 +82,7 @@ class MyDayItemDecoration(context: Context, orientation: Int) : RecyclerView.Ite
                 val childAdapterPosition = parent.getChildAdapterPosition(child)
                     .let { if (it == RecyclerView.NO_POSITION) return else it }
 
-                if (showDivider(adapter, parent.children.count(), childAdapterPosition)) {
+                if (showDivider(adapter, adapter.itemCount, childAdapterPosition)) {
                     if (mOrientation == VERTICAL) {
                         drawVertical(c, parent, child)
                     } else {
@@ -159,6 +161,18 @@ class MyDayItemDecoration(context: Context, orientation: Int) : RecyclerView.Ite
     }
 
     private fun showDivider(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>, childrenCount: Int, childAdapterPosition: Int): Boolean {
-        return (childrenCount > (childAdapterPosition + 1) && adapter.getItemViewType(childAdapterPosition) == FoodEntryAdapter.ITEM_VIEW_TYPE_ITEM)
+
+        var isPositionInItemTypeList = true
+        if (dividerForItemTypes != null) {
+            isPositionInItemTypeList = dividerForItemTypes!!.contains(adapter.getItemViewType(childAdapterPosition))
+                    && (childrenCount > (childAdapterPosition + 1) && dividerForItemTypes!!.contains(adapter.getItemViewType(childAdapterPosition + 1)))
+        }
+
+        var isLastDivider = true
+        if (!showDividerLastItem) {
+            isLastDivider = childrenCount > (childAdapterPosition + 1)
+        }
+
+        return isLastDivider && isPositionInItemTypeList
     }
 }

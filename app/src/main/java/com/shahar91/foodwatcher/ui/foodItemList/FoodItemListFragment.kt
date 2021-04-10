@@ -20,6 +20,7 @@ import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.DataItem
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
+import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
 
 class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
     override fun getViewModel() = FoodItemListViewModel::class.java
@@ -59,7 +60,10 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
 
         mBinding.apply {
             rvFoodItems.apply {
-                setupRecyclerView()
+                setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
+                    dividerForItemTypes = listOf(FoodItemAdapter.ITEM_VIEW_TYPE_ITEM)
+                    showDividerLastItem = false
+                })
                 adapter = foodItemAdapter
                 stateView = RecyclerViewEnum.NORMAL
             }

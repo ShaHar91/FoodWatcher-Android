@@ -16,7 +16,7 @@ import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.adapter.FoodEntryAdapter
-import com.shahar91.foodwatcher.ui.myDay.adapter.MyDayItemDecoration
+import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.DayViewBinder
 import com.shahar91.foodwatcher.ui.myDay.calendar.binders.MonthViewHeaderBinder
 import com.shahar91.foodwatcher.utils.DialogFactory
@@ -71,7 +71,10 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     private fun initViews() {
         mBinding.apply {
             rvFoodEntries.apply {
-                setupRecyclerView(decoration = MyDayItemDecoration(requireContext(), MyDayItemDecoration.VERTICAL))
+                setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
+                    dividerForItemTypes = listOf(FoodEntryAdapter.ITEM_VIEW_TYPE_ITEM)
+                    showDividerLastItem = false
+                })
                 adapter = foodEntryAdapter
                 stateView = RecyclerViewEnum.NORMAL
             }
