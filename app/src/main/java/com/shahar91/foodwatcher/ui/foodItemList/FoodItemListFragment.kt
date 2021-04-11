@@ -32,7 +32,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
         override fun onFoodItemClicked(foodItem: FoodItem) {
             Log.d("something", "onFoodItemClicked: ")
 
-            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id).run(findNavController()::navigate)
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id, DBConstants.INVALID_ID).run(findNavController()::navigate)
         }
     }
 
@@ -50,7 +50,6 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
 
     private fun initListeners() {
         mViewModel.foodItems.observe(viewLifecycleOwner, {
-            Log.d("FoodItemListFragment", "new foodItems?: ${it.size}")
             foodItemAdapter.addHeaderAndSubmitList(it)
         })
     }

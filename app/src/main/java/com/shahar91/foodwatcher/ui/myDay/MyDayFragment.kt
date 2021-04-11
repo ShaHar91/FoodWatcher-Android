@@ -1,7 +1,6 @@
 package com.shahar91.foodwatcher.ui.myDay
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -25,9 +24,6 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding>() {
-    companion object {
-        private val TAG = MyDayFragment::class.java.simpleName
-    }
 
     override fun getViewModel() = MyDayViewModel::class.java
     override fun getLayout() = R.layout.fragment_my_day
@@ -35,7 +31,8 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
 
     private val foodEntryAdapterListener = object : FoodEntryAdapter.FoodEntryInteractionListener {
         override fun onFoodEntryClicked(foodEntry: FoodEntry) {
-
+            MyDayFragmentDirections.actionMyDayFragmentToAddMealEntryFragment(foodEntry.foodItemId, foodEntry.id)
+                .let(findNavController()::navigate)
         }
 
         override fun onFoodEntryLongClicked(foodEntry: FoodEntry) {
@@ -59,7 +56,6 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
         mViewModel.items.observe(viewLifecycleOwner, {
             foodEntryAdapter.addHeaderAndSubmitList(it)
             mViewModel.updateTotalPoints(it)
-            Log.d(TAG, "onViewCreated: $it")
             mViewModel.updateWeekTotalPoints()
         })
 
@@ -143,21 +139,13 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.action_information).let {
-            if (mViewModel.myDayDescription.value != null) {
-                it.setIcon(R.drawable.ic_info_available)
-            } else {
-                it.setIcon(R.drawable.ic_info_unavailable)
-            }
-        }
+        menu.findItem(R.id.action_information).setIcon(mViewModel.getInformationIcon())
 
         super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_information) {
-            Log.d(TAG, "onOptionsItemSelected")
-
             showInformationDialog(mViewModel.myDayDescription.value)
             return true
         }

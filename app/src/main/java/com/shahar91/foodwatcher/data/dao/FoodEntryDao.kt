@@ -24,6 +24,12 @@ interface FoodEntryDao {
     @Query("DELETE FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME}")
     suspend fun deleteAll()
 
+    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE id == :foodEntryId")
+    suspend fun findEntryById(foodEntryId: Int): FoodEntry?
+
+    @Update
+    suspend fun update(entity: FoodEntry)
+
 //    @Query("SELECT date, SUM(foodItemPoints * amount) as dayTotal FROM foodEntry WHERE date BETWEEN :startWeek AND :endWeek GROUP BY date")
 //    fun getWeekTotal(startWeek: Long, endWeek: Long): LiveData<List<DayTotal>>
 

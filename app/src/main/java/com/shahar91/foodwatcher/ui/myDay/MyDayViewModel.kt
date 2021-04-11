@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import be.appwise.core.ui.base.BaseViewModel
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
+import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.DayDescription
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.repository.DayDescriptionRepository
@@ -45,6 +46,12 @@ class MyDayViewModel : BaseViewModel() {
         } else {
             getCalendarMonthHeaderFormatter(lastDay.date)
         }
+    }
+
+    fun getInformationIcon() = if (myDayDescription.value != null) {
+        R.drawable.ic_info_available
+    } else {
+        R.drawable.ic_info_unavailable
     }
 
     private fun getCalendarMonthHeaderFormatter(date: LocalDate): String {

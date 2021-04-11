@@ -23,7 +23,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
     override fun getLayout() = R.layout.fragment_add_meal_entry
     override fun getViewModel() = AddMealEntryViewModel::class.java
-    override fun getViewModelFactory() = AddMealEntryViewModel.FACTORY(safeArgs.foodItemId)
+    override fun getViewModelFactory() = AddMealEntryViewModel.FACTORY(safeArgs.foodItemId, safeArgs.foodEntryId)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,11 +35,14 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
             viewModel = mViewModel
         }
 
+        initObservers()
+        initViews()
+    }
+
+    private fun initObservers() {
         mViewModel.foodItem.observe(viewLifecycleOwner, {
             requireActivity().invalidateOptionsMenu()
         })
-
-        initViews()
     }
 
     private fun initViews() {
@@ -48,9 +51,9 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 // For more information about the MaterialDatePicker
                 //      https://material.io/components/date-pickers
                 //      https://github.com/material-components/material-components-android/blob/master/catalog/java/io/material/catalog/datepicker/DatePickerMainDemoFragment.java
-                val picker = MaterialDatePicker.Builder.datePicker().setSelection(viewModel?.selectedDateMillis).build()
+                val picker = MaterialDatePicker.Builder.datePicker().setSelection(mViewModel.selectedDateMillis.value).build()
                 picker.addOnPositiveButtonClickListener {
-                    viewModel?.dateFormat(it)
+                    mViewModel.setSelectedDateMillis(it)
                 }
                 picker.show(childFragmentManager, picker.toString())
             }
@@ -64,7 +67,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                     isSomethingEmpty = true
                 }
 
-                val selectedDateMillis = mViewModel.selectedDateMillis
+                val selectedDateMillis = mViewModel.selectedDateMillis.value ?: 0L
 
                 val meal = when (btnGrMeal.checkedButtonId) {
                     R.id.btnBreakfast -> Meal.BREAKFAST
@@ -102,6 +105,22 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
         }
     }
 
+    private fun deleteFoodEntry() {
+        val foodEntry = mViewModel.foodEntry
+        DialogFactory.showConfirmationDialog(
+            requireContext(),
+            "Delete ${foodEntry.foodItemName}",
+            "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
+        ) {
+            mViewModel.deleteFoodEntry(foodEntry) {
+                hideKeyboard()
+                findNavController().popBackStack()
+
+                Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.add_food_entry_menu, menu)
 
@@ -119,6 +138,12 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
             }
         }
 
+        menu.findItem(R.id.action_editFoodItem).let {
+            if (!mViewModel.isAddingNew()) {
+                it.isVisible = false
+            }
+        }
+
         super.onPrepareOptionsMenu(menu)
     }
 
@@ -133,7 +158,11 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 true
             }
             R.id.action_deleteFoodItem -> {
-                deleteFoodItem()
+                if (mViewModel.isAddingNew()) {
+                    deleteFoodItem()
+                } else {
+                    deleteFoodEntry()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -12,6 +12,7 @@ data class FoodEntry(
     var amount: Float,
     var date: Long,
     var meal: Meal,
+    var foodItemId: Int = -1,
     var foodItemName: String,
     var foodItemDescription: String,
     var foodItemPoints: Float

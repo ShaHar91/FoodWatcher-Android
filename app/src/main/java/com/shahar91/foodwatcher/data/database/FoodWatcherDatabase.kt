@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class, DayDescription::class], version = 2)
+@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class, DayDescription::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
@@ -43,7 +43,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                     Room.databaseBuilder(MyApp.getContext(), FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
                         .fallbackToDestructiveMigration()
                         .addCallback(FoodWatcherDatabaseCallback(mScope))
-                        .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                         .build()
                 INSTANCE = instance
                 instance
