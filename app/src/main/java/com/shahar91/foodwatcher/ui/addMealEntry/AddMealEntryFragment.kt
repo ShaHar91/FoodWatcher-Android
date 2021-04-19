@@ -30,7 +30,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
 
         setHasOptionsMenu(true)
 
-        mBinding.apply {
+        mBinding.run {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
@@ -46,7 +46,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
     }
 
     private fun initViews() {
-        mBinding.apply {
+        mBinding.run {
             tilDate.editText?.setOnClickListener {
                 // For more information about the MaterialDatePicker
                 //      https://material.io/components/date-pickers

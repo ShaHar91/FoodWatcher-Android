@@ -44,7 +44,7 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.apply {
+        mBinding.run {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
@@ -65,8 +65,8 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     }
 
     private fun initViews() {
-        mBinding.apply {
-            rvFoodEntries.apply {
+        mBinding.run {
+            rvFoodEntries.run {
                 setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
                     dividerForItemTypes = listOf(FoodEntryAdapter.ITEM_VIEW_TYPE_ITEM)
                     showDividerLastItem = false
@@ -84,7 +84,7 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
     }
 
     private fun initCalendar() {
-        mBinding.cvCalendar.apply {
+        mBinding.cvCalendar.run {
             val currentMonth = YearMonth.now()
             setup(currentMonth.minusMonths(120), currentMonth.plusMonths(120), DayOfWeek.MONDAY)
             scrollToDate(LocalDate.now())

@@ -24,7 +24,7 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.apply {
+        mBinding.run {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
@@ -41,7 +41,7 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, Fragm
     }
 
     private fun initViews() {
-        mBinding.apply {
+        mBinding.run {
             btnSaveFoodItem.setOnClickListener {
                 var isSomethingEmpty = false
 

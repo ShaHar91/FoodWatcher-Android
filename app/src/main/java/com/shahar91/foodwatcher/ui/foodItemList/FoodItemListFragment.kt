@@ -39,7 +39,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.apply {
+        mBinding.run {
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
@@ -57,8 +57,8 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
     private fun initViews() {
         foodItemAdapter = FoodItemAdapter(foodItemAdapterListener)
 
-        mBinding.apply {
-            rvFoodItems.apply {
+        mBinding.run {
+            rvFoodItems.run {
                 setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
                     dividerForItemTypes = listOf(FoodItemAdapter.ITEM_VIEW_TYPE_ITEM)
                     showDividerLastItem = false
@@ -73,7 +73,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
             }
 
             //TODO: when keyboard is open, hide the fastScroller!!!
-            fastscroller.apply {
+            fastscroller.run {
                 setupWithRecyclerView(
                     rvFoodItems, { position ->
                         foodItemAdapter.currentList[position].let {

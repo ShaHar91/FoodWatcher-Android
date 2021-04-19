@@ -20,7 +20,7 @@ class MyApp : Application() {
 
         CoreApp.init(this)
             .initializeErrorActivity(BuildConfig.DEBUG)
-            .initializeLogger()
+            .initializeLogger(getString(R.string.app_name), BuildConfig.DEBUG)
             .build()
     }
 }
