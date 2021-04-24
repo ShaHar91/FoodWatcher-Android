@@ -153,32 +153,28 @@
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_meal_breakfast"
-                        app:iconSize="24dp" />
+                        app:icon="@drawable/ic_meal_breakfast" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnLunch"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_meal_lunch"
-                        app:iconSize="24dp" />
+                        app:icon="@drawable/ic_meal_lunch" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDinner"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_meal_dinner"
-                        app:iconSize="18dp" />
+                        app:icon="@drawable/ic_meal_dinner" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSnack"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_meal_snack"
-                        app:iconSize="18dp" />
+                        app:icon="@drawable/ic_meal_snack" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,10 +81,9 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                 }
 
                 mViewModel.saveMealEntry(CommonUtils.getNumberAsFloat(servingSize ?: "0"), selectedDateMillis, meal) {
-                    hideKeyboard()
-                    findNavController().popBackStack()
+                    val message = if (mViewModel.isAddingNew()) "Item was added successfully!" else "Item was changed successfully!"
 
-                    Snackbar.make(mBinding.root, "Item was added successfully!", Snackbar.LENGTH_SHORT).show()
+                    exitFragmentAndShowMessage(message)
                 }
             }
         }
@@ -94,31 +93,35 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
         val itemName = mViewModel.foodItem.value?.name ?: ""
 
         DialogFactory.showConfirmationDialog(
-            requireContext(), "Delete $itemName", "This will delete '$itemName' for eternity, are you sure you want to delete it?"
+            requireContext(),
+            "Delete $itemName",
+            "This will delete '$itemName' for eternity, are you sure you want to delete it?"
         ) {
             mViewModel.deleteFoodItem {
-                hideKeyboard()
-                findNavController().popBackStack()
-
-                Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+                exitFragmentAndShowMessage("Item was removed successfully!")
             }
         }
     }
 
     private fun deleteFoodEntry() {
         val foodEntry = mViewModel.foodEntry
+
         DialogFactory.showConfirmationDialog(
             requireContext(),
             "Delete ${foodEntry.foodItemName}",
             "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
         ) {
             mViewModel.deleteFoodEntry(foodEntry) {
-                hideKeyboard()
-                findNavController().popBackStack()
-
-                Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+                exitFragmentAndShowMessage("Item was removed successfully!")
             }
         }
+    }
+
+    private fun exitFragmentAndShowMessage(message: String) {
+        hideKeyboard()
+        findNavController().popBackStack()
+
+        Snackbar.make(mBinding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
