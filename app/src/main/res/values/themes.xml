@@ -52,7 +52,6 @@
         <!-- Can only be used directly on the toolbar -->
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
 
-        <item name="searchViewBackground">@android:color/transparent</item>
         <item name="listItemHeaderBackground">@color/colorGrey_100</item>
         <item name="addMealBannerForeground">@color/black_alpha_10</item>
         <item name="fastScrollerBackground">@color/colorGrey_200_alpha_80</item>

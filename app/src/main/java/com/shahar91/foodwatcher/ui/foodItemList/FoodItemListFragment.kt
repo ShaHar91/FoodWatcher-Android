@@ -65,6 +65,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
                 })
                 adapter = foodItemAdapter
                 stateView = RecyclerViewEnum.NORMAL
+                emptyStateView = tvEmptyList
             }
 
             svFoodItems.onQueryChange {

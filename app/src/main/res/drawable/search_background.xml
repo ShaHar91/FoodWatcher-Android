@@ -2,7 +2,6 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android">
     <shape>
         <corners android:radius="10dp"/>
-        <stroke android:color="?attr/colorPrimarySurface" android:width="1dp"/>
-        <solid android:color="?attr/searchViewBackground"/>
+        <solid android:color="?attr/colorSurface"/>
     </shape>
 </inset>
