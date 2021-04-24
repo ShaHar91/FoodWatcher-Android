@@ -31,6 +31,8 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
 
     private val foodEntryAdapterListener = object : FoodEntryAdapter.FoodEntryInteractionListener {
         override fun onFoodEntryClicked(foodEntry: FoodEntry) {
+            //TODO: -1 foodItemId won't cause any breaking issues, but will not fetch the correct foodItem values...
+            // show a dialog to let the user know it's at their own risk...
             MyDayFragmentDirections.actionMyDayFragmentToAddMealEntryFragment(foodEntry.foodItemId, foodEntry.id)
                 .let(findNavController()::navigate)
         }

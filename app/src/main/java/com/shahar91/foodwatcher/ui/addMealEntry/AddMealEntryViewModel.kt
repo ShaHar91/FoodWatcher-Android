@@ -1,10 +1,15 @@
 package com.shahar91.foodwatcher.ui.addMealEntry
 
+import androidx.core.view.children
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import be.appwise.core.extensions.viewmodel.doubleArgsViewModelFactory
 import be.appwise.core.ui.base.BaseViewModel
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodEntry
@@ -32,13 +37,17 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
             FoodEntryRepository.findFoodEntryById(foodEntryId)?.let {
                 this@AddMealEntryViewModel.foodEntry = it
                 this@AddMealEntryViewModel.servingSize.postValue(CommonUtils.showValueWithoutTrailingZero(it.amount))
+                this@AddMealEntryViewModel.mealChecked.postValue(it.meal.id)
                 this@AddMealEntryViewModel.setSelectedDateMillis(it.date)
             }
         }
     }
+
     lateinit var foodEntry: FoodEntry
-    var foodItem = FoodItemRepository.findItemByIdWithFavoriteLive(foodItemId)
+    val foodItem = FoodItemRepository.findItemByIdWithFavoriteLive(foodItemId)
     var servingSize = MutableLiveData<String>()
+
+    var mealChecked = MutableLiveData(Meal.BREAKFAST.id)
 
     private var _selectedDateMillis: MutableLiveData<Long> = MutableLiveData(MaterialDatePicker.todayInUtcMilliseconds())
     val selectedDateMillis: LiveData<Long> get() = _selectedDateMillis
@@ -61,14 +70,14 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
 
     fun isAddingNew() = state == State.ADD
 
-    fun saveMealEntry(servingSize: Float, date: Long, meal: Meal, onSuccess: () -> Unit) = vmScope.launch {
+    fun saveMealEntry(servingSize: Float, onSuccess: () -> Unit) = vmScope.launch {
         when (state) {
             State.ADD -> {
                 FoodEntryRepository.createFoodEntry(
                     FoodEntry(
                         amount = servingSize,
-                        date = date,
-                        meal = meal,
+                        date = selectedDateMillis.value ?: 0,
+                        meal = Meal.getMeal(mealChecked.value ?: 0),
                         foodItemId = foodItemId,
                         foodItemName = foodItem.value?.name ?: "",
                         foodItemDescription = foodItem.value?.description ?: "",
@@ -79,8 +88,8 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
             State.EDIT -> {
                 FoodEntryRepository.updateFoodEntry(foodEntry.apply {
                     this.amount = servingSize
-                    this.date = date
-                    this.meal = meal
+                    this.date = selectedDateMillis.value ?: 0
+                    this.meal = Meal.getMeal(mealChecked.value ?: 0)
                 })
             }
         }
@@ -109,4 +118,25 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
             onSuccess()
         }
     }
+}
+
+@BindingAdapter("checkedBtnAttrChanged")
+fun setToggleGroupChangedListener(toggleGroup: MaterialButtonToggleGroup, listener: InverseBindingListener) {
+    toggleGroup.addOnButtonCheckedListener { _, _, _ -> listener.onChange() }
+}
+
+@BindingAdapter("checkedBtn")
+fun setChecked(toggleGroup: MaterialButtonToggleGroup, ordinal: Int) {
+    toggleGroup.check(toggleGroup.getChildAt(ordinal).id)
+}
+
+@InverseBindingAdapter(attribute = "checkedBtn")
+fun getChecked(toggleGroup: MaterialButtonToggleGroup): Int {
+    val checkedId = toggleGroup.checkedButtonId
+    toggleGroup.children.forEachIndexed { index, view ->
+        if (view.id == checkedId) {
+            return index
+        }
+    }
+    return -1
 }

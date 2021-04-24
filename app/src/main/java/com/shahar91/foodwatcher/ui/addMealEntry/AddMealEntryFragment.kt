@@ -11,7 +11,6 @@ import be.appwise.core.extensions.fragment.hideKeyboard
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
-import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.databinding.FragmentAddMealEntryBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
@@ -67,20 +66,11 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, Fra
                     isSomethingEmpty = true
                 }
 
-                val selectedDateMillis = mViewModel.selectedDateMillis.value ?: 0L
-
-                val meal = when (btnGrMeal.checkedButtonId) {
-                    R.id.btnBreakfast -> Meal.BREAKFAST
-                    R.id.btnDinner -> Meal.DINNER
-                    R.id.btnLunch -> Meal.LUNCH
-                    else -> Meal.SNACK
-                }
-
                 if (isSomethingEmpty) {
                     return@setOnClickListener
                 }
 
-                mViewModel.saveMealEntry(CommonUtils.getNumberAsFloat(servingSize ?: "0"), selectedDateMillis, meal) {
+                mViewModel.saveMealEntry(CommonUtils.getNumberAsFloat(servingSize ?: "0")) {
                     val message = if (mViewModel.isAddingNew()) "Item was added successfully!" else "Item was changed successfully!"
 
                     exitFragmentAndShowMessage(message)
