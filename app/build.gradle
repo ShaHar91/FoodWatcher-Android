@@ -1,7 +1,9 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
 
 // define build version
 def versionMajor = 1
@@ -10,13 +12,12 @@ def versionPatch = 2
 def versionBuild = 0
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.shahar91.foodwatcher"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -68,10 +69,10 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.appwise-labs.AndroidCore:core:01e34b2'
-    implementation 'com.github.appwise-labs.AndroidCore:room:01e34b2'
-    implementation 'com.github.appwise-labs.AndroidCore:networking:01e34b2'
-    implementation 'com.github.appwise-labs.AndroidCore:emptyRecyclerView:01e34b2'
+    implementation 'com.github.appwise-labs.AndroidCore:core:bd3206b8b2'
+    implementation 'com.github.appwise-labs.AndroidCore:room:bd3206b8b2'
+    implementation 'com.github.appwise-labs.AndroidCore:networking:bd3206b8b2'
+    implementation 'com.github.appwise-labs.AndroidCore:emptyRecyclerView:bd3206b8b2'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
