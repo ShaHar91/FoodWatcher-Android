@@ -6,11 +6,12 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import be.appwise.core.extensions.view.onQueryChange
 import be.appwise.core.extensions.view.setupRecyclerView
-import be.appwise.core.ui.custom.RecyclerViewEnum
+import be.appwise.emptyRecyclerView.RecyclerViewState
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.reddit.indicatorfastscroll.FastScrollerView
 import com.shahar91.foodwatcher.R
@@ -22,8 +23,9 @@ import com.shahar91.foodwatcher.ui.foodItemList.adapter.DataItem
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
 import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
 
-class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, FragmentFoodItemListBinding>() {
-    override fun getViewModel() = FoodItemListViewModel::class.java
+class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBinding>() {
+
+    override val mViewModel: FoodItemListViewModel by viewModels()
     override fun getLayout() = R.layout.fragment_food_item_list
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
 
@@ -32,7 +34,8 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
         override fun onFoodItemClicked(foodItem: FoodItem) {
             Log.d("something", "onFoodItemClicked: ")
 
-            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id, DBConstants.INVALID_ID).run(findNavController()::navigate)
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id, DBConstants.INVALID_ID)
+                .run(findNavController()::navigate)
         }
     }
 
@@ -64,7 +67,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FoodItemListViewModel, Fra
                     showDividerLastItem = false
                 })
                 adapter = foodItemAdapter
-                stateView = RecyclerViewEnum.NORMAL
+                state = RecyclerViewState.NORMAL
                 emptyStateView = tvEmptyList
             }
 

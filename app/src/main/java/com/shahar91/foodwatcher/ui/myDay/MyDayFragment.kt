@@ -5,9 +5,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.view.setupRecyclerView
-import be.appwise.core.ui.custom.RecyclerViewEnum
+import be.appwise.emptyRecyclerView.RecyclerViewState
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.DayDescription
@@ -23,9 +24,9 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 
-class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBinding>() {
+class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
 
-    override fun getViewModel() = MyDayViewModel::class.java
+    override val mViewModel: MyDayViewModel by viewModels()
     override fun getLayout() = R.layout.fragment_my_day
     override fun getToolbar() = mBinding.mtbMain
 
@@ -74,7 +75,7 @@ class MyDayFragment : AppBaseBindingVMFragment<MyDayViewModel, FragmentMyDayBind
                     showDividerLastItem = false
                 })
                 adapter = foodEntryAdapter
-                stateView = RecyclerViewEnum.NORMAL
+                state = RecyclerViewState.NORMAL
             }
         }
     }

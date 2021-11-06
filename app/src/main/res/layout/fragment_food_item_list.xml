@@ -36,7 +36,7 @@
             app:searchIcon="@drawable/ic_search"
             tools:ignore="UnknownIdInLayout" />
 
-        <be.appwise.core.ui.custom.RecyclerViewEmptyLoadingSupport
+        <be.appwise.emptyRecyclerView.ViewStateRecyclerView
             android:id="@+id/rvFoodItems"
             android:layout_width="match_parent"
             android:layout_height="0dp"

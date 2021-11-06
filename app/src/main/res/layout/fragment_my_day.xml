@@ -126,7 +126,7 @@
                 app:cv_scrollMode="paged"
                 app:layout_constraintTop_toBottomOf="@id/tvMonth" />
 
-            <be.appwise.core.ui.custom.RecyclerViewEmptyLoadingSupport
+            <be.appwise.emptyRecyclerView.ViewStateRecyclerView
                 android:id="@+id/rvFoodEntries"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

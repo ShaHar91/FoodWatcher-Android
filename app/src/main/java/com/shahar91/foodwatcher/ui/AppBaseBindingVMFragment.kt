@@ -11,17 +11,20 @@ import be.appwise.core.ui.base.BaseBindingVMFragment
 import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
-abstract class AppBaseBindingVMFragment<VM : BaseViewModel, B : ViewDataBinding> : BaseBindingVMFragment<VM, B>() {
+abstract class AppBaseBindingVMFragment<B : ViewDataBinding> : BaseBindingVMFragment<B>() {
+
     protected abstract fun getToolbar(): MaterialToolbar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as AppCompatActivity).setSupportActionBar(getToolbar())
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-        getToolbar().setupWithNavController(navController, appBarConfiguration)
+        getToolbar().run {
+            (requireActivity() as AppCompatActivity).setSupportActionBar(this)
+            setupWithNavController(navController, appBarConfiguration)
+        }
 
         setHasOptionsMenu(true)
     }

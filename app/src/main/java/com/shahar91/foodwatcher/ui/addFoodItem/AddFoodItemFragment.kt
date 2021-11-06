@@ -3,6 +3,7 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
@@ -13,10 +14,10 @@ import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
 
-class AddFoodItemFragment : AppBaseBindingVMFragment<AddFoodItemViewModel, FragmentAddFoodItemBinding>() {
+class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>() {
     private val safeArgs: AddFoodItemFragmentArgs by navArgs()
 
-    override fun getViewModel() = AddFoodItemViewModel::class.java
+    override val mViewModel: AddFoodItemViewModel by viewModels()
     override fun getLayout() = R.layout.fragment_add_food_item
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
     override fun getViewModelFactory() = AddFoodItemViewModel.FACTORY(safeArgs.foodItemId)

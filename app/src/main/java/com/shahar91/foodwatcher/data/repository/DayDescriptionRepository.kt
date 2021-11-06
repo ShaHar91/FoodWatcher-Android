@@ -1,10 +1,10 @@
 package com.shahar91.foodwatcher.data.repository
 
-import be.appwise.core.data.base.BaseRepository
+import be.appwise.networking.base.BaseRepository
 import com.shahar91.foodwatcher.data.database.FoodWatcherDatabase
 import com.shahar91.foodwatcher.data.models.DayDescription
 
-object DayDescriptionRepository : BaseRepository() {
+object DayDescriptionRepository : BaseRepository {
     private val dayDescriptionDao = FoodWatcherDatabase.getDatabase().dayDescriptionDao()
 
     suspend fun createDayDescription(dayDescription: DayDescription) = dayDescriptionDao.insert(dayDescription)

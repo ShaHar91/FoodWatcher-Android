@@ -2,7 +2,7 @@ package com.shahar91.foodwatcher.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import be.appwise.core.data.base.BaseEntity
+import be.appwise.room.BaseEntity
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
@@ -15,7 +15,7 @@ data class FoodItem(
     var points: Float,
     // 'isFavorite' will actually only be used when we retrieve a complete list of the 'FoodItems'
     var isFavorite: Boolean = false
-) : BaseEntity() {
+) : BaseEntity {
     /**
      * In order to show the "points" in different Locale's without trailing 0's the DecimalFormat class is used.
      * This will enforce the correct pattern for that Locale

@@ -40,7 +40,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance =
-                    Room.databaseBuilder(MyApp.getContext(), FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
+                    Room.databaseBuilder(MyApp.instance.applicationContext, FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
                         .fallbackToDestructiveMigration()
                         .addCallback(FoodWatcherDatabaseCallback(mScope))
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3)

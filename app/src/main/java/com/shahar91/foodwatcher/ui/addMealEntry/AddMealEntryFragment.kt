@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
@@ -16,12 +17,12 @@ import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
 import com.shahar91.foodwatcher.utils.DialogFactory
 
-class AddMealEntryFragment : AppBaseBindingVMFragment<AddMealEntryViewModel, FragmentAddMealEntryBinding>() {
+class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBinding>() {
     private val safeArgs: AddMealEntryFragmentArgs by navArgs()
 
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
     override fun getLayout() = R.layout.fragment_add_meal_entry
-    override fun getViewModel() = AddMealEntryViewModel::class.java
+    override val mViewModel: AddMealEntryViewModel by viewModels()
     override fun getViewModelFactory() = AddMealEntryViewModel.FACTORY(safeArgs.foodItemId, safeArgs.foodEntryId)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
