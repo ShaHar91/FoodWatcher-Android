@@ -71,7 +71,7 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
         mBinding.run {
             rvFoodEntries.run {
                 setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
-                    dividerForItemTypes = listOf(FoodEntryAdapter.ITEM_VIEW_TYPE_ITEM)
+                    dividerForItemTypes = listOf(FoodEntryAdapter.FoodEntryTypes.FOOD_ENTRY.id)
                     showDividerLastItem = false
                 })
                 adapter = foodEntryAdapter

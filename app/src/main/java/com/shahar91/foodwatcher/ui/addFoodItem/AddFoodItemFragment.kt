@@ -17,10 +17,11 @@ import java.util.*
 class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>() {
     private val safeArgs: AddFoodItemFragmentArgs by navArgs()
 
-    override val mViewModel: AddFoodItemViewModel by viewModels()
     override fun getLayout() = R.layout.fragment_add_food_item
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
-    override fun getViewModelFactory() = AddFoodItemViewModel.FACTORY(safeArgs.foodItemId)
+    override val mViewModel: AddFoodItemViewModel by viewModels {
+        AddFoodItemViewModel.FACTORY(safeArgs.foodItemId)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

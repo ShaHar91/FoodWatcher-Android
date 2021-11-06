@@ -22,8 +22,9 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBindin
 
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
     override fun getLayout() = R.layout.fragment_add_meal_entry
-    override val mViewModel: AddMealEntryViewModel by viewModels()
-    override fun getViewModelFactory() = AddMealEntryViewModel.FACTORY(safeArgs.foodItemId, safeArgs.foodEntryId)
+    override val mViewModel: AddMealEntryViewModel by viewModels {
+        AddMealEntryViewModel.FACTORY(safeArgs.foodItemId, safeArgs.foodEntryId)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
