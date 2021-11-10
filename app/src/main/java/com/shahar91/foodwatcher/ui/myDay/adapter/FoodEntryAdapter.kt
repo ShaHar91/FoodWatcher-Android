@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import be.appwise.core.ui.base.list.BaseViewHolder
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.Meal
+import com.shahar91.foodwatcher.databinding.ListItemEmptyBinding
 import com.shahar91.foodwatcher.databinding.ListItemEntryBinding
 import com.shahar91.foodwatcher.databinding.ListItemEntryHeaderBinding
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
     sealed class DataItem {
         data class FoodEntryItem(val foodEntry: FoodEntry) : DataItem()
         data class Header(val content: String) : DataItem()
+        data class Empty(val meal: Meal) : DataItem()
     }
 
     enum class FoodEntryTypes(val id: Int) {
@@ -35,19 +37,19 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
     companion object {
         private val FOOD_ENTRY_DIFF = object : DiffUtil.ItemCallback<DataItem>() {
             override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
-                val areHeaderSame = oldItem is DataItem.Header && newItem is DataItem.FoodEntryItem && oldItem == newItem
-                val areFoodEntryItemsSame = oldItem is DataItem.FoodEntryItem &&
-                        newItem is DataItem.FoodEntryItem &&
-                        oldItem.foodEntry.id == newItem.foodEntry.id
-                return areHeaderSame || areFoodEntryItemsSame
+                val areHeaderSame = oldItem is DataItem.Header && newItem is DataItem.Header && oldItem == newItem
+                val areEmptySame = oldItem is DataItem.Empty && newItem is DataItem.Empty && oldItem == newItem
+                val areFoodEntryItemsSame = oldItem is DataItem.FoodEntryItem && newItem is DataItem.FoodEntryItem &&
+                        oldItem.foodEntry.someId == newItem.foodEntry.someId
+                return areHeaderSame || areEmptySame || areFoodEntryItemsSame
             }
 
             override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
                 val areHeaderSame = oldItem is DataItem.Header && newItem is DataItem.Header && oldItem == newItem
-                val areFoodEntryItemsSame = oldItem is DataItem.FoodEntryItem &&
-                        newItem is DataItem.FoodEntryItem &&
+                val areEmptySame = oldItem is DataItem.Empty && newItem is DataItem.Empty && oldItem == newItem
+                val areFoodEntryItemsSame = oldItem is DataItem.FoodEntryItem && newItem is DataItem.FoodEntryItem &&
                         oldItem.foodEntry == newItem.foodEntry
-                return areHeaderSame || areFoodEntryItemsSame
+                return areHeaderSame || areEmptySame || areFoodEntryItemsSame
             }
         }
     }
@@ -63,6 +65,8 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
                 FoodEntryHeaderViewHolder(ListItemEntryHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             FoodEntryTypes.FOOD_ENTRY.id ->
                 FoodEntryViewHolder(ListItemEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            FoodEntryTypes.EMPTY.id ->
+                EmptyViewHolder(ListItemEmptyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else ->
                 throw ClassCastException("Unknown viewType $viewType")
         }
@@ -72,6 +76,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
         when (holder) {
             is FoodEntryHeaderViewHolder -> holder.bind((getItem(position) as DataItem.Header).content)
             is FoodEntryViewHolder -> holder.bind((getItem(position) as DataItem.FoodEntryItem).foodEntry)
+            is EmptyViewHolder -> holder.bind((getItem(position) as DataItem.Empty).meal)
         }
     }
 
@@ -79,6 +84,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
         return when (getItem(position)) {
             is DataItem.Header -> FoodEntryTypes.HEADER.id
             is DataItem.FoodEntryItem -> FoodEntryTypes.FOOD_ENTRY.id
+            is DataItem.Empty -> FoodEntryTypes.EMPTY.id
         }
     }
 
@@ -99,14 +105,22 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
         }
     }
 
+    inner class EmptyViewHolder(private val binding: ListItemEmptyBinding) : BaseViewHolder<Meal>(binding.root) {
+        override fun bind(item: Meal) {
+            binding.meal = item
+        }
+    }
+
     fun addHeaderAndSubmitList(list: List<FoodEntry>) = adapterScope.launch {
         val dataItemList: MutableList<DataItem> = mutableListOf()
 
-        val groupedList = list.groupBy { it.meal }
+        if (list.isNotEmpty()) {
+            val groupedList = list.groupBy { it.meal }
 
-        Meal.values().forEach {
-            dataItemList.add(DataItem.Header(it.content))
-            dataItemList.addAll(groupedList[it]?.map { item -> DataItem.FoodEntryItem(item) } ?: emptyList())
+            Meal.values().forEach {
+                dataItemList.add(DataItem.Header(it.content))
+                dataItemList.addAll(groupedList[it]?.map { item -> DataItem.FoodEntryItem(item) } ?: listOf(DataItem.Empty(it)))
+            }
         }
 
         withContext(Dispatchers.Main) {

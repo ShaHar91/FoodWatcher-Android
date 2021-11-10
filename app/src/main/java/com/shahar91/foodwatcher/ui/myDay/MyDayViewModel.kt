@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter
 
 class MyDayViewModel : BaseViewModel() {
     private val _calendarDay = MutableLiveData<LocalDate>().apply { value = LocalDate.now() }
+    val calendarDay: LiveData<LocalDate> get() = _calendarDay
     fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
     val items = Transformations.switchMap(_calendarDay) { FoodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
 
@@ -77,15 +78,18 @@ class MyDayViewModel : BaseViewModel() {
         val dayDescription = myDayDescription.value
 
         if (updatedDescription == dayDescription?.description ?: "") {
+            // Description hasn't been changed so nothing should happen with it.
             return@launch
         }
 
         if (updatedDescription.isNotBlank()) {
+            // If some text was added, persist the data in Room
             val updateDayDescription = dayDescription?.apply { description = updatedDescription }
                 ?: DayDescription(description = updatedDescription, date = _calendarDay.value?.atMiddleOfDayMillis() ?: 0L)
 
             DayDescriptionRepository.createDayDescription(updateDayDescription)
         } else if (dayDescription != null) {
+            // If the text was emptied, remove the data in Room
             DayDescriptionRepository.deleteDayDescription(dayDescription)
         }
     }

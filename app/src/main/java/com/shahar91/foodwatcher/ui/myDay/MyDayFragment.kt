@@ -17,8 +17,8 @@ import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.adapter.FoodEntryAdapter
 import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
-import com.shahar91.foodwatcher.ui.myDay.calendar.binders.DayViewBinder
-import com.shahar91.foodwatcher.ui.myDay.calendar.binders.MonthViewHeaderBinder
+import com.shahar91.foodwatcher.ui.myDay.calendar.calendar.DayViewBinder
+import com.shahar91.foodwatcher.ui.myDay.calendar.calendar.MonthViewHeaderBinder
 import com.shahar91.foodwatcher.utils.DialogFactory
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -30,32 +30,35 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     override fun getLayout() = R.layout.fragment_my_day
     override fun getToolbar() = mBinding.mtbMain
 
-    private val foodEntryAdapterListener = object : FoodEntryAdapter.FoodEntryInteractionListener {
+    private val dayBinder: DayViewBinder by lazy { DayViewBinder(::selectDate) }
+    private val monthHeaderBinder: MonthViewHeaderBinder by lazy { MonthViewHeaderBinder() }
+
+    private val foodEntryAdapter: FoodEntryAdapter = FoodEntryAdapter(object : FoodEntryAdapter.FoodEntryInteractionListener {
         override fun onFoodEntryClicked(foodEntry: FoodEntry) {
             //TODO: -1 foodItemId won't cause any breaking issues, but will not fetch the correct foodItem values...
             // show a dialog to let the user know it's at their own risk...
-            MyDayFragmentDirections.actionMyDayFragmentToAddMealEntryFragment(foodEntry.foodItemId, foodEntry.id)
+            MyDayFragmentDirections.actionMyDayFragmentToAddMealEntryFragment(foodEntry.foodItemId, foodEntry.someId)
                 .let(findNavController()::navigate)
         }
 
         override fun onFoodEntryLongClicked(foodEntry: FoodEntry) {
             deleteFoodEntry(foodEntry)
         }
-    }
-    private val foodEntryAdapter: FoodEntryAdapter = FoodEntryAdapter(foodEntryAdapterListener)
+    })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mBinding.run {
-            lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
 
-        initCalendar()
         initListeners()
         initViews()
+        initObservers()
+    }
 
+    private fun initObservers() {
         mViewModel.items.observe(viewLifecycleOwner, {
             foodEntryAdapter.addHeaderAndSubmitList(it)
             mViewModel.updateTotalPoints(it)
@@ -68,14 +71,17 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     }
 
     private fun initViews() {
+        initCalendar()
+
         mBinding.run {
-            rvFoodEntries.run {
-                setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
+            rvFoodEntries.let {
+                it.setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
                     dividerForItemTypes = listOf(FoodEntryAdapter.FoodEntryTypes.FOOD_ENTRY.id)
                     showDividerLastItem = false
                 })
-                adapter = foodEntryAdapter
-                state = RecyclerViewState.NORMAL
+                it.adapter = foodEntryAdapter
+                it.state = RecyclerViewState.NORMAL
+                it.emptyStateView = llEmptyView
             }
         }
     }
@@ -87,33 +93,38 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     }
 
     private fun initCalendar() {
-        mBinding.cvCalendar.run {
-            val currentMonth = YearMonth.now()
-            setup(currentMonth.minusMonths(120), currentMonth.plusMonths(120), DayOfWeek.MONDAY)
-            scrollToDate(LocalDate.now())
-            dayBinder = this@MyDayFragment.dayBinder
-            monthHeaderBinder = this@MyDayFragment.monthHeaderBinder
-            selectDate(LocalDate.now())
-            monthScrollListener = {
-                mBinding.tvMonth.text = mViewModel.getCorrectMonthAsString(it)
+        val currentMonth = YearMonth.now()
+        val firstMonth = currentMonth.minusMonths(120)
+        val lastMonth = currentMonth.plusMonths(120)
+        val firstDayOfWeek = DayOfWeek.MONDAY //TODO: make this a setting??
+        val selectedDate = mViewModel.calendarDay.value ?: LocalDate.now()
+
+        mBinding.cvCalendar.let {
+            it.dayBinder = dayBinder
+            it.monthHeaderBinder = monthHeaderBinder
+
+            it.setup(firstMonth, lastMonth, firstDayOfWeek)
+            it.scrollToDate(selectedDate)
+            it.monthScrollListener = { calendarMonth ->
+                mBinding.tvMonth.text = mViewModel.getCorrectMonthAsString(calendarMonth)
             }
+            selectDate(selectedDate)
         }
     }
 
-    private val dayBinder: DayViewBinder by lazy {
-        DayViewBinder(::selectDate)
-    }
-
-    private val monthHeaderBinder: MonthViewHeaderBinder by lazy {
-        MonthViewHeaderBinder()
-    }
-
     private fun selectDate(localDate: LocalDate) {
+        // only change things when another date has been selected
         if (dayBinder.selectedDate != localDate) {
+            // Save the previous date temporarily
             val oldDate = dayBinder.selectedDate
+
             dayBinder.selectedDate = localDate
+
+            // Notify the Calendar about both Date Changes
             oldDate?.let { mBinding.cvCalendar.notifyDateChanged(it) }
             mBinding.cvCalendar.notifyDateChanged(localDate)
+
+            // Save the Selected Date in the ViewModel
             mBinding.viewModel?.setSelectedDate(localDate)
         }
     }
@@ -121,11 +132,11 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     private fun deleteFoodEntry(foodEntry: FoodEntry) {
         DialogFactory.showConfirmationDialog(
             requireContext(),
-            "Delete ${foodEntry.foodItemName}",
-            "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
+            getString(R.string.my_day_delete_entry_title, foodEntry.foodItemName),
+            getString(R.string.my_day_delete_entry_content, foodEntry.foodItemName)
         ) {
             mViewModel.deleteFoodEntry(foodEntry) {
-                Snackbar.make(mBinding.root, "Item was removed successfully!", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mBinding.root, getString(R.string.my_day_delete_entry_successful), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -136,15 +147,10 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
         }
     }
 
+    // <editor-fold desc="menu">
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.my_day_menu, menu)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.action_information).setIcon(mViewModel.getInformationIcon())
-
-        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -155,4 +161,11 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
 
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.action_information).setIcon(mViewModel.getInformationIcon())
+
+        super.onPrepareOptionsMenu(menu)
+    }
+    // </editor-fold>
 }

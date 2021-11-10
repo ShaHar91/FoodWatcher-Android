@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">FoodWatcher</string>
+
+    <string name="my_day_delete_entry_title">Delete %s</string>
+    <string name="my_day_delete_entry_content">This will delete the entry for %s for eternity, are you sure you want to delete it?</string>
+    <string name="my_day_delete_entry_successful">Item was removed successfully!</string>
+
+    <string name="meal_empty_breakfast">Nothing added as a breakfast yet</string>
+    <string name="meal_empty_lunch">Nothing added as a lunch yet</string>
+    <string name="meal_empty_dinner">Nothing added as a dinner yet</string>
+    <string name="meal_empty_snack">Nothing added as a snack yet</string>
 </resources>

@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class, DayDescription::class], version = 3)
+@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class, DayDescription::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
@@ -98,20 +98,31 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                     foodEntryDao.insertMany(
                         listOf(
                             FoodEntry(
-                                amount = 3F,
-                                date = todayAtNoon.toEpochMilliTest(),
-                                meal = Meal.LUNCH,
-                                foodItemName = foodItemList[1].name,
-                                foodItemDescription = foodItemList[1].description,
-                                foodItemPoints = foodItemList[1].points
+                                3F,
+                                todayAtNoon.toEpochMilliTest(),
+                                Meal.LUNCH,
+                                -1,
+                                foodItemList[1].name,
+                                foodItemList[1].description,
+                                foodItemList[1].points
                             ),
                             FoodEntry(
-                                amount = 2F,
-                                date = todayAtNoon.plusDays(1).toEpochMilliTest(),
-                                meal = Meal.DINNER,
-                                foodItemName = foodItemList[2].name,
-                                foodItemDescription = foodItemList[2].description,
-                                foodItemPoints = foodItemList[2].points
+                                1F,
+                                todayAtNoon.toEpochMilliTest(),
+                                Meal.BREAKFAST,
+                                foodItemList[27].id,
+                                foodItemList[27].name,
+                                foodItemList[27].description,
+                                foodItemList[27].points
+                            ),
+                            FoodEntry(
+                                2F,
+                                todayAtNoon.plusDays(1).toEpochMilliTest(),
+                                Meal.DINNER,
+                                foodItemList[2].id,
+                                foodItemList[2].name,
+                                foodItemList[2].description,
+                                foodItemList[2].points
                             )
                         )
                     )

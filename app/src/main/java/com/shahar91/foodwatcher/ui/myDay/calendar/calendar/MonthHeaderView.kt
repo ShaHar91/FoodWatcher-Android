@@ -1,14 +1,16 @@
-package com.shahar91.foodwatcher.ui.myDay.calendar.binders
+package com.shahar91.foodwatcher.ui.myDay.calendar.calendar
 
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.children
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
-import com.shahar91.foodwatcher.ui.myDay.calendar.containers.MonthViewHeaderContainer
+import com.kizitonwose.calendarview.ui.ViewContainer
+import com.shahar91.foodwatcher.R
 import java.time.DayOfWeek
 
-class MonthViewHeaderBinder: MonthHeaderFooterBinder<MonthViewHeaderContainer> {
+class MonthViewHeaderBinder : MonthHeaderFooterBinder<MonthViewHeaderContainer> {
     override fun create(view: View) = MonthViewHeaderContainer(view)
     override fun bind(container: MonthViewHeaderContainer, month: CalendarMonth) {
         // Setup each header day text if we have not done that already.
@@ -32,4 +34,8 @@ class MonthViewHeaderBinder: MonthHeaderFooterBinder<MonthViewHeaderContainer> {
         }
         return daysOfWeek
     }
+}
+
+class MonthViewHeaderContainer(view: View) : ViewContainer(view) {
+    val legendLayout = view.findViewById<LinearLayout>(R.id.legendLayout)
 }

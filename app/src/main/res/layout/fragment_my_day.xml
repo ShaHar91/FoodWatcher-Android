@@ -126,6 +126,31 @@
                 app:cv_scrollMode="paged"
                 app:layout_constraintTop_toBottomOf="@id/tvMonth" />
 
+            <LinearLayout
+                android:id="@+id/llEmptyView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvCalendar"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="62dp"
+                    android:layout_marginTop="24dp"
+                    android:gravity="center"
+                    android:text="No entry found for this day, try adding a meal you ate to find out what points remain." />
+            </LinearLayout>
+
             <be.appwise.emptyRecyclerView.ViewStateRecyclerView
                 android:id="@+id/rvFoodEntries"
                 android:layout_width="match_parent"
@@ -138,7 +163,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvCalendar"
                 tools:itemCount="25"
-                tools:listitem="@layout/list_item_entry" />
+                tools:listitem="@layout/list_item_entry"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

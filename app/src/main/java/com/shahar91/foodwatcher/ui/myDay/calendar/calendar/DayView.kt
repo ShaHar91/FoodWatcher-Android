@@ -1,4 +1,4 @@
-package com.shahar91.foodwatcher.ui.myDay.calendar.binders
+package com.shahar91.foodwatcher.ui.myDay.calendar.calendar
 
 import android.content.res.ColorStateList
 import android.view.View
@@ -7,9 +7,10 @@ import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import com.google.android.material.color.MaterialColors
 import com.kizitonwose.calendarview.model.CalendarDay
+import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.ui.DayBinder
+import com.kizitonwose.calendarview.ui.ViewContainer
 import com.shahar91.foodwatcher.R
-import com.shahar91.foodwatcher.ui.myDay.calendar.containers.DayViewContainer
 import java.time.LocalDate
 
 class DayViewBinder(private val selectDate: (data: LocalDate) -> Unit) : DayBinder<DayViewContainer> {
@@ -51,6 +52,20 @@ class DayViewBinder(private val selectDate: (data: LocalDate) -> Unit) : DayBind
             textView.backgroundTintList = ColorStateList.valueOf(MaterialColors.getColor(textView, backgroundColorRes))
         } else {
             textView.background = null
+        }
+    }
+}
+
+class DayViewContainer(view: View, selectDate: (date: LocalDate) -> Unit) : ViewContainer(view) {
+    lateinit var day: CalendarDay // Will be set when this container is bound.
+    val textView: TextView = view.findViewById(R.id.tvDayNumber)
+    val dotView: View = view.findViewById(R.id.vDot)
+
+    init {
+        view.setOnClickListener {
+            if (day.owner == DayOwner.THIS_MONTH) {
+                selectDate(day.date)
+            }
         }
     }
 }
