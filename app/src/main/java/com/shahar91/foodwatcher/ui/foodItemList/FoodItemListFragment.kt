@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSmoothScroller
 import be.appwise.core.extensions.view.onQueryChange
@@ -18,14 +17,15 @@ import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
-import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import com.shahar91.foodwatcher.ui.base.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.DataItem
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
 import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBinding>() {
 
-    override val mViewModel: FoodItemListViewModel by viewModels()
+    override val mViewModel: FoodItemListViewModel by viewModel()
     override fun getLayout() = R.layout.fragment_food_item_list
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
 

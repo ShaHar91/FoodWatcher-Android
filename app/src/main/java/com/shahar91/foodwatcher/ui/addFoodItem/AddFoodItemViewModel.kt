@@ -2,7 +2,6 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
-import be.appwise.core.extensions.viewmodel.singleArgViewModelFactory
 import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.textfield.TextInputLayout
 import com.shahar91.foodwatcher.data.DBConstants
@@ -11,19 +10,18 @@ import com.shahar91.foodwatcher.data.repository.FoodItemRepository
 import kotlinx.coroutines.launch
 import java.util.*
 
-class AddFoodItemViewModel(private val foodItemId: Int) : BaseViewModel() {
+class AddFoodItemViewModel(
+    private val foodItemId: Int,
+    private val foodItemRepository: FoodItemRepository
+) : BaseViewModel() {
     enum class State {
         ADD,
         EDIT
     }
 
-    companion object {
-        val FACTORY = singleArgViewModelFactory(::AddFoodItemViewModel)
-    }
-
     init {
         vmScope.launch {
-            FoodItemRepository.findFoodItemById(foodItemId)?.let {
+            foodItemRepository.findFoodItemById(foodItemId)?.let {
                 this@AddFoodItemViewModel.name.postValue(it.name)
                 this@AddFoodItemViewModel.description.postValue(it.description)
                 this@AddFoodItemViewModel.points.postValue(it.showPointsToEdit())
@@ -44,8 +42,8 @@ class AddFoodItemViewModel(private val foodItemId: Int) : BaseViewModel() {
 
     fun saveFoodItem(name: String, description: String, points: Float, onSuccess: () -> Unit) = vmScope.launch {
         when (state) {
-            State.ADD -> FoodItemRepository.createFoodItem(FoodItem(name = name, description = description, points = points))
-            State.EDIT -> FoodItemRepository.updateFoodItem(FoodItem(foodItemId, name, description, points))
+            State.ADD -> foodItemRepository.createFoodItem(FoodItem(name = name, description = description, points = points))
+            State.EDIT -> foodItemRepository.updateFoodItem(FoodItem(foodItemId, name, description, points))
         }
 
         onSuccess()

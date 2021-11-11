@@ -1,4 +1,4 @@
-package com.shahar91.foodwatcher.ui
+package com.shahar91.foodwatcher.ui.base
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import be.appwise.core.ui.base.BaseBindingVMFragment
-import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
 abstract class AppBaseBindingVMFragment<B : ViewDataBinding> : BaseBindingVMFragment<B>() {

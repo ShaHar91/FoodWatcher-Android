@@ -1,11 +1,11 @@
 package com.shahar91.foodwatcher.data.database
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.shahar91.foodwatcher.MyApp
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.dao.DayDescriptionDao
 import com.shahar91.foodwatcher.data.dao.FavoriteFoodItemDao
@@ -35,12 +35,12 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: FoodWatcherDatabase? = null
 
-        fun getDatabase(): FoodWatcherDatabase {
+        fun getDatabase(context: Context): FoodWatcherDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance =
-                    Room.databaseBuilder(MyApp.instance.applicationContext, FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
+                    Room.databaseBuilder(context, FoodWatcherDatabase::class.java, DBConstants.DATABASE_NAME)
                         .fallbackToDestructiveMigration()
                         .addCallback(FoodWatcherDatabaseCallback(mScope))
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3)

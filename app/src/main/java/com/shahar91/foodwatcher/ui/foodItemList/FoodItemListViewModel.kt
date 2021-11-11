@@ -8,7 +8,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FoodItemListViewModel : BaseViewModel() {
+class FoodItemListViewModel(
+    private val foodItemRepository: FoodItemRepository
+) : BaseViewModel() {
     private var searchJob: Job? = null
     private val _searchQuery = MutableLiveData<String>().apply { value = "" }
     fun setQuery(query: String) {
@@ -20,5 +22,5 @@ class FoodItemListViewModel : BaseViewModel() {
         }
     }
 
-    val foodItems = Transformations.switchMap(_searchQuery) { FoodItemRepository.getFoodItemsByQuery(it) }
+    val foodItems = Transformations.switchMap(_searchQuery) { foodItemRepository.getFoodItemsByQuery(it) }
 }

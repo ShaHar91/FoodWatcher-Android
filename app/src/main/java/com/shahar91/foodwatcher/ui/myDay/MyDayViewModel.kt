@@ -21,17 +21,20 @@ import java.time.Month
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-class MyDayViewModel : BaseViewModel() {
+class MyDayViewModel(
+    private val dayDescriptionRepository: DayDescriptionRepository,
+    private val foodEntryRepository: FoodEntryRepository
+) : BaseViewModel() {
     private val _calendarDay = MutableLiveData<LocalDate>().apply { value = LocalDate.now() }
     val calendarDay: LiveData<LocalDate> get() = _calendarDay
     fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
 
     // Gets updated whenever the 'selectedDay' changes
-    val items = Transformations.switchMap(_calendarDay) { FoodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
+    val items = Transformations.switchMap(_calendarDay) { foodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
 
     // Gets updated with a new 'dayDescription' when the 'selectedDay' changes
     val myDayDescription = Transformations.switchMap(_calendarDay) {
-        DayDescriptionRepository.getDescriptionForDay(it.atStartOfDayMillis(), it.atEndOfDayMillis())
+        dayDescriptionRepository.getDescriptionForDay(it.atStartOfDayMillis(), it.atEndOfDayMillis())
     }
 
     // When the list of items gets updated the 'weekTotal' gets updated as well
@@ -72,7 +75,7 @@ class MyDayViewModel : BaseViewModel() {
         DateTimeFormatter.ofPattern("MMMM yyyy").format(date)
 
     fun deleteFoodEntry(foodEntry: FoodEntry, onSuccess: () -> Unit) = vmScope.launch {
-        FoodEntryRepository.deleteFoodEntry(foodEntry)
+        foodEntryRepository.deleteFoodEntry(foodEntry)
         onSuccess()
     }
 
@@ -82,7 +85,7 @@ class MyDayViewModel : BaseViewModel() {
     }
 
     private fun updateWeekTotalPoints(): String {
-        val weekTotal: Float = runBlocking { FoodEntryRepository.getWeekTotal(_calendarDay.value?.atStartOfWeekMillis() ?: 0L) }
+        val weekTotal: Float = runBlocking { foodEntryRepository.getWeekTotal(_calendarDay.value?.atStartOfWeekMillis() ?: 0L) }
         return CommonUtils.showValueWithoutTrailingZero(weekTotal)
     }
 
@@ -100,10 +103,10 @@ class MyDayViewModel : BaseViewModel() {
             // In case a day didn't have a description text, this will be executed
                 ?: DayDescription(description = updatedDescription, date = _calendarDay.value?.atMiddleOfDayMillis() ?: 0L)
 
-            DayDescriptionRepository.createDayDescription(updateDayDescription)
+            dayDescriptionRepository.createDayDescription(updateDayDescription)
         } else if (dayDescription != null) {
             // If the text was emptied, remove the data in Room
-            DayDescriptionRepository.deleteDayDescription(dayDescription)
+            dayDescriptionRepository.deleteDayDescription(dayDescription)
         }
     }
 

@@ -5,7 +5,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import be.appwise.core.extensions.view.setupRecyclerView
 import be.appwise.emptyRecyclerView.RecyclerViewState
@@ -14,19 +13,20 @@ import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.DayDescription
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
-import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import com.shahar91.foodwatcher.ui.base.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.adapter.FoodEntryAdapter
 import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
 import com.shahar91.foodwatcher.ui.myDay.calendar.DayViewBinder
 import com.shahar91.foodwatcher.ui.myDay.calendar.MonthViewHeaderBinder
 import com.shahar91.foodwatcher.utils.DialogFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 
 class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
 
-    override val mViewModel: MyDayViewModel by viewModels()
+    override val mViewModel: MyDayViewModel by viewModel()
     override fun getLayout() = R.layout.fragment_my_day
     override fun getToolbar() = mBinding.mtbMain
 

@@ -7,7 +7,6 @@ import androidx.databinding.InverseBindingListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import be.appwise.core.extensions.viewmodel.doubleArgsViewModelFactory
 import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -22,19 +21,21 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId: Int) : BaseViewModel() {
+class AddMealEntryViewModel(
+    private val foodItemId: Int,
+    private val foodEntryId: Int,
+    private val foodEntryRepository: FoodEntryRepository,
+    private val foodItemRepository: FoodItemRepository,
+    private val favoriteFoodItemRepository: FavoriteFoodItemRepository
+) : BaseViewModel() {
     enum class State {
         ADD,
         EDIT
     }
 
-    companion object {
-        val FACTORY = doubleArgsViewModelFactory(::AddMealEntryViewModel)
-    }
-
     init {
         vmScope.launch {
-            FoodEntryRepository.findFoodEntryById(foodEntryId)?.let {
+            foodEntryRepository.findFoodEntryById(foodEntryId)?.let {
                 this@AddMealEntryViewModel.foodEntry = it
                 this@AddMealEntryViewModel.servingSize.postValue(CommonUtils.showValueWithoutTrailingZero(it.amount))
                 this@AddMealEntryViewModel.mealChecked.postValue(it.meal.id)
@@ -44,7 +45,7 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
     }
 
     lateinit var foodEntry: FoodEntry
-    val foodItem = FoodItemRepository.findItemByIdWithFavoriteLive(foodItemId)
+    val foodItem = foodItemRepository.findItemByIdWithFavoriteLive(foodItemId)
     var servingSize = MutableLiveData<String>()
 
     var mealChecked = MutableLiveData(Meal.BREAKFAST.id)
@@ -73,7 +74,7 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
     fun saveMealEntry(servingSize: Float, onSuccess: () -> Unit) = vmScope.launch {
         when (state) {
             State.ADD -> {
-                FoodEntryRepository.createFoodEntry(
+                foodEntryRepository.createFoodEntry(
                     FoodEntry(
                         amount = servingSize,
                         date = selectedDateMillis.value ?: 0,
@@ -86,7 +87,7 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
                 )
             }
             State.EDIT -> {
-                FoodEntryRepository.updateFoodEntry(foodEntry.apply {
+                foodEntryRepository.updateFoodEntry(foodEntry.apply {
                     this.amount = servingSize
                     this.date = selectedDateMillis.value ?: 0
                     this.meal = Meal.getMeal(mealChecked.value ?: 0)
@@ -100,21 +101,21 @@ class AddMealEntryViewModel(private val foodItemId: Int, private val foodEntryId
     fun toggleFavoriteFoodItem() = vmScope.launch {
         foodItem.value?.let {
             if (it.isFavorite) {
-                FavoriteFoodItemRepository.unFavoriteFoodItem(it.id)
+                favoriteFoodItemRepository.unFavoriteFoodItem(it.id)
             } else {
-                FavoriteFoodItemRepository.favoriteFoodItem(it.id)
+                favoriteFoodItemRepository.favoriteFoodItem(it.id)
             }
         }
     }
 
     fun deleteFoodEntry(foodEntry: FoodEntry, onSuccess: () -> Unit) = vmScope.launch {
-        FoodEntryRepository.deleteFoodEntry(foodEntry)
+        foodEntryRepository.deleteFoodEntry(foodEntry)
         onSuccess()
     }
 
     fun deleteFoodItem(onSuccess: () -> Unit) = vmScope.launch {
         foodItem.value?.let {
-            FoodItemRepository.deleteFoodItem(it)
+            foodItemRepository.deleteFoodItem(it)
             onSuccess()
         }
     }

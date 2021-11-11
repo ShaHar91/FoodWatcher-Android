@@ -1,11 +1,12 @@
 package com.shahar91.foodwatcher.data.repository
 
 import be.appwise.networking.base.BaseRepository
-import com.shahar91.foodwatcher.data.database.FoodWatcherDatabase
+import com.shahar91.foodwatcher.data.dao.FoodItemDao
 import com.shahar91.foodwatcher.data.models.FoodItem
 
-object FoodItemRepository : BaseRepository {
-    private val foodItemDao = FoodWatcherDatabase.getDatabase().foodItemDao()
+class FoodItemRepository(
+    private val foodItemDao: FoodItemDao
+) : BaseRepository {
 
     fun findItemByIdWithFavoriteLive(foodItemId: Int) = foodItemDao.findItemByIdWithFavoriteLive(foodItemId)
 

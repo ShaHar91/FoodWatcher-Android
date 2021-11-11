@@ -91,4 +91,7 @@ dependencies {
 
     // https://github.com/reddit/IndicatorFastScroll
     implementation 'com.reddit:indicator-fast-scroll:1.4.0'
+
+    // Koin main features for Android (Scope,ViewModel ...)
+    implementation "io.insert-koin:koin-android:$koin_version"
 }

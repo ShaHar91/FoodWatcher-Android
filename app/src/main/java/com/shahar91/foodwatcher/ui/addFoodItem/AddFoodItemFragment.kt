@@ -3,15 +3,16 @@ package com.shahar91.foodwatcher.ui.addFoodItem
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
 import com.google.android.material.snackbar.Snackbar
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.databinding.FragmentAddFoodItemBinding
-import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
+import com.shahar91.foodwatcher.ui.base.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.utils.CommonUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>() {
@@ -19,8 +20,8 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>
 
     override fun getLayout() = R.layout.fragment_add_food_item
     override fun getToolbar() = mBinding.mergeToolbar.mtbMain
-    override val mViewModel: AddFoodItemViewModel by viewModels {
-        AddFoodItemViewModel.FACTORY(safeArgs.foodItemId)
+    override val mViewModel: AddFoodItemViewModel by viewModel {
+        parametersOf(safeArgs.foodItemId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
