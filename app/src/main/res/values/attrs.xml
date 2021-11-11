@@ -3,4 +3,6 @@
     <attr name="listItemHeaderBackground" format="color" />
     <attr name="addMealBannerForeground" format="color" />
     <attr name="fastScrollerBackground" format="color" />
+
+    <attr name="colorBackground" format="color" />
 </resources>

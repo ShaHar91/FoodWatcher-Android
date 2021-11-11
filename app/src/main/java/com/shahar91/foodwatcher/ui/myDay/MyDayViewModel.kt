@@ -14,6 +14,7 @@ import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.utils.CommonUtils
 import com.shahar91.foodwatcher.utils.HawkManager
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.Month
@@ -24,28 +25,40 @@ class MyDayViewModel : BaseViewModel() {
     private val _calendarDay = MutableLiveData<LocalDate>().apply { value = LocalDate.now() }
     val calendarDay: LiveData<LocalDate> get() = _calendarDay
     fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
+
+    // Gets updated whenever the 'selectedDay' changes
     val items = Transformations.switchMap(_calendarDay) { FoodEntryRepository.getFoodEntries(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
 
-    private val _weekTotal = MutableLiveData(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxWeekTotal.toFloat()))
-    val weekTotal: LiveData<String> get() = _weekTotal
+    // Gets updated with a new 'dayDescription' when the 'selectedDay' changes
+    val myDayDescription = Transformations.switchMap(_calendarDay) {
+        DayDescriptionRepository.getDescriptionForDay(it.atStartOfDayMillis(), it.atEndOfDayMillis())
+    }
 
-    private val _totalPoints = MutableLiveData(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal.toFloat()))
-    val totalPoints: LiveData<String> get() = _totalPoints
+    // When the list of items gets updated the 'weekTotal' gets updated as well
+    val weekTotal = Transformations.map(items) { updateWeekTotalPoints() }
 
-    val myDayDescription =
-        Transformations.switchMap(_calendarDay) { DayDescriptionRepository.getDescriptionForDay(it.atStartOfDayMillis(), it.atEndOfDayMillis()) }
+    // When the list of items gets updated the 'dayTotal' gets updated as well
+    val dayTotal = Transformations.map(items) { updateTotalPoints(it) }
 
+    /**
+     * The Calendar can show multiple months in 1 line (in week mode).
+     * Because of that, we will check if the current [calendarMonth] has more days in the first week.
+     * In case it has the currentMonth will be returned as a String, otherwise the other month will be shown.
+     *
+     * @param calendarMonth Current visible month in the calendar (Week mode)
+     * @return Month formatted as a String
+     */
     fun getCorrectMonthAsString(calendarMonth: CalendarMonth): String {
         val weekDays = calendarMonth.weekDays[0]
-        val firstDay = weekDays.first()
-        val lastDay = weekDays.last()
+        val firstDay = weekDays.first().date
+        val lastDay = weekDays.last().date
 
         val groupedByMonth: Map<Month, List<CalendarDay>> = calendarMonth.weekDays[0].groupBy { it.date.month }
 
-        return if (groupedByMonth.size == 1 || groupedByMonth[firstDay.date.month]?.size ?: 0 > groupedByMonth[lastDay.date.month]?.size ?: 0) {
-            getCalendarMonthHeaderFormatter(firstDay.date)
+        return if (groupedByMonth.size == 1 || groupedByMonth[firstDay.month]?.size ?: 0 > groupedByMonth[lastDay.month]?.size ?: 0) {
+            getCalendarMonthHeaderFormatter(firstDay)
         } else {
-            getCalendarMonthHeaderFormatter(lastDay.date)
+            getCalendarMonthHeaderFormatter(lastDay)
         }
     }
 
@@ -55,23 +68,22 @@ class MyDayViewModel : BaseViewModel() {
         R.drawable.ic_info_unavailable
     }
 
-    private fun getCalendarMonthHeaderFormatter(date: LocalDate): String {
-        return DateTimeFormatter.ofPattern("MMMM yyyy").format(date)
-    }
+    private fun getCalendarMonthHeaderFormatter(date: LocalDate) =
+        DateTimeFormatter.ofPattern("MMMM yyyy").format(date)
 
     fun deleteFoodEntry(foodEntry: FoodEntry, onSuccess: () -> Unit) = vmScope.launch {
         FoodEntryRepository.deleteFoodEntry(foodEntry)
         onSuccess()
     }
 
-    fun updateTotalPoints(foodEntries: List<FoodEntry>) = vmScope.launch {
+    private fun updateTotalPoints(foodEntries: List<FoodEntry>): String {
         val totalPointsAsDouble = foodEntries.sumOf { it.amount.toDouble() * it.foodItemPoints.toDouble() }
-        _totalPoints.postValue(CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal - totalPointsAsDouble.toFloat()))
+        return CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal - totalPointsAsDouble.toFloat())
     }
 
-    fun updateWeekTotalPoints() = vmScope.launch {
-        val weekTotal = FoodEntryRepository.getWeekTotal(_calendarDay.value?.atStartOfWeekMillis() ?: 0L)
-        _weekTotal.postValue(CommonUtils.showValueWithoutTrailingZero(weekTotal))
+    private fun updateWeekTotalPoints(): String {
+        val weekTotal: Float = runBlocking { FoodEntryRepository.getWeekTotal(_calendarDay.value?.atStartOfWeekMillis() ?: 0L) }
+        return CommonUtils.showValueWithoutTrailingZero(weekTotal)
     }
 
     fun updateDayDescription(updatedDescription: String) = vmScope.launch {
@@ -85,6 +97,7 @@ class MyDayViewModel : BaseViewModel() {
         if (updatedDescription.isNotBlank()) {
             // If some text was added, persist the data in Room
             val updateDayDescription = dayDescription?.apply { description = updatedDescription }
+            // In case a day didn't have a description text, this will be executed
                 ?: DayDescription(description = updatedDescription, date = _calendarDay.value?.atMiddleOfDayMillis() ?: 0L)
 
             DayDescriptionRepository.createDayDescription(updateDayDescription)

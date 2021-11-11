@@ -17,8 +17,8 @@ import com.shahar91.foodwatcher.databinding.FragmentMyDayBinding
 import com.shahar91.foodwatcher.ui.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.myDay.adapter.FoodEntryAdapter
 import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
-import com.shahar91.foodwatcher.ui.myDay.calendar.calendar.DayViewBinder
-import com.shahar91.foodwatcher.ui.myDay.calendar.calendar.MonthViewHeaderBinder
+import com.shahar91.foodwatcher.ui.myDay.calendar.DayViewBinder
+import com.shahar91.foodwatcher.ui.myDay.calendar.MonthViewHeaderBinder
 import com.shahar91.foodwatcher.utils.DialogFactory
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -59,15 +59,16 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     }
 
     private fun initObservers() {
-        mViewModel.items.observe(viewLifecycleOwner, {
-            foodEntryAdapter.addHeaderAndSubmitList(it)
-            mViewModel.updateTotalPoints(it)
-            mViewModel.updateWeekTotalPoints()
-        })
+        mViewModel.let {
 
-        mViewModel.myDayDescription.observe(viewLifecycleOwner, {
-            requireActivity().invalidateOptionsMenu()
-        })
+            it.items.observe(viewLifecycleOwner, { list ->
+                foodEntryAdapter.addHeaderAndSubmitList(list)
+            })
+
+            it.myDayDescription.observe(viewLifecycleOwner, {
+                requireActivity().invalidateOptionsMenu()
+            })
+        }
     }
 
     private fun initViews() {

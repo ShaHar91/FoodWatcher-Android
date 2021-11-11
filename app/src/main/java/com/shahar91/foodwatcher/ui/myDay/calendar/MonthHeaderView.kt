@@ -1,13 +1,12 @@
-package com.shahar91.foodwatcher.ui.myDay.calendar.calendar
+package com.shahar91.foodwatcher.ui.myDay.calendar
 
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.children
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
-import com.shahar91.foodwatcher.R
+import com.shahar91.foodwatcher.databinding.CvMonthViewBinding
 import java.time.DayOfWeek
 
 class MonthViewHeaderBinder : MonthHeaderFooterBinder<MonthViewHeaderContainer> {
@@ -37,5 +36,5 @@ class MonthViewHeaderBinder : MonthHeaderFooterBinder<MonthViewHeaderContainer> 
 }
 
 class MonthViewHeaderContainer(view: View) : ViewContainer(view) {
-    val legendLayout = view.findViewById<LinearLayout>(R.id.legendLayout)
+    val legendLayout = CvMonthViewBinding.bind(view).legendLayout
 }
