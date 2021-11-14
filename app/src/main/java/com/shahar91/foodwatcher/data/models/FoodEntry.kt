@@ -9,21 +9,16 @@ import com.shahar91.foodwatcher.utils.CommonUtils
 
 @Entity(tableName = DBConstants.FOOD_ENTRY_TABLE_NAME)
 data class FoodEntry(
-    @Ignore
-    override var id: Int = 0,
-    @PrimaryKey(autoGenerate = true)
-    var someId: Int = 0,
+    @PrimaryKey
+    override var id: String = "a",
     var amount: Float,
     var date: Long,
     var meal: Meal,
-    var foodItemId: Int = -1,
+    var foodItemId: String = "a",
     var foodItemName: String,
     var foodItemDescription: String,
     var foodItemPoints: Float
 ) : BaseEntity {
-
-    constructor(amount: Float, date: Long, meal: Meal, foodItemId: Int, foodItemName: String, foodItemDescription: String, foodItemPoints: Float)
-            : this(0, 0, amount, date, meal, foodItemId, foodItemName, foodItemDescription, foodItemPoints)
 
     /**
      * In order to show the "points" in different Locale's without trailing 0's the DecimalFormat class is used.

@@ -7,9 +7,9 @@ class FoodItemRepositoryImpl(
     private val foodItemDao: FoodItemDao
 ) : FoodItemRepository {
 
-    override fun findItemByIdWithFavoriteLive(foodItemId: Int) = foodItemDao.findItemByIdWithFavoriteLive(foodItemId)
+    override fun findItemByIdWithFavoriteLive(foodItemId: String) = foodItemDao.findItemByIdWithFavoriteLive(foodItemId)
 
-    override suspend fun findFoodItemById(foodItemId: Int) = foodItemDao.findItemById(foodItemId)
+    override suspend fun findFoodItemById(foodItemId: String) = foodItemDao.findItemById(foodItemId)
 
     override suspend fun createFoodItem(foodItem: FoodItem) = foodItemDao.insert(foodItem)
 

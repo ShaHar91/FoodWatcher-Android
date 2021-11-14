@@ -14,10 +14,10 @@ abstract class FoodItemDao : BaseRoomDao<FoodItem>(DBConstants.FOOD_ITEM_TABLE_N
     abstract fun findItemsByQueryLive(query: String): LiveData<List<FoodItem>>
 
     @Query("SELECT a.id, a.name, a.description, a.points, CASE WHEN c.foodItemId IS NULL THEN 0 ELSE 1 END AS isFavorite FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} a LEFT JOIN ${DBConstants.FAVORITE_FOOD_ITEM_TABLE_NAME} c ON c.foodItemId = a.id WHERE a.id == :foodItemId")
-    abstract fun findItemByIdWithFavoriteLive(foodItemId: Int): LiveData<FoodItem>
+    abstract fun findItemByIdWithFavoriteLive(foodItemId: String): LiveData<FoodItem>
 
     @Query("SELECT * FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} WHERE id == :foodItemId")
-    abstract suspend fun findItemById(foodItemId: Int): FoodItem?
+    abstract suspend fun findItemById(foodItemId: String): FoodItem?
 
     @Query("DELETE FROM ${DBConstants.FOOD_ITEM_TABLE_NAME}")
     abstract suspend fun deleteAll()

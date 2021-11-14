@@ -7,7 +7,7 @@ class FavoriteFoodItemRepositoryImpl(
     private val favoriteFoodItemDao: FavoriteFoodItemDao
 ) : FavoriteFoodItemRepository {
 
-    override suspend fun favoriteFoodItem(foodItemId: Int) = favoriteFoodItemDao.insert(FavoriteFoodItem(foodItemId = foodItemId))
+    override suspend fun favoriteFoodItem(foodItemId: String) = favoriteFoodItemDao.insert(FavoriteFoodItem(foodItemId = foodItemId))
 
-    override suspend fun unFavoriteFoodItem(foodItemId: Int) = favoriteFoodItemDao.unFavoriteFoodItem(foodItemId)
+    override suspend fun unFavoriteFoodItem(foodItemId: String) = favoriteFoodItemDao.unFavoriteFoodItem(foodItemId)
 }

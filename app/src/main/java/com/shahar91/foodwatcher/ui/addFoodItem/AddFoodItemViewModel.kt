@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class AddFoodItemViewModel(
-    private val foodItemId: Int,
+    private val foodItemId: String,
     private val foodItemRepository: FoodItemRepository
 ) : BaseViewModel() {
     enum class State {

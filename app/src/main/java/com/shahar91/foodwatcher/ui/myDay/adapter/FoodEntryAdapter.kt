@@ -40,7 +40,7 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
                 val areHeaderSame = oldItem is DataItem.Header && newItem is DataItem.Header && oldItem == newItem
                 val areEmptySame = oldItem is DataItem.Empty && newItem is DataItem.Empty && oldItem == newItem
                 val areFoodEntryItemsSame = oldItem is DataItem.FoodEntryItem && newItem is DataItem.FoodEntryItem &&
-                        oldItem.foodEntry.someId == newItem.foodEntry.someId
+                        oldItem.foodEntry.id == newItem.foodEntry.id
                 return areHeaderSame || areEmptySame || areFoodEntryItemsSame
             }
 

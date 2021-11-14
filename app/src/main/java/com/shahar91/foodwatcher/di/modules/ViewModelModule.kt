@@ -10,7 +10,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel { AddFoodItemViewModel(get(), get()) }
-    viewModel { (foodItemId: Int, foodEntryId: Int) -> AddMealEntryViewModel(foodItemId, foodEntryId, get(), get(), get()) }
+    viewModel { (foodItemId: String, foodEntryId: String) -> AddMealEntryViewModel(foodItemId, foodEntryId, get(), get(), get()) }
     viewModel { FoodItemListViewModel(get()) }
     viewModel { MyDayViewModel(get(), get()) }
 }

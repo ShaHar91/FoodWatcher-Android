@@ -24,8 +24,8 @@ interface FoodEntryDao {
     @Query("DELETE FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME}")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE someId == :foodEntryId")
-    suspend fun findEntryById(foodEntryId: Int): FoodEntry?
+    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE id == :foodEntryId")
+    suspend fun findEntryById(foodEntryId: String): FoodEntry?
 
     @Update
     suspend fun update(entity: FoodEntry)

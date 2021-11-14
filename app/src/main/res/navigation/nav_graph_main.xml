@@ -56,7 +56,7 @@
         tools:layout="@layout/fragment_add_food_item">
         <argument
             android:name="foodItemId"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -66,11 +66,11 @@
         tools:layout="@layout/fragment_add_meal_entry">
         <argument
             android:name="foodItemId"
-            app:argType="integer" />
+            app:argType="string" />
 
         <argument
             android:name="foodEntryId"
-            app:argType="integer"/>
+            app:argType="string"/>
 
         <action
             android:id="@+id/action_addMealEntryFragment_to_addFoodItemFragment"

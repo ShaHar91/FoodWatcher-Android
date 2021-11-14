@@ -15,7 +15,7 @@ class FoodEntryRepositoryImpl(
 
     override suspend fun getWeekTotal(startWeek: Long) = foodEntryDao.getWeekTotal(startWeek)
 
-    override suspend fun findFoodEntryById(foodEntryId: Int) = foodEntryDao.findEntryById(foodEntryId)
+    override suspend fun findFoodEntryById(foodEntryId: String) = foodEntryDao.findEntryById(foodEntryId)
 
     override suspend fun updateFoodEntry(foodEntry: FoodEntry) = foodEntryDao.update(foodEntry)
 }

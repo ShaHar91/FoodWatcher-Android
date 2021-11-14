@@ -8,8 +8,8 @@ import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
 
 @Entity(tableName = DBConstants.FOOD_ITEM_TABLE_NAME)
-data class FoodItem(
-    @PrimaryKey(autoGenerate = true) override val id: Int = 0,
+class FoodItem(
+    @PrimaryKey override val id: String = "a",
     var name: String,
     var description: String,
     var points: Float,

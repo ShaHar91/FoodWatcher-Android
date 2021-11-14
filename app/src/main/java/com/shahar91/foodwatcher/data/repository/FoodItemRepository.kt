@@ -5,9 +5,9 @@ import com.shahar91.foodwatcher.data.models.FoodItem
 
 interface FoodItemRepository {
 
-    fun findItemByIdWithFavoriteLive(foodItemId: Int): LiveData<FoodItem>
+    fun findItemByIdWithFavoriteLive(foodItemId: String): LiveData<FoodItem>
 
-    suspend fun findFoodItemById(foodItemId: Int): FoodItem?
+    suspend fun findFoodItemById(foodItemId: String): FoodItem?
 
     suspend fun createFoodItem(foodItem: FoodItem): Long
 

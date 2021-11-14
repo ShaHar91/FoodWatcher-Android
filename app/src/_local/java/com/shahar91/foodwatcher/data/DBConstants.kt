@@ -7,5 +7,5 @@ object DBConstants {
     const val FAVORITE_FOOD_ITEM_TABLE_NAME = "favoriteFoodItem"
     const val DAY_DESCRIPTION_TABLE_NAME = "dayDescription"
 
-    const val INVALID_ID = -1
+    const val INVALID_ID = "-1"
 }

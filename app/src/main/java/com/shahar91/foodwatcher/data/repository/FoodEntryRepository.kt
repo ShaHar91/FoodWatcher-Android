@@ -13,7 +13,7 @@ interface FoodEntryRepository {
 
     suspend fun getWeekTotal(startWeek: Long): Float
 
-    suspend fun findFoodEntryById(foodEntryId: Int): FoodEntry?
+    suspend fun findFoodEntryById(foodEntryId: String): FoodEntry?
 
     suspend fun updateFoodEntry(foodEntry: FoodEntry)
 }

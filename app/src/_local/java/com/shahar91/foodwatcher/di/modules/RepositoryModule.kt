@@ -9,6 +9,11 @@ val repositoryModule = module {
 
     single { FoodWatcherDatabase.getDatabase(androidContext()) }
 
+    single { get<FoodWatcherDatabase>().dayDescriptionDao() }
+    single { get<FoodWatcherDatabase>().favoriteFoodItemDao() }
+    single { get<FoodWatcherDatabase>().foodEntryDao() }
+    single { get<FoodWatcherDatabase>().foodItemDao() }
+
     single<DayDescriptionRepository> { DayDescriptionRepositoryImpl(get()) }
     single<FavoriteFoodItemRepository> { FavoriteFoodItemRepositoryImpl(get()) }
     single<FoodEntryRepository> { FoodEntryRepositoryImpl(get()) }

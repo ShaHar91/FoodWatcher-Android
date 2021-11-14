@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddMealEntryViewModel(
-    private val foodItemId: Int,
-    private val foodEntryId: Int,
+    private val foodItemId: String,
+    private val foodEntryId: String,
     private val foodEntryRepository: FoodEntryRepository,
     private val foodItemRepository: FoodItemRepository,
     private val favoriteFoodItemRepository: FavoriteFoodItemRepository

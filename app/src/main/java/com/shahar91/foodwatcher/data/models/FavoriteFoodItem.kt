@@ -7,7 +7,7 @@ import com.shahar91.foodwatcher.data.DBConstants
 
 @Entity(tableName = DBConstants.FAVORITE_FOOD_ITEM_TABLE_NAME)
 data class FavoriteFoodItem(
-    @PrimaryKey(autoGenerate = true) override val id: Int = 0,
-    // TODO: Technically, this needs a column for the userID's as well, so the favorites can be saved PER USER
-    var foodItemId: Int
-): BaseEntity
+    @PrimaryKey override val id: String = "a",
+    // TODO: Technically, this ne¬eds a column for the userID's as well, so the favorites can be saved PER USER
+    var foodItemId: String
+) : BaseEntity
