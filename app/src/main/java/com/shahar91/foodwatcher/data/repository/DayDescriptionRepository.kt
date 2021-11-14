@@ -1,15 +1,13 @@
 package com.shahar91.foodwatcher.data.repository
 
-import com.shahar91.foodwatcher.data.dao.DayDescriptionDao
+import androidx.lifecycle.LiveData
 import com.shahar91.foodwatcher.data.models.DayDescription
 
-abstract class DayDescriptionRepository(
-    private val dayDescriptionDao: DayDescriptionDao
-) {
+interface DayDescriptionRepository {
 
-    suspend fun createDayDescription(dayDescription: DayDescription) = dayDescriptionDao.insert(dayDescription)
+    suspend fun createDayDescription(dayDescription: DayDescription): Long
 
-    fun getDescriptionForDay(fromDate: Long, toDate: Long) = dayDescriptionDao.getDescriptionForDay(fromDate, toDate)
+    fun getDescriptionForDay(fromDate: Long, toDate: Long): LiveData<DayDescription>
 
-    suspend fun deleteDayDescription(dayDescription: DayDescription) = dayDescriptionDao.delete(dayDescription)
+    suspend fun deleteDayDescription(dayDescription: DayDescription)
 }

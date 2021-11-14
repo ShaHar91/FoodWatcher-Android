@@ -1,21 +1,19 @@
 package com.shahar91.foodwatcher.data.repository
 
-import com.shahar91.foodwatcher.data.dao.FoodEntryDao
+import androidx.lifecycle.LiveData
 import com.shahar91.foodwatcher.data.models.FoodEntry
 
-abstract class FoodEntryRepository(
-    private val foodEntryDao: FoodEntryDao
-) {
+interface FoodEntryRepository {
 
-    fun getFoodEntries(fromDate: Long, toDate: Long) = foodEntryDao.getFoodEntries(fromDate, toDate)
+    fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntry>>
 
-    suspend fun createFoodEntry(foodEntry: FoodEntry) = foodEntryDao.insert(foodEntry)
+    suspend fun createFoodEntry(foodEntry: FoodEntry): Long
 
-    suspend fun deleteFoodEntry(foodEntry: FoodEntry) = foodEntryDao.delete(foodEntry)
+    suspend fun deleteFoodEntry(foodEntry: FoodEntry)
 
-    suspend fun getWeekTotal(startWeek: Long) = foodEntryDao.getWeekTotal(startWeek)
+    suspend fun getWeekTotal(startWeek: Long): Float
 
-    suspend fun findFoodEntryById(foodEntryId: Int) = foodEntryDao.findEntryById(foodEntryId)
+    suspend fun findFoodEntryById(foodEntryId: Int): FoodEntry?
 
-    suspend fun updateFoodEntry(foodEntry: FoodEntry) = foodEntryDao.update(foodEntry)
+    suspend fun updateFoodEntry(foodEntry: FoodEntry)
 }

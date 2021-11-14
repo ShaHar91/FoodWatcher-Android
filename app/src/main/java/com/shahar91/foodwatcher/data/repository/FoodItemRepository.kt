@@ -1,21 +1,19 @@
 package com.shahar91.foodwatcher.data.repository
 
-import com.shahar91.foodwatcher.data.dao.FoodItemDao
+import androidx.lifecycle.LiveData
 import com.shahar91.foodwatcher.data.models.FoodItem
 
-abstract class FoodItemRepository(
-    private val foodItemDao: FoodItemDao
-) {
+interface FoodItemRepository {
 
-    fun findItemByIdWithFavoriteLive(foodItemId: Int) = foodItemDao.findItemByIdWithFavoriteLive(foodItemId)
+    fun findItemByIdWithFavoriteLive(foodItemId: Int): LiveData<FoodItem>
 
-    suspend fun findFoodItemById(foodItemId: Int) = foodItemDao.findItemById(foodItemId)
+    suspend fun findFoodItemById(foodItemId: Int): FoodItem?
 
-    suspend fun createFoodItem(foodItem: FoodItem) = foodItemDao.insert(foodItem)
+    suspend fun createFoodItem(foodItem: FoodItem): Long
 
-    suspend fun deleteFoodItem(foodItem: FoodItem) = foodItemDao.delete(foodItem)
+    suspend fun deleteFoodItem(foodItem: FoodItem)
 
-    suspend fun updateFoodItem(foodItem: FoodItem) = foodItemDao.update(foodItem)
+    suspend fun updateFoodItem(foodItem: FoodItem)
 
-    fun getFoodItemsByQuery(query: String) = foodItemDao.findItemsByQueryLive(query)
+    fun getFoodItemsByQuery(query: String): LiveData<List<FoodItem>>
 }
