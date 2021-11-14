@@ -3,7 +3,7 @@ package com.shahar91.foodwatcher.data.repository
 import com.shahar91.foodwatcher.data.dao.DayDescriptionDao
 import com.shahar91.foodwatcher.data.models.DayDescription
 
-class DayDescriptionRepository(
+abstract class DayDescriptionRepository(
     private val dayDescriptionDao: DayDescriptionDao
 ) {
 

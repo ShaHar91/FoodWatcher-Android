@@ -3,7 +3,7 @@ package com.shahar91.foodwatcher.data.repository
 import com.shahar91.foodwatcher.data.dao.FoodItemDao
 import com.shahar91.foodwatcher.data.models.FoodItem
 
-class FoodItemRepository(
+abstract class FoodItemRepository(
     private val foodItemDao: FoodItemDao
 ) {
 
