@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 // define build version
@@ -15,7 +16,6 @@ android {
     compileSdkVersion 31
 
     defaultConfig {
-        applicationId "com.shahar91.foodwatcher"
         minSdkVersion 23
         targetSdkVersion 31
 
@@ -36,8 +36,8 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
-        viewBinding = true
+        dataBinding true
+        viewBinding true
     }
 
     compileOptions {
@@ -51,20 +51,60 @@ android {
         jvmTarget = "1.8"
     }
 
-    flavorDimensions 'env'
+    flavorDimensions "whiteLabel", "skin", "dataSource", "env"
+    android.variantFilter { variant ->
+//        def whiteLabel = variant.getFlavors.get(0).name
+        def skin = variant.getFlavors().get(1).name
+//        def dataSource = variant.getFlavors().get(2).name
+//        def env = variant.getFlavors.get(3).name
+
+        // only show variants with the 'default' skin
+        if (skin == "_skinDefault") {
+            variant.setIgnore(false)
+            return
+        }
+
+        variant.setIgnore(true)
+    }
+
     productFlavors {
+        foodWatcher {
+            dimension 'whiteLabel'
+            applicationId "com.shahar91.foodwatcher"
+        }
+
         dev {
             dimension 'env'
             applicationIdSuffix '.dev'
             versionNameSuffix '-dev'
         }
-        stag {
+
+        staging {
             dimension 'env'
-            applicationIdSuffix '.stag'
-            versionNameSuffix '-stag'
+            applicationIdSuffix '.staging'
+            versionNameSuffix '-staging'
         }
+
         prod {
             dimension 'env'
+        }
+
+        _skinDefault {
+            dimension "skin"
+        }
+
+        _skinRed {
+            dimension "skin"
+        }
+
+        _local {
+            dimension "dataSource"
+            applicationIdSuffix '.local'
+        }
+
+        _firebase {
+            dimension "dataSource"
+            applicationIdSuffix '.fire'
         }
     }
 }
@@ -77,9 +117,9 @@ dependencies {
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     kapt "com.android.databinding:compiler:4.0.0"
 
@@ -87,11 +127,14 @@ dependencies {
 
     implementation 'com.github.kizitonwose:CalendarView:1.0.2'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // https://github.com/reddit/IndicatorFastScroll
     implementation 'com.reddit:indicator-fast-scroll:1.4.0'
 
     // Koin main features for Android (Scope,ViewModel ...)
     implementation "io.insert-koin:koin-android:$koin_version"
+
+    _firebaseImplementation platform('com.google.firebase:firebase-bom:29.0.0')
+    _firebaseImplementation "com.google.firebase:firebase-firestore-ktx"
 }
