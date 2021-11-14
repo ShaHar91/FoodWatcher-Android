@@ -1,13 +1,11 @@
 package com.shahar91.foodwatcher.data.repository
 
-import be.appwise.networking.base.BaseRepository
 import com.shahar91.foodwatcher.data.dao.FoodEntryDao
-import com.shahar91.foodwatcher.data.database.FoodWatcherDatabase
 import com.shahar91.foodwatcher.data.models.FoodEntry
 
 class FoodEntryRepository(
     private val foodEntryDao: FoodEntryDao
-) : BaseRepository {
+) {
 
     fun getFoodEntries(fromDate: Long, toDate: Long) = foodEntryDao.getFoodEntries(fromDate, toDate)
 
