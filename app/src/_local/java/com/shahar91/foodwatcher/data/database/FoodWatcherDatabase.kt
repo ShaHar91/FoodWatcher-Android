@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItemEntity::class, DayDescriptionEntity::class], version = 3, exportSchema = false)
+@Database(entities = [FoodItemEntity::class, FoodEntry::class, FavoriteFoodItemEntity::class, DayDescriptionEntity::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
@@ -63,34 +63,34 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                     val foodEntryDao = database.foodEntryDao().also { it.deleteAll() }
 
                     val foodItemList = listOf(
-                        FoodItem(name = "Bread (white, unsalted)", description = "1 slice", points = 0.5F),
-                        FoodItem(name = "Rice", description = "100 grams", points = 3F),
-                        FoodItem(name = "Pasta", description = "", points = 2F),
-                        FoodItem(name = "Banana", description = "", points = 2F),
-                        FoodItem(name = "Apple", description = "", points = 2F),
-                        FoodItem(name = "Coffee", description = "", points = 2F),
-                        FoodItem(name = "Zebra", description = "", points = 2F),
-                        FoodItem(name = "Lamp", description = "", points = 2F),
-                        FoodItem(name = "Home", description = "", points = 2F),
-                        FoodItem(name = "Google", description = "", points = 2F),
-                        FoodItem(name = "Ice Cream", description = "", points = 2F),
-                        FoodItem(name = "Clock", description = "", points = 2F),
-                        FoodItem(name = "Cheese", description = "", points = 2F),
-                        FoodItem(name = "Dough", description = "", points = 2F),
-                        FoodItem(name = "Nutella", description = "", points = 2F),
-                        FoodItem(name = "Chocolate", description = "", points = 2F),
-                        FoodItem(name = "Orange", description = "", points = 2F),
-                        FoodItem(name = "Pineapple", description = "", points = 2F),
-                        FoodItem(name = "Melon", description = "", points = 2F),
-                        FoodItem(name = "Kiwi", description = "", points = 2F),
-                        FoodItem(name = "Pumpkin", description = "", points = 2F),
-                        FoodItem(name = "Parmigiano", description = "", points = 2F),
-                        FoodItem(name = "Lasagna", description = "", points = 2F),
-                        FoodItem(name = "Soup", description = "", points = 2F),
-                        FoodItem(name = "Chicken", description = "", points = 2F),
-                        FoodItem(name = "Veal", description = "", points = 2F),
-                        FoodItem(name = "Pepper", description = "", points = 2F),
-                        FoodItem(name = "Bread (brown, salted)", description = "1 slice", points = 3F)
+                        FoodItemEntity(name = "Bread (white, unsalted)", description = "1 slice", points = 0.5F),
+                        FoodItemEntity(name = "Rice", description = "100 grams", points = 3F),
+                        FoodItemEntity(name = "Pasta", description = "", points = 2F),
+                        FoodItemEntity(name = "Banana", description = "", points = 2F),
+                        FoodItemEntity(name = "Apple", description = "", points = 2F),
+                        FoodItemEntity(name = "Coffee", description = "", points = 2F),
+                        FoodItemEntity(name = "Zebra", description = "", points = 2F),
+                        FoodItemEntity(name = "Lamp", description = "", points = 2F),
+                        FoodItemEntity(name = "Home", description = "", points = 2F),
+                        FoodItemEntity(name = "Google", description = "", points = 2F),
+                        FoodItemEntity(name = "Ice Cream", description = "", points = 2F),
+                        FoodItemEntity(name = "Clock", description = "", points = 2F),
+                        FoodItemEntity(name = "Cheese", description = "", points = 2F),
+                        FoodItemEntity(name = "Dough", description = "", points = 2F),
+                        FoodItemEntity(name = "Nutella", description = "", points = 2F),
+                        FoodItemEntity(name = "Chocolate", description = "", points = 2F),
+                        FoodItemEntity(name = "Orange", description = "", points = 2F),
+                        FoodItemEntity(name = "Pineapple", description = "", points = 2F),
+                        FoodItemEntity(name = "Melon", description = "", points = 2F),
+                        FoodItemEntity(name = "Kiwi", description = "", points = 2F),
+                        FoodItemEntity(name = "Pumpkin", description = "", points = 2F),
+                        FoodItemEntity(name = "Parmigiano", description = "", points = 2F),
+                        FoodItemEntity(name = "Lasagna", description = "", points = 2F),
+                        FoodItemEntity(name = "Soup", description = "", points = 2F),
+                        FoodItemEntity(name = "Chicken", description = "", points = 2F),
+                        FoodItemEntity(name = "Veal", description = "", points = 2F),
+                        FoodItemEntity(name = "Pepper", description = "", points = 2F),
+                        FoodItemEntity(name = "Bread (brown, salted)", description = "1 slice", points = 3F)
                     ).also { foodItemDao.insertMany(it) }
 
                     val todayAtNoon = LocalDate.now().atTime(LocalTime.NOON)

@@ -1,21 +1,25 @@
 package com.shahar91.foodwatcher.data.models
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import be.appwise.room.BaseEntity
-import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
 
-@Entity(tableName = DBConstants.FOOD_ITEM_TABLE_NAME)
 data class FoodItem(
-    @PrimaryKey override val id: String = UUID.randomUUID().toString(),
-    var name: String,
-    var description: String,
-    var points: Float,
+    override val id: String = UUID.randomUUID().toString(),
+    override var name: String,
+    override var description: String,
+    override var points: Float,
     // 'isFavorite' will actually only be used when we retrieve a complete list of the 'FoodItems'
-    var isFavorite: Boolean = false
-) : BaseEntity {
+    override var isFavorite: Boolean = false
+) : FoodItemBase(id, name, description, points, isFavorite)
+
+open class FoodItemBase(
+    open val id: String,
+    open var name: String,
+    open var description: String,
+    open var points: Float,
+    // 'isFavorite' will actually only be used when we retrieve a complete list of the 'FoodItems'
+    open var isFavorite: Boolean
+) {
     /**
      * In order to show the "points" in different Locale's without trailing 0's the DecimalFormat class is used.
      * This will enforce the correct pattern for that Locale
