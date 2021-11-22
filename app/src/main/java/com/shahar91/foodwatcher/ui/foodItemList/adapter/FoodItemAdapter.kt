@@ -15,13 +15,35 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
-    ListAdapter<DataItem, RecyclerView.ViewHolder>(FoodItemDiffCallback()) {
-    companion object {
-        const val ITEM_VIEW_TYPE_HEADER = 0
-        const val ITEM_VIEW_TYPE_ITEM = 1
-    }
+    ListAdapter<FoodItemAdapter.DataItem, RecyclerView.ViewHolder>(foodItemDiffCallback) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
+
+    sealed class DataItem {
+        data class FoodItemContent(val foodItem: FoodItem) : DataItem()
+        data class Header(val content: String?, val isFavorite: Boolean = false) : DataItem()
+    }
+
+    enum class FoodItemTypes(val id: Int) {
+        HEADER(0),
+        FOOD_ITEM(1)
+    }
+
+    companion object {
+        private val foodItemDiffCallback = object : DiffUtil.ItemCallback<DataItem>() {
+            override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+                val areHeaderSame = oldItem is DataItem.Header && newItem is DataItem.Header && oldItem == newItem
+                val areFoodItemItemsSame = oldItem is DataItem.FoodItemContent && newItem is DataItem.FoodItemContent && oldItem.foodItem.id == newItem.foodItem.id
+                return areHeaderSame || areFoodItemItemsSame
+            }
+
+            override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+                val areHeaderSame = oldItem is DataItem.Header && newItem is DataItem.Header && oldItem == newItem
+                val areFoodItemItemsSame = oldItem is DataItem.FoodItemContent && newItem is DataItem.FoodItemContent && oldItem.foodItem == newItem.foodItem
+                return areHeaderSame || areFoodItemItemsSame
+            }
+        }
+    }
 
     fun addHeaderAndSubmitList(list: List<FoodItem>) {
         adapterScope.launch {
@@ -31,7 +53,7 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
             val favoriteFoodItems = mappedList.filter { it.foodItem.isFavorite }
 
             if (favoriteFoodItems.isNotEmpty()) {
-                dataItemList.add(DataItem.Header(Long.MIN_VALUE, null, true))
+                dataItemList.add(DataItem.Header(null, true))
                 dataItemList.addAll(favoriteFoodItems)
             }
 
@@ -39,7 +61,7 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
             val groupedList = unFavoriteFoodItems.groupBy { it.foodItem.name.first().toUpperCase() }
 
             groupedList.onEachIndexed { index, entry ->
-                dataItemList.add(DataItem.Header(Long.MIN_VALUE + 1 + index, entry.key.toString()))
+                dataItemList.add(DataItem.Header(entry.key.toString()))
                 dataItemList.addAll(entry.value)
             }
 
@@ -55,14 +77,14 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_HEADER -> FoodItemHeaderViewHolder(
+            FoodItemTypes.HEADER.id -> FoodItemHeaderViewHolder(
                 ListItemFoodItemHeaderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
             )
-            ITEM_VIEW_TYPE_ITEM -> FoodItemViewHolder(ListItemFoodItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            FoodItemTypes.FOOD_ITEM.id -> FoodItemViewHolder(ListItemFoodItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> throw ClassCastException("Unknown viewType $viewType")
         }
     }
@@ -82,8 +104,8 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
-            is DataItem.FoodItemContent -> ITEM_VIEW_TYPE_ITEM
+            is DataItem.Header -> FoodItemTypes.HEADER.id
+            is DataItem.FoodItemContent -> FoodItemTypes.FOOD_ITEM.id
         }
     }
 
@@ -99,24 +121,4 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
             binding.headerName = item
         }
     }
-}
-
-class FoodItemDiffCallback : DiffUtil.ItemCallback<DataItem>() {
-    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
-        return oldItem == newItem
-    }
-}
-
-sealed class DataItem {
-    data class FoodItemContent(val foodItem: FoodItem) : DataItem() {
-        override val id = foodItem.id.toLong()
-    }
-
-    data class Header(override val id: Long, val content: String?, val isFavorite: Boolean = false) : DataItem()
-
-    abstract val id: Long
 }

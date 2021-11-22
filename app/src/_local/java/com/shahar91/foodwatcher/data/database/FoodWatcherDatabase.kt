@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItem::class, DayDescriptionEntity::class], version = 3, exportSchema = false)
+@Database(entities = [FoodItem::class, FoodEntry::class, FavoriteFoodItemEntity::class, DayDescriptionEntity::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao

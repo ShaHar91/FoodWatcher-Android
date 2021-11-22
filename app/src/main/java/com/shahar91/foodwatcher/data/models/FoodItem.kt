@@ -8,7 +8,7 @@ import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
 
 @Entity(tableName = DBConstants.FOOD_ITEM_TABLE_NAME)
-class FoodItem(
+data class FoodItem(
     @PrimaryKey override val id: String = UUID.randomUUID().toString(),
     var name: String,
     var description: String,

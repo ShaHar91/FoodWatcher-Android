@@ -14,6 +14,5 @@ data class DayDescriptionEntity(
     override var date: Long
 ) : BaseEntity, DayDescription(id, description, date)
 
-
 fun DayDescription.createEntity() =
     DayDescriptionEntity(this.id, this.description, this.date)
