@@ -20,6 +20,4 @@ abstract class FoodItemDao : BaseRoomDao<FoodItemEntity>(DBConstants.FOOD_ITEM_T
     @Query("SELECT * FROM ${DBConstants.FOOD_ITEM_TABLE_NAME} WHERE id == :foodItemId")
     abstract suspend fun findItemById(foodItemId: String): FoodItem?
 
-    @Query("DELETE FROM ${DBConstants.FOOD_ITEM_TABLE_NAME}")
-    abstract suspend fun deleteAll()
 }

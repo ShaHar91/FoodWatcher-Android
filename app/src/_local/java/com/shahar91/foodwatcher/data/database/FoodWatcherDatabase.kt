@@ -20,7 +20,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-@Database(entities = [FoodItemEntity::class, FoodEntry::class, FavoriteFoodItemEntity::class, DayDescriptionEntity::class], version = 3, exportSchema = false)
+@Database(entities = [FoodItemEntity::class, FoodEntryEntity::class, FavoriteFoodItemEntity::class, DayDescriptionEntity::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class FoodWatcherDatabase : RoomDatabase() {
     abstract fun foodItemDao(): FoodItemDao
@@ -59,8 +59,8 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                 scope.launch {
                     // To see an example of this to prepopulate a database, take a look at
                     // https://developer.android.com/codelabs/android-room-with-a-view-kotlin#13
-                    val foodItemDao = database.foodItemDao().also { it.deleteAll() }
-                    val foodEntryDao = database.foodEntryDao().also { it.deleteAll() }
+                    val foodItemDao = database.foodItemDao().also { it.deleteAllFromTable() }
+                    val foodEntryDao = database.foodEntryDao().also { it.deleteAllFromTable() }
 
                     val foodItemList = listOf(
                         FoodItemEntity(name = "Bread (white, unsalted)", description = "1 slice", points = 0.5F),
@@ -97,7 +97,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
 
                     foodEntryDao.insertMany(
                         listOf(
-                            FoodEntry(
+                            FoodEntryEntity(
                                 "1",
                                 3F,
                                 todayAtNoon.toEpochMilliTest(),
@@ -107,7 +107,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                                 foodItemList[1].description,
                                 foodItemList[1].points
                             ),
-                            FoodEntry(
+                            FoodEntryEntity(
                                 "2",
                                 1F,
                                 todayAtNoon.toEpochMilliTest(),
@@ -117,7 +117,7 @@ abstract class FoodWatcherDatabase : RoomDatabase() {
                                 foodItemList[27].description,
                                 foodItemList[27].points
                             ),
-                            FoodEntry(
+                            FoodEntryEntity(
                                 "3",
                                 2F,
                                 todayAtNoon.plusDays(1).toEpochMilliTest(),

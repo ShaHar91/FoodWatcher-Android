@@ -1,25 +1,29 @@
 package com.shahar91.foodwatcher.data.models
 
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-import be.appwise.room.BaseEntity
-import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.utils.CommonUtils
 import java.util.*
 
-@Entity(tableName = DBConstants.FOOD_ENTRY_TABLE_NAME)
 data class FoodEntry(
-    @PrimaryKey
     override var id: String = UUID.randomUUID().toString(),
-    var amount: Float,
-    var date: Long,
-    var meal: Meal,
-    var foodItemId: String = "",
-    var foodItemName: String,
-    var foodItemDescription: String,
-    var foodItemPoints: Float
-) : BaseEntity {
+    override var amount: Float,
+    override var date: Long,
+    override var meal: Meal,
+    override var foodItemId: String = "",
+    override var foodItemName: String,
+    override var foodItemDescription: String,
+    override var foodItemPoints: Float
+) : FoodEntryBase(id, amount, date, meal, foodItemId, foodItemName, foodItemDescription, foodItemPoints)
+
+open class FoodEntryBase(
+    open val id: String,
+    open var amount: Float,
+    open var date: Long,
+    open var meal: Meal,
+    open var foodItemId: String,
+    open var foodItemName: String,
+    open var foodItemDescription: String,
+    open var foodItemPoints: Float
+) {
 
     /**
      * In order to show the "points" in different Locale's without trailing 0's the DecimalFormat class is used.

@@ -1,44 +1,34 @@
 package com.shahar91.foodwatcher.data.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
+import be.appwise.room.BaseRoomDao
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodEntry
+import com.shahar91.foodwatcher.data.models.FoodEntryEntity
 import com.shahar91.foodwatcher.utils.HawkManager
 
 @Dao
-interface FoodEntryDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMany(entities: List<FoodEntry>): List<Long>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entity: FoodEntry): Long
-
-    @Delete
-    suspend fun delete(entity: FoodEntry)
+abstract class FoodEntryDao : BaseRoomDao<FoodEntryEntity>(DBConstants.FOOD_ENTRY_TABLE_NAME) {
 
     @Transaction
     @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate ORDER BY meal")
-    fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntry>>
-
-    @Query("DELETE FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME}")
-    suspend fun deleteAll()
+    abstract fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntry>>
 
     @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE id == :foodEntryId")
-    suspend fun findEntryById(foodEntryId: String): FoodEntry?
-
-    @Update
-    suspend fun update(entity: FoodEntry)
+    abstract suspend fun findEntryById(foodEntryId: String): FoodEntry?
 
 //    @Query("SELECT date, SUM(foodItemPoints * amount) as dayTotal FROM foodEntry WHERE date BETWEEN :startWeek AND :endWeek GROUP BY date")
 //    fun getWeekTotal(startWeek: Long, endWeek: Long): LiveData<List<DayTotal>>
 
     @Query("SELECT SUM(foodItemPoints * amount) as dayTotal FROM foodEntry WHERE date BETWEEN :fromDate AND :toDate")
-    fun getDayTotal(fromDate: Long, toDate: Long): Int
+    abstract fun getDayTotal(fromDate: Long, toDate: Long): Int
 
     @Transaction
     // TODO: This could be made a lot better, this is really buggy code...
-    suspend fun getWeekTotal(startWeek: Long): Float {
+    open suspend fun getWeekTotal(startWeek: Long): Float {
         val add1Day = (60 * 60 * 24 * 1000L)
 
         val mondayEndMillis = startWeek + add1Day
