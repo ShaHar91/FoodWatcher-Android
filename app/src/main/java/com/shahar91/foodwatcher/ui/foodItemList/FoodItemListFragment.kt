@@ -63,7 +63,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBindin
         mBinding.run {
             rvFoodItems.run {
                 setupRecyclerView(decoration = ViewTypeItemDecoration(requireContext(), ViewTypeItemDecoration.VERTICAL).apply {
-                    dividerForItemTypes = listOf(FoodItemAdapter.ITEM_VIEW_TYPE_ITEM)
+                    dividerForItemTypes = listOf(FoodItemAdapter.FoodItemTypes.FOOD_ITEM.id)
                     showDividerLastItem = false
                 })
                 adapter = foodItemAdapter

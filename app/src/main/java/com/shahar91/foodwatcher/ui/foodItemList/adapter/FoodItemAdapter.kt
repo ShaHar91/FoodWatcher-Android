@@ -15,14 +15,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
-    ListAdapter<FoodItemAdapter.DataItem, RecyclerView.ViewHolder>(foodItemDiffCallback) {
+    ListAdapter<DataItem, RecyclerView.ViewHolder>(foodItemDiffCallback) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
-
-    sealed class DataItem {
-        data class FoodItemContent(val foodItem: FoodItem) : DataItem()
-        data class Header(val content: String?, val isFavorite: Boolean = false) : DataItem()
-    }
 
     enum class FoodItemTypes(val id: Int) {
         HEADER(0),
@@ -121,4 +116,9 @@ class FoodItemAdapter(private val listener: FoodItemInteractionListener) :
             binding.headerName = item
         }
     }
+}
+
+sealed class DataItem {
+    data class FoodItemContent(val foodItem: FoodItem) : DataItem()
+    data class Header(val content: String?, val isFavorite: Boolean = false) : DataItem()
 }
