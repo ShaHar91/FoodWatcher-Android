@@ -9,7 +9,7 @@ import java.util.*
 
 @Entity(tableName = DBConstants.FOOD_ITEM_TABLE_NAME)
 class FoodItem(
-    @PrimaryKey override val id: String = "a",
+    @PrimaryKey override val id: String = UUID.randomUUID().toString(),
     var name: String,
     var description: String,
     var points: Float,

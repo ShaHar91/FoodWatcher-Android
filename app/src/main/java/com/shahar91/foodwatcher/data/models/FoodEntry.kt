@@ -6,15 +6,16 @@ import androidx.room.PrimaryKey
 import be.appwise.room.BaseEntity
 import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.utils.CommonUtils
+import java.util.*
 
 @Entity(tableName = DBConstants.FOOD_ENTRY_TABLE_NAME)
 data class FoodEntry(
     @PrimaryKey
-    override var id: String = "a",
+    override var id: String = UUID.randomUUID().toString(),
     var amount: Float,
     var date: Long,
     var meal: Meal,
-    var foodItemId: String = "a",
+    var foodItemId: String = "",
     var foodItemName: String,
     var foodItemDescription: String,
     var foodItemPoints: Float

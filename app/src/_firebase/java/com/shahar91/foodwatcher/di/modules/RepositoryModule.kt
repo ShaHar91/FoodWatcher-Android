@@ -5,8 +5,8 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
-    single<DayDescriptionRepository> { DayDescriptionRepositoryImpl(get()) }
-    single<FavoriteFoodItemRepository> { FavoriteFoodItemRepositoryImpl(get()) }
-    single<FoodEntryRepository> { FoodEntryRepositoryImpl(get()) }
-    single<FoodItemRepository> { FoodItemRepositoryImpl(get()) }
+    single<DayDescriptionRepository> { DayDescriptionRepositoryImpl() }
+    single<FavoriteFoodItemRepository> { FavoriteFoodItemRepositoryImpl() }
+    single<FoodEntryRepository> { FoodEntryRepositoryImpl() }
+    single<FoodItemRepository> { FoodItemRepositoryImpl() }
 }
