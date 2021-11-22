@@ -5,9 +5,9 @@ import java.util.*
 
 data class FoodItem(
     override val id: String = UUID.randomUUID().toString(),
-    override var name: String,
-    override var description: String,
-    override var points: Float,
+    override var name: String = "",
+    override var description: String = "",
+    override var points: Float = 0F,
     // 'isFavorite' will actually only be used when we retrieve a complete list of the 'FoodItems'
     override var isFavorite: Boolean = false
 ) : FoodItemBase(id, name, description, points, isFavorite)

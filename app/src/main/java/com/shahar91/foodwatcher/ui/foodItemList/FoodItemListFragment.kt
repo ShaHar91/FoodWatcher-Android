@@ -14,13 +14,13 @@ import be.appwise.emptyRecyclerView.RecyclerViewState
 import com.reddit.indicatorfastscroll.FastScrollItemIndicator
 import com.reddit.indicatorfastscroll.FastScrollerView
 import com.shahar91.foodwatcher.R
-import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.databinding.FragmentFoodItemListBinding
 import com.shahar91.foodwatcher.ui.base.AppBaseBindingVMFragment
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.DataItem
 import com.shahar91.foodwatcher.ui.foodItemList.adapter.FoodItemAdapter
 import com.shahar91.foodwatcher.ui.myDay.adapter.ViewTypeItemDecoration
+import com.shahar91.foodwatcher.utils.Constants
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBinding>() {
@@ -34,7 +34,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBindin
         override fun onFoodItemClicked(foodItem: FoodItem) {
             Log.d("something", "onFoodItemClicked: ")
 
-            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id, DBConstants.INVALID_ID)
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddMealEntryFragment(foodItem.id, Constants.INVALID_ID)
                 .run(findNavController()::navigate)
         }
     }
@@ -128,7 +128,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBindin
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_foodItemListFragment_to_addFoodItemFragment) {
             // Navigating manually as the Transition Animation weren't working
-            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddFoodItemFragment(DBConstants.INVALID_ID).run(findNavController()::navigate)
+            FoodItemListFragmentDirections.actionFoodItemListFragmentToAddFoodItemFragment(Constants.INVALID_ID).run(findNavController()::navigate)
             return true
         }
 

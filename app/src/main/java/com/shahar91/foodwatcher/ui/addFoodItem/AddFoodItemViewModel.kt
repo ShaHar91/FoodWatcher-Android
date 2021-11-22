@@ -4,9 +4,9 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.textfield.TextInputLayout
-import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodItem
 import com.shahar91.foodwatcher.data.repository.FoodItemRepository
+import com.shahar91.foodwatcher.utils.Constants
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -30,7 +30,7 @@ class AddFoodItemViewModel(
     }
 
     private val state: State = when (foodItemId) {
-        DBConstants.INVALID_ID -> State.ADD
+        Constants.INVALID_ID -> State.ADD
         else -> State.EDIT
     }
 

@@ -10,13 +10,13 @@ import androidx.lifecycle.Transformations
 import be.appwise.core.ui.base.BaseViewModel
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.Meal
 import com.shahar91.foodwatcher.data.repository.FavoriteFoodItemRepository
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.data.repository.FoodItemRepository
 import com.shahar91.foodwatcher.utils.CommonUtils
+import com.shahar91.foodwatcher.utils.Constants
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -65,7 +65,7 @@ class AddMealEntryViewModel(
     }
 
     private val state: State = when (foodEntryId) {
-        DBConstants.INVALID_ID -> State.ADD
+        Constants.INVALID_ID -> State.ADD
         else -> State.EDIT
     }
 
