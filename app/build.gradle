@@ -110,9 +110,9 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.appwise-labs.AndroidCore:core:bd3206b8b2'
-    implementation 'com.github.appwise-labs.AndroidCore:room:bd3206b8b2'
-    implementation 'com.github.appwise-labs.AndroidCore:emptyRecyclerView:bd3206b8b2'
+    implementation 'com.github.appwise-labs.AndroidCore:core:023945cb98'
+    implementation 'com.github.appwise-labs.AndroidCore:room:023945cb98'
+    implementation 'com.github.appwise-labs.AndroidCore:emptyRecyclerView:023945cb98'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
