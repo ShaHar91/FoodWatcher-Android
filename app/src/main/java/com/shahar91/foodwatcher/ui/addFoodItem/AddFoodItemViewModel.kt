@@ -21,10 +21,12 @@ class AddFoodItemViewModel(
 
     init {
         vmScope.launch {
-            foodItemRepository.findFoodItemById(foodItemId)?.let {
-                this@AddFoodItemViewModel.name.postValue(it.name)
-                this@AddFoodItemViewModel.description.postValue(it.description)
-                this@AddFoodItemViewModel.points.postValue(it.showPointsToEdit())
+            if (!isAddingNew()) {
+                foodItemRepository.findFoodItemById(foodItemId)?.let {
+                    this@AddFoodItemViewModel.name.postValue(it.name)
+                    this@AddFoodItemViewModel.description.postValue(it.description)
+                    this@AddFoodItemViewModel.points.postValue(it.showPointsToEdit())
+                }
             }
         }
     }
