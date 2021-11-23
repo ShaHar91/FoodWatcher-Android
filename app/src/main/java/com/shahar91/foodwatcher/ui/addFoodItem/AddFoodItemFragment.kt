@@ -33,9 +33,9 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>
         }
 
         val toolbarTitle = if (mViewModel.isAddingNew()) {
-            "Add item"
+            getString(R.string.add_food_item_toolbar_title)
         } else {
-            "Edit item"
+            getString(R.string.add_food_item_edit_toolbar_title)
         }
 
         (requireActivity() as AppCompatActivity).supportActionBar?.title = toolbarTitle
@@ -82,9 +82,9 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>
 
     private fun showFeedbackToUser() {
         val feedback = if (mViewModel.isAddingNew()) {
-            "Item was added successfully!"
+            getString(R.string.add_food_item_saved)
         } else {
-            "Changes have been successfully saved!"
+            getString(R.string.add_food_item_updated)
         }
 
         Snackbar.make(mBinding.btnSaveFoodItem, feedback, Snackbar.LENGTH_SHORT).show()

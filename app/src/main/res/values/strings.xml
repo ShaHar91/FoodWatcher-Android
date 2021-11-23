@@ -1,12 +1,55 @@
 <resources>
-    <string name="app_name">FoodWatcher</string>
+    <string name="app_name" translatable="false">FoodWatcher</string>
 
-    <string name="my_day_delete_entry_title">Delete %s</string>
+    <string name="common_save">Save</string>
+
+    <string name="dialog_common_delete_item_title">Delete %s</string>
+
+    <string name="dialog_day_description_message">Provide more information about your day.</string>
+
+    <string name="my_day_toolbar_title">Food Diary</string>
+    <string name="my_day_remaining_points">Daily Remaining</string>
+    <string name="my_day_remaining_points_weekly">Weekly\nRemaining</string>
+    <string name="my_day_empty">No entry found for this day, try adding a meal you ate to find out what points remain.</string>
     <string name="my_day_delete_entry_content">This will delete the entry for %s for eternity, are you sure you want to delete it?</string>
     <string name="my_day_delete_entry_successful">Item was removed successfully!</string>
+    <string name="my_day_menu_information">Information</string>
 
+    <string name="food_item_list_toolbar_title">Food items</string>
+    <string name="food_item_list_empty">There is no data yet, try adding a new item to the list!</string>
+    <string name="food_item_search_hint">Search food items</string>
+
+    <string name="add_meal_delete_item_content">This will delete %s for eternity, are you sure you want to delete it?</string>
+    <string name="add_meal_delete_item_successful">Item was removed successfully!</string>
+    <string name="add_meal_delete_entry_content">"This will delete the entry for %s for eternity, are you sure you want to delete it?"</string>
+    <string name="add_meal_saved">Entry was added successfully!</string>
+    <string name="add_meal_updated">Entry was changed successfully!</string>
+    <string name="add_meal_serving_size_hint">Serving size</string>
+    <string name="add_meal_date_hint">Date</string>
+    <string name="add_meal_toolbar_title">Add entry</string>
+    <string name="add_meal_edit_toolbar_title">Edit entry</string>
+    <string name="add_meal_points_required">Please give a point</string>
+    <string name="add_meal_menu_delete">Delete</string>
+    <string name="add_meal_menu_edit">Edit</string>
+    <string name="add_meal_menu_favorite">Toggle favorite</string>
+
+    <string name="add_food_item_toolbar_title">Add item</string>
+    <string name="add_food_item_edit_toolbar_title">Edit item</string>
+    <string name="add_food_item_saved">Item was added successfully!</string>
+    <string name="add_food_item_updated">Changes have been successfully saved!</string>
+    <string name="add_food_item_name_hint">Name</string>
+    <string name="add_food_item_name_required">Please fill in a name</string>
+    <string name="add_food_item_description_hint">Description</string>
+    <string name="add_food_item_points_hint">Points</string>
+    <string name="add_food_item_points_required">Please give a point</string>
+    <string name="add_food_item_menu_add">Add item</string>
+
+    <string name="meal_breakfast">Breakfast</string>
     <string name="meal_empty_breakfast">Nothing added as a breakfast yet</string>
+    <string name="meal_lunch">Lunch</string>
     <string name="meal_empty_lunch">Nothing added as a lunch yet</string>
+    <string name="meal_dinner">Dinner</string>
     <string name="meal_empty_dinner">Nothing added as a dinner yet</string>
+    <string name="meal_snack">Snack</string>
     <string name="meal_empty_snack">Nothing added as a snack yet</string>
 </resources>

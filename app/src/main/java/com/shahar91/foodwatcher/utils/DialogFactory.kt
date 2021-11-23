@@ -11,8 +11,8 @@ object DialogFactory {
         MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setMessage(content)
-            .setPositiveButton("Yes") { _, _ -> onDeleteConfirmed() }
-            .setNegativeButton("cancel") { _, _ -> }
+            .setPositiveButton(android.R.string.ok) { _, _ -> onDeleteConfirmed() }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
             .show()
     }
 
@@ -23,12 +23,12 @@ object DialogFactory {
         }
 
         MaterialAlertDialogBuilder(context)
-            .setMessage("Provide more information about your day.")
+            .setMessage(R.string.dialog_day_description_message)
             .setView(view)
-            .setPositiveButton("save") { _, _ ->
+            .setPositiveButton(R.string.common_save) { _, _ ->
                 onSaveClicked(inputView.editText?.text.toString())
             }
-            .setNegativeButton("cancel") { _, _ -> }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
             .setCancelable(false)
             .show()
     }

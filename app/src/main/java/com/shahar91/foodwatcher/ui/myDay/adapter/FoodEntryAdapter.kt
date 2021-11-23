@@ -1,5 +1,6 @@
 package com.shahar91.foodwatcher.ui.myDay.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -111,14 +112,14 @@ class FoodEntryAdapter(private val listener: FoodEntryInteractionListener) :
         }
     }
 
-    fun addHeaderAndSubmitList(list: List<FoodEntry>) = adapterScope.launch {
+    fun addHeaderAndSubmitList(context: Context, list: List<FoodEntry>) = adapterScope.launch {
         val dataItemList: MutableList<DataItem> = mutableListOf()
 
         if (list.isNotEmpty()) {
             val groupedList = list.groupBy { it.meal }
 
             Meal.values().forEach {
-                dataItemList.add(DataItem.Header(it.content))
+                dataItemList.add(DataItem.Header(context.getString(it.content)))
                 dataItemList.addAll(groupedList[it]?.map { item -> DataItem.FoodEntryItem(item) } ?: listOf(DataItem.Empty(it)))
             }
         }

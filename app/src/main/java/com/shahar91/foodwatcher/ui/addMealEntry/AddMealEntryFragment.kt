@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import be.appwise.core.extensions.fragment.hideKeyboard
@@ -36,6 +37,14 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBindin
             lifecycleOwner = viewLifecycleOwner
             viewModel = mViewModel
         }
+
+        val toolbarTitle = if (mViewModel.isAddingNew()) {
+            getString(R.string.add_meal_toolbar_title)
+        } else {
+            getString(R.string.add_meal_edit_toolbar_title)
+        }
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.title = toolbarTitle
 
         initObservers()
         initViews()
@@ -74,7 +83,7 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBindin
                 }
 
                 mViewModel.saveMealEntry(CommonUtils.getNumberAsFloat(servingSize ?: "0")) {
-                    val message = if (mViewModel.isAddingNew()) "Item was added successfully!" else "Item was changed successfully!"
+                    val message = if (mViewModel.isAddingNew()) getString(R.string.add_meal_saved) else getString(R.string.add_meal_updated)
 
                     exitFragmentAndShowMessage(message)
                 }
@@ -87,11 +96,11 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBindin
 
         DialogFactory.showConfirmationDialog(
             requireContext(),
-            "Delete $itemName",
-            "This will delete '$itemName' for eternity, are you sure you want to delete it?"
+            getString(R.string.dialog_common_delete_item_title, itemName),
+            getString(R.string.add_meal_delete_item_content, itemName)
         ) {
             mViewModel.deleteFoodItem {
-                exitFragmentAndShowMessage("Item was removed successfully!")
+                exitFragmentAndShowMessage(getString(R.string.add_meal_delete_item_successful))
             }
         }
     }
@@ -101,11 +110,11 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBindin
 
         DialogFactory.showConfirmationDialog(
             requireContext(),
-            "Delete ${foodEntry.foodItemName}",
-            "This will delete the entry for '${foodEntry.foodItemName}' for eternity, are you sure you want to delete it?"
+            getString(R.string.dialog_common_delete_item_title, foodEntry.foodItemName),
+            getString(R.string.add_meal_delete_entry_content, foodEntry.foodItemName)
         ) {
             mViewModel.deleteFoodEntry(foodEntry) {
-                exitFragmentAndShowMessage("Item was removed successfully!")
+                exitFragmentAndShowMessage(getString(R.string.add_meal_delete_item_successful))
             }
         }
     }

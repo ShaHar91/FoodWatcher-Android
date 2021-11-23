@@ -62,7 +62,7 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
         mViewModel.let {
 
             it.items.observe(viewLifecycleOwner, { list ->
-                foodEntryAdapter.addHeaderAndSubmitList(list)
+                foodEntryAdapter.addHeaderAndSubmitList(requireContext(), list)
             })
 
             it.myDayDescription.observe(viewLifecycleOwner, {
@@ -133,7 +133,7 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     private fun deleteFoodEntry(foodEntry: FoodEntry) {
         DialogFactory.showConfirmationDialog(
             requireContext(),
-            getString(R.string.my_day_delete_entry_title, foodEntry.foodItemName),
+            getString(R.string.dialog_common_delete_item_title, foodEntry.foodItemName),
             getString(R.string.my_day_delete_entry_content, foodEntry.foodItemName)
         ) {
             mViewModel.deleteFoodEntry(foodEntry) {

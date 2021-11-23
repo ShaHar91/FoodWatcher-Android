@@ -104,8 +104,8 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="12dp"
-                    android:errorText="@{viewModel.servingSize.empty ? `Please give a point`: ``}"
-                    android:hint="Serving size"
+                    android:errorText="@{viewModel.servingSize.empty ? @string/add_meal_points_required: ``}"
+                    android:hint="@string/add_meal_serving_size_hint"
                     app:errorEnabled="@{viewModel.servingSize.empty}"
                     app:layout_constraintTop_toBottomOf="@id/ivTableBackground">
 
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:hint="Date"
+                        android:hint="@string/add_meal_date_hint"
                         android:inputType="none"
                         android:longClickable="false"
                         android:text="@{viewModel.selectionAsString}" />
@@ -187,7 +187,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="18dp"
-            android:text="Save"
+            android:text="@string/common_save"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

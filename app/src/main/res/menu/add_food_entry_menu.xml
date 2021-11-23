@@ -5,18 +5,18 @@
         android:id="@+id/action_favoriteFoodItem"
         android:icon="@drawable/ic_favorite_outline"
         android:menuCategory="secondary"
-        android:title="Add to favorite"
+        android:title="@string/add_meal_menu_favorite"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_editFoodItem"
         android:menuCategory="secondary"
-        android:title="Edit"
+        android:title="@string/add_meal_menu_edit"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_deleteFoodItem"
         android:menuCategory="secondary"
-        android:title="Delete"
+        android:title="@string/add_meal_menu_delete"
         app:showAsAction="never" />
 </menu>

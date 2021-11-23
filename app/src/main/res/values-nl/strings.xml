@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_save">Opslaan</string>
+
+    <string name="dialog_common_delete_item_title">Verwijder %s</string>
+
+    <string name="dialog_day_description_message">Geef meer info over jouw dag.</string>
+
+    <string name="my_day_toolbar_title">Eten dagboek</string>
+    <string name="my_day_remaining_points">Dagelijks resterend</string>
+    <string name="my_day_remaining_points_weekly">Wekelijks\nResterend</string>
+    <string name="my_day_empty">Geen ingave gevonden voor deze dag, probeer een maaltijd toe te voegen dat je gegeten hebt om te zien hoeveel punten overblijven.</string>
+    <string name="my_day_delete_entry_content">Dit zal de ingave voor %s voor altijd verwijderen, ben je zeker dat je dit wil doen?</string>
+    <string name="my_day_delete_entry_successful">Item was succesvol verwijderd!</string>
+    <string name="my_day_menu_information">Informatie</string>
+
+    <string name="food_item_list_toolbar_title">Etenswaren</string>
+    <string name="food_item_list_empty">Er is nog geen data, probeer een item to toe voegen aan de lijst!</string>
+    <string name="food_item_search_hint">Zoek etenswaren</string>
+
+    <string name="add_meal_delete_item_content">Dit zal %s voor altijd verwijderen, ben je zeker dat je dit wil doen?</string>
+    <string name="add_meal_delete_item_successful">Item is succesvol verwijderd!</string>
+    <string name="add_meal_delete_entry_content">"Dit zal de ingave voor %s voor altijd verwijderen, ben je zeker dat je dit wil doen?"</string>
+    <string name="add_meal_saved">Ingave is succesvol toegevoegd!</string>
+    <string name="add_meal_updated">Ingave is succesvol gewijzigd!</string>
+    <string name="add_meal_serving_size_hint">Portie</string>
+    <string name="add_meal_date_hint">Datum</string>
+    <string name="add_meal_toolbar_title">Ingave toevoegen</string>
+    <string name="add_meal_edit_toolbar_title">Ingave aanpassen</string>
+    <string name="add_meal_points_required">Voeg de punten toe</string>
+    <string name="add_meal_menu_delete">Verwijderen</string>
+    <string name="add_meal_menu_edit">Aanpassen</string>
+    <string name="add_meal_menu_favorite">Wijzig favoriet</string>
+
+    <string name="add_food_item_toolbar_title">Item toevoegen</string>
+    <string name="add_food_item_edit_toolbar_title">Item aanpassen</string>
+    <string name="add_food_item_saved">Item is successvol toegevoegd!</string>
+    <string name="add_food_item_updated">Wijzigingen zijn succesvolg opgeslagen!</string>
+    <string name="add_food_item_name_hint">Naam</string>
+    <string name="add_food_item_name_required">Vergeet geen naam in te geven</string>
+    <string name="add_food_item_description_hint">Omschrijving</string>
+    <string name="add_food_item_points_hint">Punten</string>
+    <string name="add_food_item_points_required">Vergeet geen punten in te geven</string>
+    <string name="add_food_item_menu_add">Voeg item toe</string>
+
+    <string name="meal_breakfast">Ontbijt</string>
+    <string name="meal_empty_breakfast">Nog niets toegevoegd als ontbijt</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_empty_lunch">Nog niets toegevoegd als lunch</string>
+    <string name="meal_dinner">Avond</string>
+    <string name="meal_empty_dinner">Nog niets toegevoegd als avondeten</string>
+    <string name="meal_snack">Snack</string>
+    <string name="meal_empty_snack">Nog niets toegevoegd als snack</string>
+</resources>

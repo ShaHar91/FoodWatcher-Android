@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:text="Daily Remaining"
+                    android:text="@string/my_day_remaining_points"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textSize="10sp"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:gravity="center"
-                    android:text="Weekly\nRemaining"
+                    android:text="@string/my_day_remaining_points_weekly"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?attr/colorOnPrimarySurface"
                     android:textSize="10sp"
@@ -145,7 +145,7 @@
                     android:layout_marginHorizontal="62dp"
                     android:layout_marginTop="24dp"
                     android:gravity="center"
-                    android:text="No entry found for this day, try adding a meal you ate to find out what points remain." />
+                    android:text="@string/my_day_empty" />
             </LinearLayout>
 
             <be.appwise.emptyRecyclerView.ViewStateRecyclerView

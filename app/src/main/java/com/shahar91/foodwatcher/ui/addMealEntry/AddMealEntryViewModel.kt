@@ -28,6 +28,7 @@ class AddMealEntryViewModel(
     private val foodItemRepository: FoodItemRepository,
     private val favoriteFoodItemRepository: FavoriteFoodItemRepository
 ) : BaseViewModel() {
+
     enum class State {
         ADD,
         EDIT

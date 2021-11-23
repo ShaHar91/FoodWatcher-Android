@@ -7,5 +7,5 @@
         app:showAsAction="always"
         android:menuCategory="secondary"
         android:icon="@drawable/ic_add"
-        android:title="Add Food Item"/>
+        android:title="@string/add_food_item_menu_add"/>
 </menu>
