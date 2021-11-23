@@ -8,6 +8,8 @@ import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
 import com.shahar91.foodwatcher.databinding.CvMonthViewBinding
 import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.*
 
 class MonthViewHeaderBinder : MonthHeaderFooterBinder<MonthViewHeaderContainer> {
     override fun create(view: View) = MonthViewHeaderContainer(view)
@@ -17,7 +19,7 @@ class MonthViewHeaderBinder : MonthHeaderFooterBinder<MonthViewHeaderContainer> 
             container.legendLayout.tag = month.yearMonth
             container.legendLayout.children.map { it as TextView }
                 .forEachIndexed { index, tv ->
-                    tv.text = daysOfWeekFromLocale()[index].name.first().toString()
+                    tv.text = daysOfWeekFromLocale()[index].getDisplayName(TextStyle.NARROW_STANDALONE, Locale.getDefault())
                 }
         }
     }

@@ -6,7 +6,7 @@
 
     <string name="dialog_day_description_message">Geef meer info over jouw dag.</string>
 
-    <string name="my_day_toolbar_title">Eten dagboek</string>
+    <string name="my_day_toolbar_title">Dagelijkse ingave</string>
     <string name="my_day_remaining_points">Dagelijks resterend</string>
     <string name="my_day_remaining_points_weekly">Wekelijks\nResterend</string>
     <string name="my_day_empty">Geen ingave gevonden voor deze dag, probeer een maaltijd toe te voegen dat je gegeten hebt om te zien hoeveel punten overblijven.</string>
