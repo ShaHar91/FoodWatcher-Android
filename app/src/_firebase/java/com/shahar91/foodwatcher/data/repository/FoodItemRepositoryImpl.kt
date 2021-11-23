@@ -47,7 +47,7 @@ class FoodItemRepositoryImpl : FoodItemRepository {
     }
 
     override fun getFoodItemsByQuery(query: String): LiveData<List<FoodItem>> =
-        FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ITEM).livedata(FoodItem::class.java).asFlow()
+        FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ITEM).orderBy("name").livedata(FoodItem::class.java).asFlow()
             .map {
                 it.filter { item -> item.name.contains(query, true) }
             }
