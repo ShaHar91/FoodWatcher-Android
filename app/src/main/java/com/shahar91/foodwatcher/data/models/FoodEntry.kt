@@ -5,13 +5,13 @@ import java.util.*
 
 data class FoodEntry(
     override var id: String = UUID.randomUUID().toString(),
-    override var amount: Float,
-    override var date: Long,
-    override var meal: Meal,
+    override var amount: Float = 0f,
+    override var date: Long = 0,
+    override var meal: Meal = Meal.BREAKFAST,
     override var foodItemId: String = "",
-    override var foodItemName: String,
-    override var foodItemDescription: String,
-    override var foodItemPoints: Float
+    override var foodItemName: String = "",
+    override var foodItemDescription: String = "",
+    override var foodItemPoints: Float = 0f
 ) : FoodEntryBase(id, amount, date, meal, foodItemId, foodItemName, foodItemDescription, foodItemPoints)
 
 open class FoodEntryBase(
