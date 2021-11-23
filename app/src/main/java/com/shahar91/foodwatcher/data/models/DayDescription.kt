@@ -4,6 +4,6 @@ import java.util.*
 
 open class DayDescription(
     open val id: String = UUID.randomUUID().toString(),
-    open var description: String,
-    open var date: Long
+    open var description: String = "",
+    open var date: Long = 0
 )

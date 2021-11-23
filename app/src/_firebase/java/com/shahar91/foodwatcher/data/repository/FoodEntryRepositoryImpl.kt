@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.shahar91.foodwatcher.BuildConfig
 import com.shahar91.foodwatcher.data.firebaseLiveData.livedata
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.utils.HawkManager
@@ -15,10 +16,11 @@ class FoodEntryRepositoryImpl : FoodEntryRepository {
 
     companion object {
         private const val COLLECTION_FOOD_ENTRY = "foodEntries"
+        private const val ENVIRONMENT = BuildConfig.FLAVOR_env
     }
 
     //TODO: this should be changed to a complete list for the active month, this will be done when the eventDots will be added to the calendar!!
-    private val completeList = FirebaseFirestore.getInstance().collection(COLLECTION_FOOD_ENTRY).livedata(FoodEntry::class.java)
+    private val completeList = FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ENTRY).livedata(FoodEntry::class.java)
 
     override fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntry>> =
         completeList.asFlow()
@@ -28,12 +30,12 @@ class FoodEntryRepositoryImpl : FoodEntryRepository {
             .asLiveData()
 
     override suspend fun createFoodEntry(foodEntry: FoodEntry): Long {
-        FirebaseFirestore.getInstance().collection(COLLECTION_FOOD_ENTRY).document(foodEntry.id).set(foodEntry)
+        FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ENTRY).document(foodEntry.id).set(foodEntry)
         return -1
     }
 
     override suspend fun deleteFoodEntry(foodEntry: FoodEntry) {
-        FirebaseFirestore.getInstance().collection(COLLECTION_FOOD_ENTRY).document(foodEntry.id).delete()
+        FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ENTRY).document(foodEntry.id).delete()
     }
 
     override suspend fun getWeekTotal(startWeek: Long): Float {
@@ -77,7 +79,7 @@ class FoodEntryRepositoryImpl : FoodEntryRepository {
 
 
     override suspend fun findFoodEntryById(foodEntryId: String): FoodEntry? = suspendCancellableCoroutine { c ->
-        FirebaseFirestore.getInstance().collection(COLLECTION_FOOD_ENTRY).document(foodEntryId).get().addOnCompleteListener {
+        FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ENTRY).document(foodEntryId).get().addOnCompleteListener {
             if (!c.isActive) return@addOnCompleteListener
 
             if (it.isSuccessful) {
@@ -89,6 +91,6 @@ class FoodEntryRepositoryImpl : FoodEntryRepository {
     }
 
     override suspend fun updateFoodEntry(foodEntry: FoodEntry) {
-        FirebaseFirestore.getInstance().collection(COLLECTION_FOOD_ENTRY).document(foodEntry.id).set(foodEntry)
+        FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ENTRY).document(foodEntry.id).set(foodEntry)
     }
 }
