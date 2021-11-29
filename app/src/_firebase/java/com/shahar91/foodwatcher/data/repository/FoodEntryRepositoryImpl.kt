@@ -8,6 +8,7 @@ import com.shahar91.foodwatcher.BuildConfig
 import com.shahar91.foodwatcher.data.firebaseLiveData.livedata
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.utils.HawkManager
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -19,8 +20,10 @@ class FoodEntryRepositoryImpl : FoodEntryRepository {
         private const val ENVIRONMENT = BuildConfig.FLAVOR_env
     }
 
-    //TODO: this should be changed to a complete list for the active month, this will be done when the eventDots will be added to the calendar!!
     private val completeList = FirebaseFirestore.getInstance().collection(ENVIRONMENT).document(ENVIRONMENT).collection(COLLECTION_FOOD_ENTRY).livedata(FoodEntry::class.java)
+
+    override fun getFoodEntriesFlow(fromDate: Long, toDate: Long): Flow<List<FoodEntry>> =
+        completeList.asFlow().map { it.filter { item -> item.date in fromDate..toDate }.sortedBy { item -> item.meal } }
 
     override fun getFoodEntries(fromDate: Long, toDate: Long): LiveData<List<FoodEntry>> =
         completeList.asFlow()

@@ -24,8 +24,8 @@
         android:layout_height="6dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginTop="2dp"
+        android:visibility="invisible"
         android:background="@drawable/ic_circle"
-        android:visibility="gone"
         tools:backgroundTint="@color/design_default_color_error"
         tools:visibility="visible" />
 </LinearLayout>

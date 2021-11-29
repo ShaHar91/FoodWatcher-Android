@@ -61,13 +61,20 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
     private fun initObservers() {
         mViewModel.let {
 
-            it.items.observe(viewLifecycleOwner, { list ->
+            it.items.observe(viewLifecycleOwner) { list ->
                 foodEntryAdapter.addHeaderAndSubmitList(requireContext(), list)
-            })
+            }
 
-            it.myDayDescription.observe(viewLifecycleOwner, {
+            it.myDayDescription.observe(viewLifecycleOwner) {
                 requireActivity().invalidateOptionsMenu()
-            })
+            }
+
+            it.monthEntries.observe(viewLifecycleOwner) { list ->
+                dayBinder.events = list
+                list.forEach { date ->
+                    mBinding.cvCalendar.notifyDateChanged(date)
+                }
+            }
         }
     }
 
@@ -108,6 +115,7 @@ class MyDayFragment : AppBaseBindingVMFragment<FragmentMyDayBinding>() {
             it.scrollToDate(selectedDate)
             it.monthScrollListener = { calendarMonth ->
                 mBinding.tvMonth.text = mViewModel.getCorrectMonthAsString(calendarMonth)
+                mViewModel.setMonthEntries(calendarMonth)
             }
             selectDate(selectedDate)
         }

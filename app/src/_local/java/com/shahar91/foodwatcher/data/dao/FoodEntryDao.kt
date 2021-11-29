@@ -9,9 +9,14 @@ import com.shahar91.foodwatcher.data.DBConstants
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.FoodEntryEntity
 import com.shahar91.foodwatcher.utils.HawkManager
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class FoodEntryDao : BaseRoomDao<FoodEntryEntity>(DBConstants.FOOD_ENTRY_TABLE_NAME) {
+
+    @Transaction
+    @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate ORDER BY meal")
+    abstract fun getFoodEntriesFlow(fromDate: Long, toDate: Long): Flow<List<FoodEntry>>
 
     @Transaction
     @Query("SELECT * FROM ${DBConstants.FOOD_ENTRY_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate ORDER BY meal")

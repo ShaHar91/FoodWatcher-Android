@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
+import be.appwise.core.extensions.view.invisible
+import be.appwise.core.extensions.view.show
 import com.google.android.material.color.MaterialColors
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.DayOwner
@@ -16,7 +18,9 @@ import com.shahar91.foodwatcher.databinding.CvDayViewBinding
 import java.time.LocalDate
 
 class DayViewBinder(private val selectDate: (data: LocalDate) -> Unit) : DayBinder<DayViewContainer> {
+
     var selectedDate: LocalDate? = null
+    var events: List<LocalDate> = emptyList()
 
     override fun create(view: View) = DayViewContainer(view) {
         selectDate(it)
@@ -28,12 +32,18 @@ class DayViewBinder(private val selectDate: (data: LocalDate) -> Unit) : DayBind
         container.textView.text = day.date.dayOfMonth.toString()
 
         when (day.date) {
-            selectedDate ->
+            selectedDate -> {
                 styleDateLayout(container, R.attr.colorOnPrimarySurface, R.drawable.bg_calendar_day_filled)
-            LocalDate.now() ->
+                styleDotLayout(container.dotView, R.attr.colorOnPrimarySurface, day.date)
+            }
+            LocalDate.now() -> {
                 styleDateLayout(container, R.attr.colorOnSurface, R.drawable.bg_calendar_day_today)
-            else ->
+                styleDotLayout(container.dotView, R.attr.colorOnSurface, day.date)
+            }
+            else -> {
                 styleDateLayout(container, R.attr.colorOnSurface, R.drawable.bg_calendar_day_filled, R.attr.colorBackground)
+                styleDotLayout(container.dotView, R.attr.colorOnSurface, day.date)
+            }
         }
     }
 
@@ -47,6 +57,19 @@ class DayViewBinder(private val selectDate: (data: LocalDate) -> Unit) : DayBind
 
         container.llDayView.setBackgroundResource(backGroundRes)
         container.llDayView.backgroundTintList = backgroundColorRes?.let { ColorStateList.valueOf(MaterialColors.getColor(container.llDayView, it)) }
+    }
+
+    private fun styleDotLayout(
+        dotLayout: View,
+        @AttrRes textColor: Int,
+        date: LocalDate
+    ) {
+        if (events.any { it == date }) {
+            dotLayout.show()
+            dotLayout.backgroundTintList = ColorStateList.valueOf(MaterialColors.getColor(dotLayout, textColor))
+        } else {
+            dotLayout.invisible()
+        }
     }
 }
 

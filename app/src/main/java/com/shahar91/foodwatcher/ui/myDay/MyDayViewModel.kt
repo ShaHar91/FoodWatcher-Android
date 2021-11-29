@@ -3,9 +3,11 @@ package com.shahar91.foodwatcher.ui.myDay
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.asLiveData
 import be.appwise.core.ui.base.BaseViewModel
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
+import com.kizitonwose.calendarview.utils.yearMonth
 import com.shahar91.foodwatcher.R
 import com.shahar91.foodwatcher.data.models.DayDescription
 import com.shahar91.foodwatcher.data.models.FoodEntry
@@ -13,18 +15,19 @@ import com.shahar91.foodwatcher.data.repository.DayDescriptionRepository
 import com.shahar91.foodwatcher.data.repository.FoodEntryRepository
 import com.shahar91.foodwatcher.utils.CommonUtils
 import com.shahar91.foodwatcher.utils.HawkManager
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.Month
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 class MyDayViewModel(
     private val dayDescriptionRepository: DayDescriptionRepository,
     private val foodEntryRepository: FoodEntryRepository
 ) : BaseViewModel() {
+
     private val _calendarDay = MutableLiveData<LocalDate>().apply { value = LocalDate.now() }
     val calendarDay: LiveData<LocalDate> get() = _calendarDay
     fun setSelectedDate(date: LocalDate) = _calendarDay.postValue(date)
@@ -42,6 +45,31 @@ class MyDayViewModel(
 
     // When the list of items gets updated the 'dayTotal' gets updated as well
     val dayTotal = Transformations.map(items) { updateTotalPoints(it) }
+
+    private var _fetchForMonth = MutableLiveData<CalendarMonth>()
+    private var fetchForMonthJob: Job? = null
+    fun setMonthEntries(calendarMonth: CalendarMonth) {
+        fetchForMonthJob?.cancel()
+        fetchForMonthJob = vmScope.launch {
+            delay(750)
+            _fetchForMonth.postValue(calendarMonth)
+        }
+    }
+
+    val monthEntries = Transformations.switchMap(_fetchForMonth) { month ->
+        val startMonth = month.weekDays.first().first().date.yearMonth.atDay(1).minusMonths(1).atStartOfDayMillis()
+        val endMonth = month.weekDays.last().last().date.yearMonth.atEndOfMonth().plusMonths(1).atEndOfDayMillis()
+
+        foodEntryRepository.getFoodEntriesFlow(startMonth, endMonth)
+            .map {
+                it.map { item ->
+                    Instant.ofEpochMilli(item.date)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+                }.distinct()
+            }
+            .asLiveData()
+    }
 
     /**
      * The Calendar can show multiple months in 1 line (in week mode).

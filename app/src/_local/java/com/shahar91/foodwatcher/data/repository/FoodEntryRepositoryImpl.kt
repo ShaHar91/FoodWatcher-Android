@@ -3,10 +3,13 @@ package com.shahar91.foodwatcher.data.repository
 import com.shahar91.foodwatcher.data.dao.FoodEntryDao
 import com.shahar91.foodwatcher.data.models.FoodEntry
 import com.shahar91.foodwatcher.data.models.createEntity
+import kotlinx.coroutines.flow.Flow
 
 class FoodEntryRepositoryImpl(
     private val foodEntryDao: FoodEntryDao
 ) : FoodEntryRepository {
+
+    override fun getFoodEntriesFlow(fromDate: Long, toDate: Long) = foodEntryDao.getFoodEntriesFlow(fromDate, toDate)
 
     override fun getFoodEntries(fromDate: Long, toDate: Long) = foodEntryDao.getFoodEntries(fromDate, toDate)
 
