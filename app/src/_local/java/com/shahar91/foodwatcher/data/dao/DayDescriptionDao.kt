@@ -11,5 +11,5 @@ import com.shahar91.foodwatcher.data.models.DayDescriptionEntity
 @Dao
 abstract class DayDescriptionDao : BaseRoomDao<DayDescriptionEntity>(DBConstants.DAY_DESCRIPTION_TABLE_NAME) {
     @Query("SELECT * FROM ${DBConstants.DAY_DESCRIPTION_TABLE_NAME} WHERE date BETWEEN :fromDate AND :toDate")
-    abstract fun getDescriptionForDay(fromDate: Long, toDate: Long): LiveData<DayDescription>
+    abstract fun getDescriptionForDay(fromDate: Long, toDate: Long): LiveData<DayDescription?>
 }
