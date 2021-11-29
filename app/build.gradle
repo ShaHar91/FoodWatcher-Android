@@ -136,4 +136,6 @@ dependencies {
 
     _firebaseImplementation platform('com.google.firebase:firebase-bom:29.0.0')
     _firebaseImplementation "com.google.firebase:firebase-firestore-ktx"
+
+    implementation 'com.akexorcist:localization:1.2.9'
 }
