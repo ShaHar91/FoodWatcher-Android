@@ -1,7 +1,6 @@
 # built application files
 *.apk
 *.ap_
-*.aab
 
 # files for the dex VM
 *.dex
@@ -22,6 +21,8 @@ local.properties
 
 # Android Studio
 .idea/
+.idea
+/.idea/
 .gradle
 */local.properties
 */out
@@ -41,5 +42,17 @@ com_crashlytics_export_strings.xml
 crashlytics-build.properties
 crashlytics.properties
 
-# signing
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/test_output
+fastlane/README.md
+fastlane/build
+
+#keystore en json ignoren
+signing.jks
+gc_fastlane_keys.json
 signing.gradle
+
+#zodat Bitrise CI dirty kan managen fix for detached header
+Vendor
