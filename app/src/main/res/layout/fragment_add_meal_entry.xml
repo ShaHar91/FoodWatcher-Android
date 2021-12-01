@@ -17,9 +17,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.addMealEntry.AddMealEntryFragment">
 
-        <include
-            android:id="@+id/mergeToolbar"
-            layout="@layout/component_toolbar" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mtbMain"
+            style="?attr/toolbarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:title="FoodWatcher" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -65,9 +69,9 @@
                     android:id="@+id/tvFoodItemName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:layout_marginHorizontal="52dp"
                     android:layout_marginTop="4dp"
+                    android:gravity="center_horizontal"
                     android:maxLines="2"
                     android:text="@{viewModel.foodItem.name}"
                     android:textAppearance="?attr/textAppearanceBody1"
@@ -83,9 +87,9 @@
                     android:id="@+id/tvFoodItemDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="112dp"
                     android:layout_marginTop="4dp"
                     android:gravity="center_horizontal"
-                    android:layout_marginHorizontal="112dp"
                     android:text="@{viewModel.foodItem.description}"
                     android:textAppearance="?attr/textAppearanceCaption"
                     android:textColor="?attr/colorOnSurface"

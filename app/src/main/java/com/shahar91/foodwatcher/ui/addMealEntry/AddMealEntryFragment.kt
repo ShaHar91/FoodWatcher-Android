@@ -22,7 +22,7 @@ import org.koin.core.parameter.parametersOf
 class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBinding>() {
     private val safeArgs: AddMealEntryFragmentArgs by navArgs()
 
-    override fun getToolbar() = mBinding.mergeToolbar.mtbMain
+    override fun getToolbar() = mBinding.mtbMain
     override fun getLayout() = R.layout.fragment_add_meal_entry
     override val mViewModel: AddMealEntryViewModel by viewModel {
         parametersOf(safeArgs.foodItemId, safeArgs.foodEntryId)

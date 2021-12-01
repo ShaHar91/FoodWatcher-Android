@@ -27,7 +27,7 @@ class FoodItemListFragment : AppBaseBindingVMFragment<FragmentFoodItemListBindin
 
     override val mViewModel: FoodItemListViewModel by viewModel()
     override fun getLayout() = R.layout.fragment_food_item_list
-    override fun getToolbar() = mBinding.mergeToolbar.mtbMain
+    override fun getToolbar() = mBinding.mtbMain
 
     private lateinit var foodItemAdapter: FoodItemAdapter
     private val foodItemAdapterListener = object : FoodItemAdapter.FoodItemInteractionListener {

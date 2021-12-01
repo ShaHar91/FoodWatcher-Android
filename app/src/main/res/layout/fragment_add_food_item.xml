@@ -15,9 +15,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.addFoodItem.AddFoodItemFragment">
 
-        <include
-            android:id="@+id/mergeToolbar"
-            layout="@layout/component_toolbar" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mtbMain"
+            style="?attr/toolbarStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:title="FoodWatcher" />
 
         <ScrollView
             android:layout_width="match_parent"

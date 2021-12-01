@@ -15,9 +15,13 @@
         android:layout_height="match_parent"
         tools:context=".ui.foodItemList.FoodItemListFragment">
 
-        <include
-            android:id="@+id/mergeToolbar"
-            layout="@layout/component_toolbar" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mtbMain"
+            style="?attr/toolbarStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:title="FoodWatcher" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svFoodItems"
@@ -40,6 +44,7 @@
             android:id="@+id/rvFoodItems"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="?actionBarSize"
             android:clipToPadding="false"
             android:fadingEdgeLength="32dp"
             android:paddingTop="68dp"
@@ -48,7 +53,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="?actionBarSize"
             tools:itemCount="15"
             tools:listitem="@layout/list_item_food_item" />
 

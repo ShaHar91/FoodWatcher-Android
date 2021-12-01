@@ -19,7 +19,7 @@ class AddFoodItemFragment : AppBaseBindingVMFragment<FragmentAddFoodItemBinding>
     private val safeArgs: AddFoodItemFragmentArgs by navArgs()
 
     override fun getLayout() = R.layout.fragment_add_food_item
-    override fun getToolbar() = mBinding.mergeToolbar.mtbMain
+    override fun getToolbar() = mBinding.mtbMain
     override val mViewModel: AddFoodItemViewModel by viewModel {
         parametersOf(safeArgs.foodItemId)
     }
