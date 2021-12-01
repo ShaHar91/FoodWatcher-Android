@@ -1,0 +1,54 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Submit a new devrelease Build to Firebase"
+  lane :development do
+    gradle(task: "clean assembleFoodWatcher_skinDefault_firebaseDevRelease")
+    firebase_app_distribution(
+              app: CredentialsManager::AppfileConfig.try_fetch_value(:firebase_app_id),
+              release_notes: CredentialsManager::AppfileConfig.try_fetch_value(:releaseNotes)
+          )
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Submit a new stagrelease Build to Firebase"
+  lane :staging do
+    gradle(task: "clean assembleFoodWatcher_skinDefault_firebaseStagingRelease")
+    firebase_app_distribution(
+              app: CredentialsManager::AppfileConfig.try_fetch_value(:firebase_app_id),
+              release_notes: CredentialsManager::AppfileConfig.try_fetch_value(:releaseNotes)
+          )
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+
+  desc "Submit a new ProdRelease Build to Firebase"
+  lane :production do
+    gradle(task: "clean assembleFoodWatcher_skinDefault_firebaseProdRelease")
+    firebase_app_distribution(
+              app: CredentialsManager::AppfileConfig.try_fetch_value(:firebase_app_id),
+              release_notes: CredentialsManager::AppfileConfig.try_fetch_value(:releaseNotes)
+          )
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here
+  end
+end

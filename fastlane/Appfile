@@ -1,0 +1,23 @@
+json_key_file("") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("com.shahar91.foodwatcher.fire") # e.g. com.krausefx.app
+
+# Environment settings for sentry
+# lane specific settings
+for_platform :android do
+
+  for_lane :development do
+  	##can be found in Firebase console under project settings
+    setter(:firebase_app_id, '1:619981037413:android:50e5fa55c61de80a66cb8c')
+    setter(:releaseNotes, 'Dit is een firebase development versie')
+  end
+
+  for_lane :staging do
+    setter(:firebase_app_id, '1:619981037413:android:bb7b5b057030d2e666cb8c')
+    setter(:releaseNotes, 'Dit is een firebase staging versie')
+  end
+
+  for_lane :production do
+    setter(:firebase_app_id, '1:619981037413:android:51c73d4e94a91dd566cb8c')
+    setter(:releaseNotes, 'Dit is een firebase release versie')
+  end
+end
