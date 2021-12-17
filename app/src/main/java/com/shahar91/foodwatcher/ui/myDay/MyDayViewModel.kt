@@ -46,6 +46,8 @@ class MyDayViewModel(
     // When the list of items gets updated the 'dayTotal' gets updated as well
     val dayTotal = Transformations.map(items) { updateTotalPoints(it) }
 
+    val dayTest = MutableLiveData<Float>(0f)
+
     private var _fetchForMonth = MutableLiveData<CalendarMonth>()
     private var fetchForMonthJob: Job? = null
     fun setMonthEntries(calendarMonth: CalendarMonth) {
@@ -109,6 +111,9 @@ class MyDayViewModel(
 
     private fun updateTotalPoints(foodEntries: List<FoodEntry>): String {
         val totalPointsAsDouble = foodEntries.sumOf { it.amount.toDouble() * it.foodItemPoints.toDouble() }
+
+        dayTest.postValue(totalPointsAsDouble.toFloat())
+
         return CommonUtils.showValueWithoutTrailingZero(HawkManager.hawkMaxDayTotal - totalPointsAsDouble.toFloat())
     }
 

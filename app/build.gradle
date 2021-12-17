@@ -127,6 +127,8 @@ android {
 }
 
 dependencies {
+    implementation project(":CurveTracker")
+
     implementation "com.github.appwise-labs.AndroidCore:core:$android_core_version"
     implementation "com.github.appwise-labs.AndroidCore:room:$android_core_version"
     implementation "com.github.appwise-labs.AndroidCore:emptyRecyclerView:$android_core_version"

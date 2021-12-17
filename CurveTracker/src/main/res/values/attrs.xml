@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CurveTracker">
+        <attr name="ctMaxValue" format="float" />
+        <attr name="ctProgressValue" format="float" />
+    </declare-styleable>
+</resources>

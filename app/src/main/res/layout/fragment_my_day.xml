@@ -156,13 +156,20 @@
                 android:fadingEdgeLength="32dp"
                 android:paddingBottom="84dp"
                 android:requiresFadingEdge="vertical"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvCalendar"
-                tools:itemCount="25"
-                tools:listitem="@layout/list_item_entry"
                 tools:visibility="gone" />
 
+            <be.shahar91.curvetracker.CurveTracker
+                android:id="@+id/customView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:ctMaxValue="30"
+                app:ctProgressValue="@{viewModel.dayTest}"
+                app:layout_constraintTop_toBottomOf="@id/cvCalendar"
+                tools:ctProgressValue="60" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
