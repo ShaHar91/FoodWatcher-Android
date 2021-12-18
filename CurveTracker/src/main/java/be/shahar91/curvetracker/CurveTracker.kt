@@ -12,6 +12,12 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
+//TODO: add text in the middle that says how many points are remaining, or 0 if crossed the max
+//TODO: add line at the end of the overflow arc
+//TODO: Provide other colors for the tracks and the texts
+//TODO: add a text at the bottom in the center that says 'Daily remaining'
+//TODO: make the overflow optional?? 🤔
+//TODO: make the max/progress text animated (counting up)?? 🤔
 class CurveTracker @JvmOverloads constructor(
     ctx: Context,
     attributeSet: AttributeSet? = null,
@@ -41,14 +47,16 @@ class CurveTracker @JvmOverloads constructor(
     private val minValueText: String
         get() = "0"
     private val maxValueText: String
-        get() = if (ctProgressValue < ctMaxValue) "$ctMaxValue" else "$ctProgressValue"
+        get() = String.format("%.0f", if (ctProgressValue < ctMaxValue) ctMaxValue else ctProgressValue)
     // </editor-fold>
-    
+
     private val arcRect = RectF()
     private val rect = Rect()
     private var diameter = 0f
     private val radius: Float
         get() = diameter / 2
+    private val arcStrokeWidth: Float
+        get() = Dimension.dp(STROKE_WIDTH, context).asPx()
 
     /**
      * The starting angle to draw the arc at. The 0° angle for Android is at the right (instead at the top)
@@ -128,7 +136,7 @@ class CurveTracker @JvmOverloads constructor(
         color = ContextCompat.getColor(context, R.color.on_floating_athens_gray)
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
-        strokeWidth = Dimension.dp(STROKE_WIDTH, context).asPx()
+        strokeWidth = arcStrokeWidth
         isAntiAlias = true
     }
 
@@ -136,7 +144,7 @@ class CurveTracker @JvmOverloads constructor(
         color = ContextCompat.getColor(context, R.color.dodger_blue)
         strokeCap = Paint.Cap.ROUND
         style = Paint.Style.STROKE
-        strokeWidth = Dimension.dp(STROKE_WIDTH, context).asPx()
+        strokeWidth = arcStrokeWidth
         isAntiAlias = true
     }
 
@@ -144,7 +152,7 @@ class CurveTracker @JvmOverloads constructor(
         color = Color.RED
         strokeCap = Paint.Cap.ROUND
         style = Paint.Style.STROKE
-        strokeWidth = Dimension.dp(STROKE_WIDTH, context).asPx()
+        strokeWidth = arcStrokeWidth
         isAntiAlias = true
     }
 
@@ -186,7 +194,7 @@ class CurveTracker @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        updateRectForArc()
+//        updateRectForArc()
 
         // Draw background
         canvas.drawArc(arcRect, startAngle, angle * animationMaxValue, false, backgroundPaint)
@@ -206,7 +214,7 @@ class CurveTracker @JvmOverloads constructor(
 
         val (_, ty) = getCoordinatesForText(6f)
 
-        canvas.drawText(maxValueText, arcRect.right + backgroundPaint.strokeWidth - paddingRight, ty, maxTextPaint)
+        canvas.drawText(maxValueText, arcRect.right + (backgroundPaint.strokeWidth / 2) - paddingRight, ty, maxTextPaint)
     }
 
     private fun drawMinText(canvas: Canvas) {
@@ -214,7 +222,7 @@ class CurveTracker @JvmOverloads constructor(
 
         val (_, ty) = getCoordinatesForText(18f)
 
-        canvas.drawText(minValueText, arcRect.left - backgroundPaint.strokeWidth + paddingLeft, ty, minTextPaint)
+        canvas.drawText(minValueText, arcRect.left - (backgroundPaint.strokeWidth / 2) + paddingLeft, ty, minTextPaint)
     }
 
     private fun getCoordinatesForText(angle: Float): Pair<Float, Float> {
@@ -233,29 +241,27 @@ class CurveTracker @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val height = getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)
+        val width = getDefaultSize(suggestedMinimumWidth, widthMeasureSpec)
+        val smallerDimens = min(width, height)
 
+        //TODO: "+100" should be a calculation of the textHeight of the progressTextView and the middleBottomTextView
+        setMeasuredDimension(smallerDimens, (smallerDimens / 2) + 100)
 
-    }
+        diameter = smallerDimens.toFloat()
 
-    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
-        diameter = min(width, height).toFloat()
-        super.onSizeChanged(width, diameter.toInt(), oldWidth, oldHeight)
-
-        invalidate()
-    }
-
-    private fun updateRectForArc() {
-        val strokeWidth = backgroundPaint.strokeWidth
-
-        val dirtyLeft = (width / 2) - radius
-        val dirtyTop = (height / 2) - radius
-
-        val left = dirtyLeft + strokeWidth + paddingLeft
-        val top = dirtyTop + strokeWidth + paddingTop
-        val right = dirtyLeft + diameter - strokeWidth - paddingRight
-        val bottom = dirtyTop + diameter - strokeWidth - paddingBottom
+        val left = 0 + arcStrokeWidth + paddingLeft
+        val top = 0 + arcStrokeWidth + paddingTop
+        val right = smallerDimens - arcStrokeWidth - paddingRight
+        val bottom = smallerDimens - arcStrokeWidth - paddingBottom
 
         arcRect.set(left, top, right, bottom)
     }
+//
+//    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
+//        diameter = min(width, height).toFloat()
+//        super.onSizeChanged(width, diameter.toInt(), oldWidth, oldHeight)
+//
+//        invalidate()
+//    }
 }

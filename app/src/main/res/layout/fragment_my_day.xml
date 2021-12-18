@@ -34,11 +34,21 @@
                 android:background="?attr/colorPrimarySurface"
                 android:padding="12dp">
 
+                <be.shahar91.curvetracker.CurveTracker
+                    android:id="@+id/customView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="160dp"
+                    app:ctMaxValue="30"
+                    app:ctProgressValue="@{viewModel.dayTest}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ctProgressValue="60" />
+
                 <TextView
                     android:id="@+id/tvDayRemainingNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
                     android:text="@{viewModel.dayTotal != null ? ``+ viewModel.dayTotal : `0`}"
                     android:textAppearance="?attr/textAppearanceHeadline4"
                     android:textColor="?attr/colorOnPrimarySurface"
@@ -46,7 +56,6 @@
                     app:layout_constraintBottom_toBottomOf="@id/tvWeekRemainingNumber"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="32" />
 
                 <TextView
@@ -161,15 +170,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvCalendar"
                 tools:visibility="gone" />
-
-            <be.shahar91.curvetracker.CurveTracker
-                android:id="@+id/customView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:ctMaxValue="30"
-                app:ctProgressValue="@{viewModel.dayTest}"
-                app:layout_constraintTop_toBottomOf="@id/cvCalendar"
-                tools:ctProgressValue="60" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
