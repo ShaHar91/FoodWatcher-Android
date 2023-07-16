@@ -14,7 +14,7 @@ import org.koin.core.logger.Level
 object KoinInitializer {
     fun init(context: Context) {
         startKoin {
-            androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(context)
             modules(appModule, repositoryModule, daoModule, viewModelModule)
         }

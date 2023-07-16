@@ -1,18 +1,20 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.android_core_version = "ebafdda558"
-    ext.kotlin_version = "1.5.21"
+    ext.android_core_version = "1.4.4"
+    ext.kotlin_version = "1.6.10"
     ext.koin_version = "3.1.2"
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'maven.google.com' }
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://jitpack.io" }
+        maven { url 'https://plugins.gradle.org/m2/'}
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath "com.android.tools.build:gradle:7.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -20,18 +22,19 @@ buildscript {
 
         classpath 'com.google.gms:google-services:4.3.10'
 
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1"
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
-        mavenLocal()
         mavenCentral()
+        maven { url 'maven.google.com' }
+        maven { url 'https://maven.fabric.io/public' }
         maven { url "https://jitpack.io" }
-        maven { url "https://maven.google.com" }
+        maven { url 'https://plugins.gradle.org/m2/'}
+        jcenter()
     }
 }
 

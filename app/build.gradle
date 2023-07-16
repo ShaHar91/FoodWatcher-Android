@@ -28,11 +28,11 @@ if (file(rootProject.projectDir.getAbsolutePath() + '/signing.gradle').exists())
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 31
+        targetSdkVersion 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -141,7 +141,12 @@ dependencies {
 
     kapt "com.android.databinding:compiler:4.0.0"
 
-    kapt "androidx.room:room-compiler:2.3.0"
+    // Room
+    kapt "androidx.room:room-compiler:2.5.0"
+
+    //TODO: for some reason I need to specifically add the navigation components here...
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
 
     implementation 'com.github.kizitonwose:CalendarView:1.0.2'
 

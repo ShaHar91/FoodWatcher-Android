@@ -51,9 +51,9 @@ class AddMealEntryFragment : AppBaseBindingVMFragment<FragmentAddMealEntryBindin
     }
 
     private fun initObservers() {
-        mViewModel.foodItem.observe(viewLifecycleOwner, {
+        mViewModel.foodItem.observe(viewLifecycleOwner) {
             requireActivity().invalidateOptionsMenu()
-        })
+        }
     }
 
     private fun initViews() {

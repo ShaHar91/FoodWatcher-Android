@@ -2,6 +2,16 @@
 <resources>
     <declare-styleable name="CurveTracker">
         <attr name="ctMaxValue" format="float" />
+        <attr name="ctMaxTextAppearance" format="reference" />
+        <attr name="ctMaxTextColor" format="color" />
+        <attr name="ctMaxTextSize" format="float" />
         <attr name="ctProgressValue" format="float" />
+        <attr name="ctProgressTextAppearance" format="reference" />
+        <attr name="ctProgressTextColor" format="color" />
+        <attr name="ctProgressTextSize" format="float" />
+
+        <attr name="ctArcBackgroundColor" format="color" />
+        <attr name="ctArcProgressColor" format="color" />
+        <attr name="ctArcOverflowColor" format="color" />
     </declare-styleable>
 </resources>
